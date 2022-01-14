@@ -103,7 +103,7 @@ public abstract class Unit : MonoBehaviour
         }
     }
 
-    public virtual void FindAttackableTiles(List<Unit> list) {
+    public virtual void FindMeleeAttackableTiles(List<Unit> AttackList) {
         for (int i = 0; i < AccessableTiles.Count; i++) {
             var currentPos = AccessableTiles[i];
             Vector2Int[] listToUse;
@@ -114,18 +114,18 @@ public abstract class Unit : MonoBehaviour
                 listToUse = evenNeighbours;
 
             for (int k = 0; k < 6; k++) {
-                var skip = false;
+                var enemyInRange = false;
                 var neighbour = currentPos + listToUse[k];
 
                 if (!Owner.Tiles.ContainsKey(neighbour))
                     continue;
 
-                foreach (Unit unit in list) {
+                foreach (Unit unit in AttackList) {
                     if (unit.gridPos == neighbour)
-                        skip = true;
+                        enemyInRange = true;
                 }
 
-                if (!Owner.Tiles[neighbour].CompareTag("WalkableTile") || AccessableTiles.Contains(neighbour) || skip)
+                if (!Owner.Tiles[neighbour].CompareTag("WalkableTile") || AccessableTiles.Contains(neighbour) || !enemyInRange)
                     continue;
 
                 AttackableTiles.Add(neighbour);

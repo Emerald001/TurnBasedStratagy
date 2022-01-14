@@ -51,7 +51,9 @@ public class PlayerUnit : Unit {
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse0)) {
-            if (AttackableTiles.Contains(Owner.blackBoard.CurrentHover))
+            if (AttackableTiles.Contains(Owner.blackBoard.CurrentHover)) {
+
+            }
 
             if (currentPath != null && currentPath.Count > 0) {
                 currentPath.RemoveAt(0);
@@ -96,7 +98,7 @@ public class PlayerUnit : Unit {
         base.FindAccessableTiles();
         ChangeHexColor(AccessableTiles, Owner.WalkableTileColor);
 
-        base.FindAttackableTiles(Owner.unitsInPlay);
+        base.FindMeleeAttackableTiles(Owner.enemiesInPlay);
         ChangeHexColor(AttackableTiles, Owner.AttackableTileColor);
     }
 
