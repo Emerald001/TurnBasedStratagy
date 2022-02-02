@@ -15,7 +15,9 @@ public class PlayerUnit : Unit {
     }
 
     public override void OnUpdate() {
-        if (currentPath != null && currentPath.Count > 0)
+        base.OnUpdate();
+
+        if (currentPath != null && currentPath.Count > 0 && !IsWalking)
             DrawPath();
         
         if (AttackableTiles.Contains(Owner.blackBoard.CurrentHover)) {
@@ -44,20 +46,22 @@ public class PlayerUnit : Unit {
 
             if(closestTile != Vector2Int.zero) {
                 FindPathToTile(closestTile);
+                currentPath.Add(currentPos);
             }
         }
         else if(AccessableTiles.Contains(Owner.blackBoard.CurrentHover)) {
             FindPathToTile(Owner.blackBoard.CurrentHover);
         }
+        else if(!IsWalking) {
+            currentPath = null;
+            line.enabled = false;
+        }
 
         if (Input.GetKeyDown(KeyCode.Mouse0)) {
-            if (AttackableTiles.Contains(Owner.blackBoard.CurrentHover)) {
-
-            }
-
             if (currentPath != null && currentPath.Count > 0) {
                 currentPath.RemoveAt(0);
                 IsWalking = true;
+                line.enabled = false;
                 ResetTiles();
             }
         }
@@ -68,6 +72,7 @@ public class PlayerUnit : Unit {
 
     public override void OnExit() {
         ResetTiles();
+        line.enabled = false;
         this.gameObject.GetComponentInChildren<Renderer>().material = Owner.NormalUnitColor;
     }
 

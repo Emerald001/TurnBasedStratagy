@@ -49,7 +49,7 @@ public class UnitManager : MonoBehaviour {
         SpawnUnits();
         SpawnEnemies();
 
-        unitAttackOrder = new Queue<Unit>(allUnits.OrderBy(x => x.initiativeValue).Reverse());
+        UpdateOrder();
 
         NextUnit();
     }
@@ -68,14 +68,26 @@ public class UnitManager : MonoBehaviour {
             var gridPos = new Vector2Int(0, i + Mathf.RoundToInt((gridHeight / 2) - (unitAmount / 2)));
             var worldPos = Tiles[gridPos].transform.position;
 
-            var tmp = GameObject.Instantiate(UnitPrefab, worldPos, Quaternion.identity).GetComponent<Unit>();
-            tmp.Owner = this;
-            tmp.gridPos = gridPos;
-            tmp.baseInitiativeValue = Random.Range(1, 10);
-            tmp.baseSpeedValue = Random.Range(2, 10);
+            var UnitScript = GameObject.Instantiate(UnitPrefab, worldPos, Quaternion.identity).GetComponent<Unit>();
+            UnitScript.Owner = this;
+            UnitScript.gridPos = gridPos;
+            UnitScript.baseAttackValue = Random.Range(1, 10);
+            UnitScript.baseInitiativeValue = Random.Range(1, 10);
+            UnitScript.baseSpeedValue = Random.Range(4, 7);
 
-            allUnits.Add(tmp);
-            unitsInPlay.Add(tmp);
+            var HealthScript = UnitScript.GetComponent<HealthComponent>();
+            HealthScript.baseHealthValue = Random.Range(10, 20);
+            HealthScript.baseDefenceValue = Random.Range(2, 7);
+
+            UnitScript.thisHealth = HealthScript;
+
+            HealthScript.DefenceValue = HealthScript.baseDefenceValue;
+            HealthScript.HealthValue = HealthScript.baseHealthValue;
+
+            UnitScript.SetValues();
+
+            allUnits.Add(UnitScript);
+            unitsInPlay.Add(UnitScript);
         }
     }
 
@@ -84,14 +96,26 @@ public class UnitManager : MonoBehaviour {
             var gridPos = new Vector2Int(gridWidth - 1, i + Mathf.RoundToInt((gridHeight / 2) - (unitAmount / 2)));
             var worldPos = Tiles[gridPos].transform.position;
 
-            var tmp = GameObject.Instantiate(EnemyPrefab, worldPos, Quaternion.identity).GetComponent<Unit>();
-            tmp.Owner = this;
-            tmp.gridPos = gridPos;
-            tmp.baseInitiativeValue = Random.Range(1, 10);
-            tmp.baseSpeedValue = Random.Range(1, 7);
+            var UnitScript = GameObject.Instantiate(EnemyPrefab, worldPos, Quaternion.identity).GetComponent<Unit>();
+            UnitScript.Owner = this;
+            UnitScript.gridPos = gridPos;
+            UnitScript.baseAttackValue = Random.Range(1, 10);
+            UnitScript.baseInitiativeValue = Random.Range(1, 10);
+            UnitScript.baseSpeedValue = Random.Range(1, 7);
 
-            allUnits.Add(tmp);
-            enemiesInPlay.Add(tmp);
+            var HealthScript = UnitScript.GetComponent<HealthComponent>();
+            HealthScript.baseHealthValue = Random.Range(10, 20);
+            HealthScript.baseDefenceValue = Random.Range(2, 7);
+
+            UnitScript.thisHealth = HealthScript;
+
+            HealthScript.DefenceValue = HealthScript.baseDefenceValue;
+            HealthScript.HealthValue = HealthScript.baseHealthValue;
+
+            UnitScript.SetValues();
+
+            allUnits.Add(UnitScript);
+            enemiesInPlay.Add(UnitScript);
         }
     }
 

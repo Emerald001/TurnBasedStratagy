@@ -6,12 +6,12 @@ using UnityEngine;
 public abstract class Unit : MonoBehaviour
 {
     public UnitManager Owner;
+    public HealthComponent thisHealth;
 
     public bool IsWalking;
+    public bool WillAttack;
 
     public int baseAttackValue;
-    public int baseDefenceValue;
-    public int baseHealthValue;
     public int baseSpeedValue;
     public int baseInitiativeValue;
 
@@ -45,15 +45,21 @@ public abstract class Unit : MonoBehaviour
         new Vector2Int(1, 1),
     };
 
-    public virtual void OnEnter() {
+    public virtual void SetValues() {
         attackValue = baseAttackValue;
-        defenceValue = baseDefenceValue;
-        healthValue = baseHealthValue;
         speedValue = baseSpeedValue;
         initiativeValue = baseInitiativeValue;
     }
 
-    public abstract void OnUpdate();
+    public virtual void OnEnter() {
+        SetValues();
+    }
+
+    public virtual void OnUpdate() {
+        if(AccessableTiles.Count < 1 && speedValue > 0 && !IsWalking) {
+            FindAccessableTiles();
+        }
+    }
 
     public abstract void OnExit();
 
@@ -125,7 +131,7 @@ public abstract class Unit : MonoBehaviour
                         enemyInRange = true;
                 }
 
-                if (!Owner.Tiles[neighbour].CompareTag("WalkableTile") || AccessableTiles.Contains(neighbour) || !enemyInRange)
+                if (!Owner.Tiles[neighbour].CompareTag("WalkableTile") || AccessableTiles.Contains(neighbour) || !enemyInRange || AttackableTiles.Contains(neighbour))
                     continue;
 
                 AttackableTiles.Add(neighbour);
@@ -135,7 +141,6 @@ public abstract class Unit : MonoBehaviour
 
     public virtual void ResetTiles() {
         AccessableTiles.Clear();
-        AttackableTiles.Clear();
         TileParents.Clear();
     }
 
@@ -144,24 +149,21 @@ public abstract class Unit : MonoBehaviour
             return;
 
         currentPath = null;
+        var path = new List<Vector2Int>();
+        var currentPos = gridPos;
+        var breakoutCounter = speedValue * 2;
 
-        if (AccessableTiles.Contains(gridPos)) {
-            var path = new List<Vector2Int>();
-            var currentPos = gridPos;
-
-            var breakoutCounter = speedValue * 2;
-
-            while (currentPos != this.gridPos && breakoutCounter > 0) {
-                path.Add(currentPos);
-                currentPos = TileParents[currentPos];
-
-                breakoutCounter++;
-            }
+        while (currentPos != this.gridPos && breakoutCounter > 0) {
             path.Add(currentPos);
-            path.Reverse();
+            currentPos = TileParents[currentPos];
 
-            currentPath = path;
+            breakoutCounter++;
         }
+
+        path.Add(currentPos);
+        path.Reverse();
+
+        currentPath = path;
     }
 
     public virtual void MoveToTile() {
@@ -175,11 +177,40 @@ public abstract class Unit : MonoBehaviour
             gridPos = currentPath[0];
             speedValue--;
             currentPath.RemoveAt(0);
+
+            if(currentPath.Count == 1) {
+                AttackUnit();
+            }
         }
 
         if(currentPath.Count < 1) {
-            FindAccessableTiles();
             IsWalking = false;
         }
+    }
+
+    public virtual void AttackUnit() {
+        bool enemyToAttack = false;
+        Vector2Int enemyPos = Vector2Int.zero;
+        foreach (Vector2Int pos in AttackableTiles) {
+            if (currentPath[0] == pos) {
+                enemyToAttack = true;
+            }
+        }
+
+        if (!enemyToAttack)
+            return;
+
+        Unit enemy = null;
+
+        foreach (Unit en in Owner.enemiesInPlay) {
+            if (en.gridPos == currentPath[0])
+                enemy = en;
+        }
+
+        enemy.GetComponent<HealthComponent>().TakeDamage(attackValue);
+        currentPath.RemoveAt(0);
+        AttackableTiles.Clear();
+        speedValue = 0;
+        IsWalking = false;
     }
 }

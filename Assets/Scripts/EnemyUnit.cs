@@ -17,6 +17,8 @@ public class EnemyUnit : Unit {
     }
 
     public override void OnUpdate() {
+        base.OnUpdate();
+
         if (WaitTime() > 0) {
             return;
         }

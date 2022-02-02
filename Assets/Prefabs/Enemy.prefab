@@ -122,6 +122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5443118734026192012}
   - component: {fileID: 6835938988436259104}
+  - component: {fileID: 883177059377623124}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -158,11 +159,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Owner: {fileID: 0}
   IsWalking: 0
+  baseAttackValue: 0
+  baseDefenceValue: 0
+  baseHealthValue: 0
+  baseSpeedValue: 0
+  baseInitiativeValue: 0
   attackValue: 0
   defenceValue: 0
+  healthValue: 0
   speedValue: 0
   initiativeValue: 0
   AccessableTiles: []
+  AttackableTiles: []
   currentPath: []
   gridPos: {x: 0, y: 0}
   evenNeighbours:
@@ -179,3 +187,20 @@ MonoBehaviour:
   - {x: 1, y: 0}
   - {x: 0, y: 1}
   - {x: 1, y: 1}
+  timer: 0
+--- !u!114 &883177059377623124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5443118734026192755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4946188d80af5d64ba2c197d964633fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseDefenceValue: 0
+  baseHealthValue: 0
+  HealthValue: 0
+  DefenceValue: 0

@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 5443118734026192012}
   - component: {fileID: 4232360866907493419}
   - component: {fileID: 6009741554039060210}
+  - component: {fileID: 7245315581466424636}
   m_Layer: 0
   m_Name: Unit
   m_TagString: Untagged
@@ -196,7 +197,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.5004177
+        value: 0.20001793
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -265,10 +266,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Owner: {fileID: 0}
+  thisHealth: {fileID: 0}
   IsWalking: 0
+  WillAttack: 0
   baseAttackValue: 0
-  baseDefenceValue: 0
-  baseHealthValue: 0
   baseSpeedValue: 0
   baseInitiativeValue: 0
   attackValue: 0
@@ -277,6 +278,7 @@ MonoBehaviour:
   speedValue: 0
   initiativeValue: 0
   AccessableTiles: []
+  AttackableTiles: []
   currentPath: []
   gridPos: {x: 0, y: 0}
   evenNeighbours:
@@ -294,3 +296,19 @@ MonoBehaviour:
   - {x: 0, y: 1}
   - {x: 1, y: 1}
   line: {fileID: 0}
+--- !u!114 &7245315581466424636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5443118734026192755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4946188d80af5d64ba2c197d964633fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseDefenceValue: 0
+  baseHealthValue: 0
+  HealthValue: 0
+  DefenceValue: 0
