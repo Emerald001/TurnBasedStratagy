@@ -9,7 +9,6 @@ public class MouseToWorldView : MonoBehaviour
 
     public Material Hovercolor;
 
-    // Update is called once per frame
     void Update()
     {
         Ray target = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -32,6 +31,7 @@ public class MouseToWorldView : MonoBehaviour
             }
             else if(lastTile != null) {
                 lastTile.ResetColor();
+                Owner.blackBoard.CurrentHover = Vector2Int.zero;
             }
         }
     }

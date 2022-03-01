@@ -24,7 +24,7 @@ public class EnemyUnit : Unit {
         }
 
         if(AccessableTiles.Count != 0)
-            FindPathToTile(AccessableTiles[Random.Range(0, AccessableTiles.Count - 1)]);
+            FindPathToTile(AccessableTiles[Random.Range(0, AccessableTiles.Count)]);
 
         if (currentPath != null && currentPath.Count > 0) {
             //currentPath.RemoveAt(0);

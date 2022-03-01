@@ -101,7 +101,7 @@ public abstract class Unit : MonoBehaviour
                 }
                 closedList.Add(openList[j]);
             }
-
+            openList.Clear();
             for (int j = 0; j < layerList.Count; j++) {
                 openList.Add(layerList[j]);
             }
@@ -110,6 +110,8 @@ public abstract class Unit : MonoBehaviour
     }
 
     public virtual void FindMeleeAttackableTiles(List<Unit> AttackList) {
+        AttackableTiles.Clear();
+
         for (int i = 0; i < AccessableTiles.Count; i++) {
             var currentPos = AccessableTiles[i];
             Vector2Int[] listToUse;
@@ -191,6 +193,7 @@ public abstract class Unit : MonoBehaviour
     public virtual void AttackUnit() {
         bool enemyToAttack = false;
         Vector2Int enemyPos = Vector2Int.zero;
+
         foreach (Vector2Int pos in AttackableTiles) {
             if (currentPath[0] == pos) {
                 enemyToAttack = true;
@@ -202,14 +205,13 @@ public abstract class Unit : MonoBehaviour
 
         Unit enemy = null;
 
-        foreach (Unit en in Owner.enemiesInPlay) {
+        foreach (Unit en in Owner.allUnits) {
             if (en.gridPos == currentPath[0])
                 enemy = en;
         }
 
         enemy.GetComponent<HealthComponent>().TakeDamage(attackValue);
-        currentPath.RemoveAt(0);
-        AttackableTiles.Clear();
+        currentPath.Clear();
         speedValue = 0;
         IsWalking = false;
     }
