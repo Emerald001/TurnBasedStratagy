@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MakeGrid {
-    private TurnManager Owner;
+    private TurnGameManager Owner;
     private GameObject Parent;
 
     private GameObject HexPrefab;
@@ -17,7 +17,7 @@ public class MakeGrid {
     private float hexWidth = 1.732f;
     private float hexHeight = 2f;
 
-    public MakeGrid(TurnManager Owner, GameObject HexPrefab, GameObject ObstructedHexPrefab, int gridWidth, int gridHeight, float gap, int obsticalAmount) {
+    public MakeGrid(TurnGameManager Owner, GameObject HexPrefab, GameObject ObstructedHexPrefab, int gridWidth, int gridHeight, float gap, int obsticalAmount) {
         this.Owner = Owner;
 
         this.HexPrefab = HexPrefab;

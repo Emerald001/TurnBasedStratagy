@@ -4,8 +4,6 @@ using UnityEngine;
 
 namespace UnitComponents {
     public class UnitDefineAttackableTilesMelee : UnitDefineAttackableTiles {
-        [HideInInspector] public UnitManager Owner;
-
         [HideInInspector]
         public Vector2Int[] evenNeighbours = {
             new Vector2Int(-1, -1),
@@ -26,7 +24,7 @@ namespace UnitComponents {
             new Vector2Int(1, 1),
         };
 
-        public override List<Vector2Int> FindAttackableTiles(List<Unit> AttackList, Dictionary<Vector2Int, GameObject> grid) {
+        public override List<Vector2Int> FindAttackableTiles(List<UnitManager> AttackList, Dictionary<Vector2Int, GameObject> EnemyPositions, Dictionary<Vector2Int, GameObject> grid) {
             //clear previous attackable tiles!
 
             var attackableTiles = new List<Vector2Int>();
@@ -47,9 +45,12 @@ namespace UnitComponents {
                     if (!grid.ContainsKey(neighbour))
                         continue;
 
-                    foreach (Unit unit in AttackList) {
-                        if (unit.gridPos == neighbour)
+                    foreach (UnitManager unit in AttackList) {
+                        if (unit.gridPos == neighbour) {
                             enemyInRange = true;
+                            if(!EnemyPositions.ContainsKey(neighbour))
+                                EnemyPositions.Add(neighbour, unit.gameObject);
+                        }
                     }
 
                     if (!grid[neighbour].CompareTag("WalkableTile") || Owner.AccessableTiles.Contains(neighbour) || !enemyInRange || attackableTiles.Contains(neighbour))
@@ -60,7 +61,6 @@ namespace UnitComponents {
             }
 
             return attackableTiles;
-            
         }
 
         public override Vector2Int GetClosestTile(Vector2Int tile, Vector3 worldpoint, List<Vector2Int> accessableTiles) {

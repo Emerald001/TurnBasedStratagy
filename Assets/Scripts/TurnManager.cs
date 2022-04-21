@@ -40,7 +40,7 @@ public class TurnManager : MonoBehaviour {
     [HideInInspector] public Unit CurrentUnit;
     
     private void Start() {
-        makeGrid = new MakeGrid(this, HexPrefab, ObstructedHexPrefab, gridWidth, gridHeight, gap, obstructedCellAmount);
+        //makeGrid = new MakeGrid(this, HexPrefab, ObstructedHexPrefab, gridWidth, gridHeight, gap, obstructedCellAmount);
         makeGrid.OnStart();
 
         Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, 10 + (gridHeight + gridWidth) / 10, -(10 + (gridHeight + gridWidth) / 10));

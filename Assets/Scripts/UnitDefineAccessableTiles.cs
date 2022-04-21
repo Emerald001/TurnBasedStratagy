@@ -52,7 +52,7 @@ namespace UnitComponents {
                         if (!grid.ContainsKey(neighbour))
                             continue;
 
-                        foreach (Unit unit in Owner.turnManager.AllUnitsInPlay) {
+                        foreach (UnitManager unit in Owner.turnManager.AllUnitsInPlay) {
                             if (unit.gridPos == neighbour)
                                 skip = true;
                         }

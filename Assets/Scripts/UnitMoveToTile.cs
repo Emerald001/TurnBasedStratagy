@@ -11,10 +11,12 @@ namespace UnitComponents {
         private UnitManager Owner;
 
         public override void OnUpdate() {
-            MoveToTile(Owner.currentPath, ref Owner.gridPos, ref Owner.speedValue);
+            MoveToTile(ref Owner.currentPath, ref Owner.gridPos, ref Owner.speedValue);
+
+            Debug.Log("Gets Ran");
         }
 
-        public virtual void MoveToTile(List<Vector2Int> path, ref Vector2Int gridPos, ref int speedValue) {
+        public void MoveToTile(ref List<Vector2Int> path, ref Vector2Int gridPos, ref int speedValue) {
             var Unit = Owner.Unit.transform;
 
             if (Unit.position != UnitStaticFunctions.CalcWorldPos(path[0])) {
