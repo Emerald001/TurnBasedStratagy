@@ -1,154 +1,95 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using UnitComponents;
 
-public class UnitManager : MonoBehaviour {
+public abstract class UnitManager : MonoBehaviour
+{
+    public GameObject Unit;
 
-    [Header("Grid Settings")]
-    public GameObject HexPrefab;
-    public GameObject ObstructedHexPrefab;
+    [HideInInspector] public TurnManager turnManager;
+    
+    [HideInInspector] public UnitDefineAccessableTiles defineAccessableTiles;
+    [HideInInspector] public UnitDefineAttackableTiles defineAttackableTiles;
+    [HideInInspector] public UnitPathfinding pathfinding;
+    [HideInInspector] public HealthComponent health;
 
-    public int gridWidth;
-    public int gridHeight;
-    public float gap;
-    public int obstructedCellAmount;
+    [HideInInspector] public Vector2Int gridPos;
+    [HideInInspector] public List<Vector2Int> currentPath = new List<Vector2Int>();
+    [HideInInspector] public List<Vector2Int> AttackableTiles = new List<Vector2Int>();
+    [HideInInspector] public List<Vector2Int> AccessableTiles = new List<Vector2Int>();
+    [HideInInspector] public Dictionary<Vector2Int, Vector2Int> TileParents = new Dictionary<Vector2Int, Vector2Int>();
+    [HideInInspector] public Dictionary<Vector2Int, GameObject> EnemyPositions = new Dictionary<Vector2Int, GameObject>();
 
+    //UnitValues
+    [HideInInspector] public int baseSpeedValue;
+    [HideInInspector] public int baseInitiativeValue;
 
-    [Header("Units Settings")]
-    public GameObject UnitPrefab;
-    public GameObject EnemyPrefab;
+    [HideInInspector] public int speedValue;
+    [HideInInspector] public int initiativeValue;
 
-    public Material ActiveUnitColor;
-    public Material NormalUnitColor;
-    public Material WalkableTileColor;
-    public Material AttackableTileColor;
+    private UnitAction CurrentAction;
+    private Queue<UnitAction> ActionQueue;
+    
+    public virtual void OnEnter() {
+        pathfinding = new UnitPathfinding();
 
-    public int unitAmount;
-    public int enemyAmount;
-
-
-    [Header("Own Vars")]
-    public MakeGrid makeGrid;
-    public BlackBoard blackBoard = new BlackBoard();
-    public Dictionary<Vector2Int, GameObject> Tiles = new Dictionary<Vector2Int, GameObject>();
-
-    public List<Unit> allUnits = new List<Unit>();
-    public List<Unit> unitsInPlay = new List<Unit>();
-    public List<Unit> enemiesInPlay = new List<Unit>();
-    public Queue<Unit> unitAttackOrder = new Queue<Unit>();
-    public Unit CurrentUnit;
-
-
-    private void Start() {
-        makeGrid = new MakeGrid(this, HexPrefab, ObstructedHexPrefab, gridWidth, gridHeight, gap, obstructedCellAmount);
-        makeGrid.OnStart();
-
-        Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, 10 + (gridHeight + gridWidth) / 10, -(10 + (gridHeight + gridWidth) / 10));
-
-        SpawnUnits();
-        SpawnEnemies();
-
-        UpdateOrder();
-
-        NextUnit();
+        defineAccessableTiles = new UnitDefineAccessableTiles();
+        defineAttackableTiles = new UnitDefineAttackableTilesMelee();
+        AccessableTiles = defineAccessableTiles.FindAccessableTiles(gridPos, speedValue, ref TileParents, turnManager.Tiles);
+        AttackableTiles = defineAttackableTiles.FindAttackableTiles(turnManager.EnemyUnitsInPlay, turnManager.Tiles);
     }
 
-    // Update is called once per frame
-    void Update() {
-        if(CurrentUnit != null) {
-            CurrentUnit.OnUpdate();
-            if (Input.GetKeyDown(KeyCode.Space) || CurrentUnit.speedValue < 1)
-                NextUnit();
+    public virtual void OnUpdate() {
+        if (CurrentAction == null)
+            return;
+
+        CurrentAction.OnUpdate();
+
+        if (CurrentAction.IsDone) {
+            if (ActionQueue.Count < 1) {
+                CurrentAction = null;
+
+                if (speedValue > 1) {
+                    ResetTiles();
+                    AccessableTiles = defineAccessableTiles.FindAccessableTiles(gridPos, speedValue, ref TileParents, turnManager.Tiles);
+                    AttackableTiles = defineAttackableTiles.FindAttackableTiles(turnManager.EnemyUnitsInPlay, turnManager.Tiles);
+                }
+                return;
+            }
+
+            CurrentAction = ActionQueue.Dequeue();
         }
     }
 
-    void SpawnUnits() {
-        for (int i = 0; i < unitAmount; i++) {
-            var gridPos = new Vector2Int(0, i + Mathf.RoundToInt((gridHeight / 2) - (unitAmount / 2)));
-            var worldPos = Tiles[gridPos].transform.position;
-
-            var UnitScript = GameObject.Instantiate(UnitPrefab, worldPos, Quaternion.identity).GetComponent<Unit>();
-            UnitScript.Owner = this;
-            UnitScript.gridPos = gridPos;
-            UnitScript.baseAttackValue = Random.Range(1, 10);
-            UnitScript.baseInitiativeValue = Random.Range(1, 10);
-            UnitScript.baseSpeedValue = Random.Range(4, 7);
-
-            var HealthScript = UnitScript.GetComponent<HealthComponent>();
-            HealthScript.baseHealthValue = Random.Range(10, 20);
-            HealthScript.baseDefenceValue = Random.Range(2, 7);
-
-            UnitScript.thisHealth = HealthScript;
-
-            HealthScript.DefenceValue = HealthScript.baseDefenceValue;
-            HealthScript.HealthValue = HealthScript.baseHealthValue;
-
-            UnitScript.SetValues();
-
-            allUnits.Add(UnitScript);
-            unitsInPlay.Add(UnitScript);
-        }
+    public virtual void OnExit() {
+        ResetTiles();
     }
 
-    void SpawnEnemies() {
-        for (int i = 0; i < enemyAmount; i++) {
-            var gridPos = new Vector2Int(gridWidth - 1, i + Mathf.RoundToInt((gridHeight / 2) - (unitAmount / 2)));
-            var worldPos = Tiles[gridPos].transform.position;
-
-            var UnitScript = GameObject.Instantiate(EnemyPrefab, worldPos, Quaternion.identity).GetComponent<Unit>();
-            UnitScript.Owner = this;
-            UnitScript.gridPos = gridPos;
-            UnitScript.baseAttackValue = Random.Range(1, 10);
-            UnitScript.baseInitiativeValue = Random.Range(1, 10);
-            UnitScript.baseSpeedValue = Random.Range(1, 7);
-
-            var HealthScript = UnitScript.GetComponent<HealthComponent>();
-            HealthScript.baseHealthValue = Random.Range(10, 20);
-            HealthScript.baseDefenceValue = Random.Range(2, 7);
-
-            UnitScript.thisHealth = HealthScript;
-
-            HealthScript.DefenceValue = HealthScript.baseDefenceValue;
-            HealthScript.HealthValue = HealthScript.baseHealthValue;
-
-            UnitScript.SetValues();
-
-            allUnits.Add(UnitScript);
-            enemiesInPlay.Add(UnitScript);
-        }
-    }
-
-    void NextUnit() {
-        if (unitAttackOrder.Count != 0) {
-            if(CurrentUnit != null)
-                CurrentUnit.OnExit();
-            CurrentUnit = unitAttackOrder.Dequeue();
-            CurrentUnit.OnEnter();
-        }
-        else {
-            if (CurrentUnit != null)
-                CurrentUnit.OnExit();
-            CurrentUnit = null;
-            NextTurn();
-        }
-    }
-
-    void NextTurn() {
-        UpdateOrder();
-        NextUnit();
-    }
-
-    void UpdateOrder() {
-        unitAttackOrder = new Queue<Unit>(allUnits.OrderBy(x => x.initiativeValue).Reverse());
-    }
-
-    public Vector2Int GetKeyFromValue(GameObject valueVar) {
-        foreach (Vector2Int keyVar in Tiles.Keys) {
-            if (Tiles[keyVar] == valueVar) {
-                return keyVar;
+    public virtual void ClickedTile(Vector2Int pickedTile) {
+        if (AttackableTiles.Contains(pickedTile)) {
+            if (gridPos == defineAttackableTiles.GetClosestTile(pickedTile, turnManager.blackBoard.HoverPoint, AccessableTiles)) {
+                //ActionQueue.Enqueue(new UnitAttack(Unit, Enemy, currentDamageValue));
+                ResetTiles();
+            }
+            else {
+                currentPath = pathfinding.FindPathToTile(gridPos, defineAttackableTiles.GetClosestTile(pickedTile, turnManager.blackBoard.HoverPoint, AccessableTiles), TileParents);
+                ActionQueue.Enqueue(new UnitMoveToTile(this));
+                //ActionQueue.Enqueue(new UnitAttack(Unit, Enemy, currentDamageValue));
+                ResetTiles();
             }
         }
-        return Vector2Int.zero;
+        else if (AccessableTiles.Contains(pickedTile)) {
+            currentPath = pathfinding.FindPathToTile(gridPos, pickedTile, TileParents);
+            ActionQueue.Enqueue(new UnitMoveToTile(this));
+            ResetTiles();
+        }
+    }
+
+    public virtual void ResetTiles() {
+        AccessableTiles.Clear();
+        AttackableTiles.Clear();
+        TileParents.Clear();
+        currentPath.Clear();
     }
 }

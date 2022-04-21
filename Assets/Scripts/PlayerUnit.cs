@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerUnit : Unit {
 
-    public LineRenderer line;
+    [HideInInspector] public LineRenderer line;
 
     public override void OnEnter() {
         base.OnEnter();
@@ -38,8 +38,8 @@ public class PlayerUnit : Unit {
                 if (!AccessableTiles.Contains(neighbour))
                     continue;
 
-                if(Vector3.Distance(Owner.makeGrid.CalcWorldPos(neighbour), Owner.blackBoard.HoverPoint) < smallestDistance) {
-                    smallestDistance = Vector3.Distance(Owner.makeGrid.CalcWorldPos(neighbour), Owner.blackBoard.HoverPoint);
+                if(Vector3.Distance(UnitStaticFunctions.CalcWorldPos(neighbour), Owner.blackBoard.HoverPoint) < smallestDistance) {
+                    smallestDistance = Vector3.Distance(UnitStaticFunctions.CalcWorldPos(neighbour), Owner.blackBoard.HoverPoint);
                     closestTile = neighbour;
                 }
             }
@@ -95,15 +95,13 @@ public class PlayerUnit : Unit {
 
     public override void FindPathToTile(Vector2Int gridPos) {
         base.FindPathToTile(gridPos);
-        if (!AccessableTiles.Contains(gridPos))
-            line.enabled = false;
     }
 
     public override void FindAccessableTiles() {
         base.FindAccessableTiles();
         ChangeHexColor(AccessableTiles, Owner.WalkableTileColor);
 
-        base.FindMeleeAttackableTiles(Owner.enemiesInPlay);
+        base.FindMeleeAttackableTiles(Owner.EnemyUnitsInPlay);
         ChangeHexColor(AttackableTiles, Owner.AttackableTileColor);
     }
 
@@ -120,7 +118,7 @@ public class PlayerUnit : Unit {
         if (currentPath != null && currentPath.Count > 0) {
             line.positionCount = currentPath.Count;
             for (int i = 0; i < currentPath.Count; i++) {
-                line.SetPosition(i, Owner.makeGrid.CalcWorldPos(currentPath[i]));
+                line.SetPosition(i, UnitStaticFunctions.CalcWorldPos(currentPath[i]));
             }
         }
     }

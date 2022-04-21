@@ -42,6 +42,6 @@ public class EnemyUnit : Unit {
 
     public override void FindAccessableTiles() {
         base.FindAccessableTiles();
-        base.FindMeleeAttackableTiles(Owner.unitsInPlay);
+        base.FindMeleeAttackableTiles(Owner.PlayerUnitsInPlay);
     }
 }

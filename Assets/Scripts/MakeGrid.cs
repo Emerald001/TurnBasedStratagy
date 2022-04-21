@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MakeGrid {
-
-    private UnitManager Owner;
+    private TurnManager Owner;
     private GameObject Parent;
 
     private GameObject HexPrefab;
@@ -18,16 +17,24 @@ public class MakeGrid {
     private float hexWidth = 1.732f;
     private float hexHeight = 2f;
 
-    public MakeGrid(UnitManager Owner, GameObject HexPrefab, GameObject ObstructedHexPrefab, int gridWidth, int gridHeight, float gap, int obsticalAmount) {
+    public MakeGrid(TurnManager Owner, GameObject HexPrefab, GameObject ObstructedHexPrefab, int gridWidth, int gridHeight, float gap, int obsticalAmount) {
         this.Owner = Owner;
 
         this.HexPrefab = HexPrefab;
         this.ObstructedHexPrefab = ObstructedHexPrefab;
 
+        this.gap = gap;
+        AddGap();
+
         this.gridWidth = gridWidth;
         this.gridHeight = gridHeight;
-        this.gap = gap;
+        CalcStartPos();
+        
         this.emptyCellAmount = obsticalAmount;
+
+        UnitStaticFunctions.HexHeight = hexHeight;
+        UnitStaticFunctions.HexWidth = hexWidth;
+        UnitStaticFunctions.StartPos = startpos;
     }
 
     private List<Vector2Int> emptyCells = new List<Vector2Int>();
@@ -40,8 +47,6 @@ public class MakeGrid {
         Parent = new GameObject();
         Parent.name = "Grid";
 
-        AddGap();
-        CalcStartPos();
         TrimCorners();
         DefineObstacle();
         CreateGrid();
@@ -82,7 +87,7 @@ public class MakeGrid {
                     continue;
                 }
                 GameObject hex = GameObject.Instantiate(HexPrefab);
-                hex.transform.position = CalcWorldPos(gridPos);
+                hex.transform.position = UnitStaticFunctions.CalcWorldPos(gridPos);
                 hex.transform.parent = Parent.transform;
                 hex.name = "Hexagon " + X + "|" + Y;
                 Owner.Tiles.Add(gridPos, hex);
@@ -91,7 +96,7 @@ public class MakeGrid {
 
         for (int i = 0; i < obstructedCells.Count; i++) {
             GameObject hex = GameObject.Instantiate(ObstructedHexPrefab);
-            hex.transform.position = CalcWorldPos(obstructedCells[i]);
+            hex.transform.position = UnitStaticFunctions.CalcWorldPos(obstructedCells[i]);
             hex.transform.parent = Parent.transform;
             hex.name = "Obstructed Hexagon " + obstructedCells[i].x + "|" + obstructedCells[i].y;
             Owner.Tiles.Add(obstructedCells[i], hex);
@@ -113,16 +118,5 @@ public class MakeGrid {
             obstructedCells.Add(tmp);
             counter++;
         }
-    }
-
-    public Vector3 CalcWorldPos(Vector2Int gridPos) {
-        float offset = 0;
-        if (gridPos.y % 2 != 0)
-            offset = hexWidth / 2;
-
-        float x = startpos.x + gridPos.x * hexWidth + offset;
-        float z = startpos.z - gridPos.y * hexHeight * .75f;
-
-        return new Vector3(x, 0, z);
     }
 }

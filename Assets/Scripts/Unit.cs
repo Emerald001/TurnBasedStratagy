@@ -5,30 +5,30 @@ using UnityEngine;
 
 public abstract class Unit : MonoBehaviour
 {
-    public UnitManager Owner;
-    public HealthComponent thisHealth;
+    [HideInInspector] public TurnManager Owner;
+    [HideInInspector] public HealthComponent thisHealth;
 
-    public bool IsWalking;
-    public bool WillAttack;
+    [HideInInspector] public bool IsWalking;
+    [HideInInspector] public bool WillAttack;
 
-    public int baseAttackValue;
-    public int baseSpeedValue;
-    public int baseInitiativeValue;
+    [HideInInspector] public int baseAttackValue;
+    [HideInInspector] public int baseSpeedValue;
+    [HideInInspector] public int baseInitiativeValue;
 
-    public int attackValue;
-    public int defenceValue;
-    public int healthValue;
-    public int speedValue;
-    public int initiativeValue;    
+    [HideInInspector] public int attackValue;
+    [HideInInspector] public int defenceValue;
+    [HideInInspector] public int healthValue;
+    [HideInInspector] public int speedValue;
+    [HideInInspector] public int initiativeValue;    
 
-    public List<Vector2Int> AccessableTiles = new List<Vector2Int>();
-    public List<Vector2Int> AttackableTiles = new List<Vector2Int>();
-    public Dictionary<Vector2Int, Vector2Int> TileParents = new Dictionary<Vector2Int, Vector2Int>();
-    public List<Vector2Int> currentPath = new List<Vector2Int>();
+    [HideInInspector] public List<Vector2Int> AccessableTiles = new List<Vector2Int>();
+    [HideInInspector] public List<Vector2Int> AttackableTiles = new List<Vector2Int>();
+    [HideInInspector] public Dictionary<Vector2Int, Vector2Int> TileParents = new Dictionary<Vector2Int, Vector2Int>();
+    [HideInInspector] public List<Vector2Int> currentPath = new List<Vector2Int>();
 
-    public Vector2Int gridPos;
+    [HideInInspector] public Vector2Int gridPos;
 
-    public Vector2Int[] evenNeighbours = {
+    [HideInInspector] public Vector2Int[] evenNeighbours = {
         new Vector2Int(-1, -1),
         new Vector2Int(-1, 1),
         new Vector2Int(0, -1),
@@ -36,7 +36,7 @@ public abstract class Unit : MonoBehaviour
         new Vector2Int(1, 0),
         new Vector2Int(0, 1),
     };
-    public Vector2Int[] unevenNeighbours = {
+    [HideInInspector] public Vector2Int[] unevenNeighbours = {
         new Vector2Int(0, -1),
         new Vector2Int(1, -1),
         new Vector2Int(-1, 0),
@@ -87,7 +87,7 @@ public abstract class Unit : MonoBehaviour
                     if(!Owner.Tiles.ContainsKey(neighbour))
                         continue;
 
-                    foreach (Unit unit in Owner.allUnits) {
+                    foreach (Unit unit in Owner.AllUnitsInPlay) {
                         if(unit.gridPos == neighbour) 
                             skip = true;
                     }
@@ -171,9 +171,9 @@ public abstract class Unit : MonoBehaviour
     public virtual void MoveToTile() {
         IsWalking = true;
 
-        if (transform.position != Owner.makeGrid.CalcWorldPos(currentPath[0])) {
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(Owner.makeGrid.CalcWorldPos(currentPath[0]) - transform.position), 360f * Time.deltaTime);
-            transform.position = Vector3.MoveTowards(transform.position, Owner.makeGrid.CalcWorldPos(currentPath[0]), 4 * Time.deltaTime);
+        if (transform.position != UnitStaticFunctions.CalcWorldPos(currentPath[0])) {
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(UnitStaticFunctions.CalcWorldPos(currentPath[0]) - transform.position), 360f * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, UnitStaticFunctions.CalcWorldPos(currentPath[0]), 4 * Time.deltaTime);
         }
         else {
             gridPos = currentPath[0];
@@ -205,7 +205,7 @@ public abstract class Unit : MonoBehaviour
 
         Unit enemy = null;
 
-        foreach (Unit en in Owner.allUnits) {
+        foreach (Unit en in Owner.AllUnitsInPlay) {
             if (en.gridPos == currentPath[0])
                 enemy = en;
         }

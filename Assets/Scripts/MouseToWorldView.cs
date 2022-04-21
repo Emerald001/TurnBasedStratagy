@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MouseToWorldView : MonoBehaviour
 {
-    public UnitManager Owner;
+    public TurnManager Owner;
     private Hex lastTile;
 
     public Material Hovercolor;
@@ -24,6 +24,9 @@ public class MouseToWorldView : MonoBehaviour
 
                     lastTile = hitTile.GetComponent<Hex>();
                     lastTile.SetColor(Hovercolor);
+
+                    MouseValues.HoverTileGridPos = UnitStaticFunctions.GetGridPosFromWorldPos(hitTile);
+                    MouseValues.HoverPointPos = hit.point;
 
                     Owner.blackBoard.CurrentHover = Owner.GetKeyFromValue(hitTile);
                     Owner.blackBoard.HoverPoint = hit.point;

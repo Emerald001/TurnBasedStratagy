@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyBehaviour : MonoBehaviour
 {
-    public UnitManager Owner;
+    public TurnManager Owner;
 
     public Unit CurrentEnemyUnit;
 
