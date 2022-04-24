@@ -8,6 +8,7 @@ public abstract class UnitManager : MonoBehaviour
     [HideInInspector] public GameObject Unit;
 
     [HideInInspector] public TurnGameManager turnManager;
+    [HideInInspector] public bool IsDone;
     
     [HideInInspector] public UnitDefineAccessableTiles defineAccessableTiles;
     [HideInInspector] public UnitDefineAttackableTiles defineAttackableTiles;
@@ -21,11 +22,12 @@ public abstract class UnitManager : MonoBehaviour
     [HideInInspector] public Dictionary<Vector2Int, Vector2Int> TileParents = new Dictionary<Vector2Int, Vector2Int>();
     [HideInInspector] public Dictionary<Vector2Int, GameObject> EnemyPositions = new Dictionary<Vector2Int, GameObject>();
 
-    //UnitValues
+    //Base unit values
     [HideInInspector] public int baseSpeedValue;
     [HideInInspector] public int baseInitiativeValue;
     [HideInInspector] public int baseDamageValue;
 
+    //Current unit values
     [HideInInspector] public int speedValue;
     [HideInInspector] public int initiativeValue;
     [HideInInspector] public int damageValue;
@@ -44,8 +46,7 @@ public abstract class UnitManager : MonoBehaviour
         defineAccessableTiles.Owner = this;
         defineAttackableTiles = new UnitDefineAttackableTilesMelee();
         defineAttackableTiles.Owner = this;
-        AccessableTiles = defineAccessableTiles.FindAccessableTiles(gridPos, speedValue, ref TileParents, turnManager.Tiles);
-        AttackableTiles = defineAttackableTiles.FindAttackableTiles(turnManager.EnemyUnitsInPlay, EnemyPositions, turnManager.Tiles);
+        FindTiles();
     }
 
     public virtual void SetValues() {
@@ -63,21 +64,27 @@ public abstract class UnitManager : MonoBehaviour
     private void CheckActionQueue() {
         if (CurrentAction == null && ActionQueue.Count > 0)
             CurrentAction = ActionQueue.Dequeue();
-        else
+        else if (CurrentAction == null)
             return;
 
         CurrentAction.OnUpdate();
 
         if (CurrentAction.IsDone) {
             if (ActionQueue.Count < 1) {
-                CurrentAction = null;
+                if (CurrentAction.EndsTurn) {
+                    CurrentAction = null;
+                    IsDone = true;
 
-                if (speedValue > 1) {
-                    ResetTiles();
-                    AccessableTiles = defineAccessableTiles.FindAccessableTiles(gridPos, speedValue, ref TileParents, turnManager.Tiles);
-                    AttackableTiles = defineAttackableTiles.FindAttackableTiles(turnManager.EnemyUnitsInPlay, EnemyPositions, turnManager.Tiles);
+                    return;
                 }
-                return;
+                else {
+                    CurrentAction = null;
+
+                    ResetTiles();
+                    FindTiles();
+
+                    return;
+                }
             }
 
             CurrentAction = ActionQueue.Dequeue();
@@ -88,6 +95,7 @@ public abstract class UnitManager : MonoBehaviour
         defineAccessableTiles = null;
         defineAttackableTiles = null;
         pathfinding = null;
+        IsDone = false;
 
         ResetTiles();
     }
@@ -95,21 +103,24 @@ public abstract class UnitManager : MonoBehaviour
     public virtual void PickedTile(Vector2Int pickedTile) {
         if (AttackableTiles.Contains(pickedTile)) {
             if (gridPos == defineAttackableTiles.GetClosestTile(pickedTile, turnManager.blackBoard.HoverPoint, AccessableTiles)) {
-                //ActionQueue.Enqueue(new UnitAttack(Unit, Enemy, currentDamageValue));
+                ActionQueue.Enqueue(new UnitAttack(Unit, EnemyPositions[pickedTile], damageValue));
                 ResetTiles();
             }
             else {
-                currentPath = pathfinding.FindPathToTile(gridPos, defineAttackableTiles.GetClosestTile(pickedTile, turnManager.blackBoard.HoverPoint, AccessableTiles), TileParents);
-                ActionQueue.Enqueue(new UnitMoveToTile(this));
-                //ActionQueue.Enqueue(new UnitAttack(Unit, Enemy, currentDamageValue));
+                ActionQueue.Enqueue(new UnitMoveToTile(this, pathfinding.FindPathToTile(gridPos, defineAttackableTiles.GetClosestTile(pickedTile, turnManager.blackBoard.HoverPoint, AccessableTiles), TileParents)));
+                ActionQueue.Enqueue(new UnitAttack(Unit, EnemyPositions[pickedTile], damageValue));
                 ResetTiles();
             }
         }
         else if (AccessableTiles.Contains(pickedTile)) {
-            currentPath = pathfinding.FindPathToTile(gridPos, pickedTile, TileParents);
-            ActionQueue.Enqueue(new UnitMoveToTile(this));
+            ActionQueue.Enqueue(new UnitMoveToTile(this, pathfinding.FindPathToTile(gridPos, pickedTile, TileParents)));
             ResetTiles();
         }
+    }
+
+    public virtual void FindTiles() {
+        AccessableTiles = defineAccessableTiles.FindAccessableTiles(gridPos, speedValue, ref TileParents, turnManager.Tiles);
+        AttackableTiles = defineAttackableTiles.FindAttackableTiles(turnManager.EnemyUnitsInPlay, EnemyPositions, turnManager.Tiles);
     }
 
     public virtual void ResetTiles() {

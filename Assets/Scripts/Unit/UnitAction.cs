@@ -6,6 +6,7 @@ namespace UnitComponents {
     public abstract class UnitAction
     {
         public bool IsDone;
+        public bool EndsTurn;
         public virtual void OnUpdate() { }
     }
 }

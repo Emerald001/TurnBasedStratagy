@@ -9,6 +9,8 @@ namespace UnitComponents {
             this.Unit = Unit;
             this.Enemy = Enemy;
             this.Damage = Damage;
+
+            EndsTurn = true;
         }
 
         private GameObject Unit;
@@ -16,8 +18,9 @@ namespace UnitComponents {
         private int Damage;
 
         public void Attack() {
-            Unit.transform.LookAt(Enemy.transform);
+            Unit.transform.GetChild(0).LookAt(Enemy.transform);
             Enemy.GetComponent<HealthComponent>().TakeDamage(Damage);
+            IsDone = true;
         }
     }
 }

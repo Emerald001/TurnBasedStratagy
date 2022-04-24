@@ -19,7 +19,7 @@ public class PlayerUnit : Unit {
 
         if (currentPath != null && currentPath.Count > 0 && !IsWalking)
             DrawPath();
-        
+
         if (AttackableTiles.Contains(Owner.blackBoard.CurrentHover)) {
             float smallestDistance = Mathf.Infinity;
             Vector2Int closestTile = Vector2Int.zero;
@@ -38,21 +38,21 @@ public class PlayerUnit : Unit {
                 if (!AccessableTiles.Contains(neighbour))
                     continue;
 
-                if(Vector3.Distance(UnitStaticFunctions.CalcWorldPos(neighbour), Owner.blackBoard.HoverPoint) < smallestDistance) {
+                if (Vector3.Distance(UnitStaticFunctions.CalcWorldPos(neighbour), Owner.blackBoard.HoverPoint) < smallestDistance) {
                     smallestDistance = Vector3.Distance(UnitStaticFunctions.CalcWorldPos(neighbour), Owner.blackBoard.HoverPoint);
                     closestTile = neighbour;
                 }
             }
 
-            if(closestTile != Vector2Int.zero) {
+            if (closestTile != Vector2Int.zero) {
                 FindPathToTile(closestTile);
                 currentPath.Add(currentPos);
             }
         }
-        else if(AccessableTiles.Contains(Owner.blackBoard.CurrentHover)) {
+        else if (AccessableTiles.Contains(Owner.blackBoard.CurrentHover)) {
             FindPathToTile(Owner.blackBoard.CurrentHover);
         }
-        else if(!IsWalking) {
+        else if (!IsWalking) {
             currentPath = null;
             line.enabled = false;
         }

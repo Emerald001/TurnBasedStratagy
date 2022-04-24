@@ -13,7 +13,7 @@ namespace UnitComponents {
                 currentPos = tileParents[currentPos];
             }
 
-            path.Add(currentPos);
+            //path.Add(currentPos);
             path.Reverse();
 
             return path;

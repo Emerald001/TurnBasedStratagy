@@ -9,9 +9,6 @@ public class PlayerUnitInterface : UnitManager {
     public override void OnEnter() {
         base.OnEnter();
         line = GetComponent<LineRenderer>();
-
-        ChangeHexColor(AccessableTiles, turnManager.WalkableTileColor);
-        ChangeHexColor(AttackableTiles, turnManager.AttackableTileColor);
     }
 
     public override void OnUpdate() {
@@ -42,6 +39,13 @@ public class PlayerUnitInterface : UnitManager {
         base.ResetTiles();
     }
 
+    public override void FindTiles() {
+        base.FindTiles();
+
+        ChangeHexColor(AccessableTiles, turnManager.WalkableTileColor);
+        ChangeHexColor(AttackableTiles, turnManager.AttackableTileColor);
+    }
+
     public void ChangeHexColor(List<Vector2Int> list, Material color) {
         for (int i = 0; i < list.Count; i++) {
             turnManager.Tiles[list[i]].GetComponent<Hex>().GivenColor = color;
@@ -68,9 +72,13 @@ public class PlayerUnitInterface : UnitManager {
         line.enabled = true;
 
         if (currentPath != null && currentPath.Count > 0) {
-            line.positionCount = currentPath.Count;
-            for (int i = 0; i < currentPath.Count; i++) {
-                line.SetPosition(i, UnitStaticFunctions.CalcWorldPos(currentPath[i]));
+            line.positionCount = currentPath.Count + 1;
+            for (int i = 0; i < currentPath.Count + 1; i++) {
+                if(i == 0) {
+                    line.SetPosition(0, UnitStaticFunctions.CalcWorldPos(gridPos));
+                    continue;
+                }
+                line.SetPosition(i, UnitStaticFunctions.CalcWorldPos(currentPath[i - 1]));
             }
         }
     }

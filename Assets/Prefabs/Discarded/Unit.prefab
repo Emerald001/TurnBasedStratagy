@@ -122,7 +122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5443118734026192012}
   - component: {fileID: 4232360866907493419}
-  - component: {fileID: 6009741554039060210}
+  - component: {fileID: 3678088102784053837}
   - component: {fileID: 7245315581466424636}
   m_Layer: 0
   m_Name: Unit
@@ -253,7 +253,7 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
---- !u!114 &6009741554039060210
+--- !u!114 &3678088102784053837
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -262,7 +262,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5443118734026192755}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3fcbd658e8be15429892b2e56f454f4, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e0a7401b0fa3f94099fa395aaa70357, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Owner: {fileID: 0}

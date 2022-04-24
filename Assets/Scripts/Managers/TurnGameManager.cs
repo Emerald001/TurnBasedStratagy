@@ -2,6 +2,7 @@ using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TurnGameManager : MonoBehaviour
 {
@@ -32,15 +33,15 @@ public class TurnGameManager : MonoBehaviour
     [HideInInspector] public List<UnitManager> AllUnitsInPlay = new List<UnitManager>();
     [HideInInspector] public List<UnitManager> EnemyUnitsInPlay = new List<UnitManager>();
     [HideInInspector] public List<UnitManager> PlayerUnitsInPlay = new List<UnitManager>();
-    [HideInInspector] public Queue<UnitManager> unitAttackOrder = new Queue<UnitManager>();
+    [HideInInspector] public List<UnitManager> unitAttackOrder = new List<UnitManager>();
     [HideInInspector] public UnitManager CurrentUnit;
 
-    // Start is called before the first frame update
     void Start() {
         makeGrid = new MakeGrid(this, HexPrefab, ObstructedHexPrefab, gridWidth, gridHeight, gap, obstructedCellAmount);
         makeGrid.OnStart();
         UnitStaticFunctions.Grid = Tiles;
 
+        //needs to be improved
         Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, 10 + (gridHeight + gridWidth) / 10, -(10 + (gridHeight + gridWidth) / 10));
 
         SpawnPlayableUnits();
@@ -53,7 +54,7 @@ public class TurnGameManager : MonoBehaviour
     private void Update() {
         if (CurrentUnit != null) {
             CurrentUnit.OnUpdate();
-            if (Input.GetKeyDown(KeyCode.Space) || CurrentUnit.speedValue < 1)
+            if (CurrentUnit.IsDone)
                 NextUnit();
         }
     }
@@ -63,12 +64,16 @@ public class TurnGameManager : MonoBehaviour
             var gridPos = new Vector2Int(0, i + Mathf.RoundToInt((gridHeight / 2) - (unitAmount / 2)));
             var worldPos = Tiles[gridPos].transform.position;
 
-            var UnitScript = GameObject.Instantiate(UnitPrefab, worldPos, Quaternion.identity).GetComponent<UnitManager>();
+            var Unit = GameObject.Instantiate(UnitPrefab, worldPos, Quaternion.identity);
+            var UnitScript = Unit.GetComponent<UnitManager>();
             UnitScript.turnManager = this;
             UnitScript.gridPos = gridPos;
+
             UnitScript.baseDamageValue = Random.Range(1, 10);
             UnitScript.baseInitiativeValue = Random.Range(1, 10);
             UnitScript.baseSpeedValue = Random.Range(4, 7);
+
+            UnitScript.SetValues();
 
             //var HealthScript = UnitScript.GetComponent<HealthComponent>();
             //HealthScript.baseHealthValue = Random.Range(10, 20);
@@ -79,8 +84,6 @@ public class TurnGameManager : MonoBehaviour
             //HealthScript.DefenceValue = HealthScript.baseDefenceValue;
             //HealthScript.HealthValue = HealthScript.baseHealthValue;
 
-            //UnitScript.SetValues();
-
             AllUnitsInPlay.Add(UnitScript);
             PlayerUnitsInPlay.Add(UnitScript);
         }
@@ -88,9 +91,17 @@ public class TurnGameManager : MonoBehaviour
 
     void NextUnit() {
         if (unitAttackOrder.Count != 0) {
-            if (CurrentUnit != null)
+            for (int i = 0; i < unitAttackOrder.Count; i++) {
+                unitAttackOrder[i].gameObject.GetComponentInChildren<Text>().text = (i + 1).ToString();
+            }
+
+            if (CurrentUnit != null) {
                 CurrentUnit.OnExit();
-            CurrentUnit = unitAttackOrder.Dequeue();
+                CurrentUnit.gameObject.GetComponentInChildren<Text>().text = "-";
+            }
+
+            CurrentUnit = unitAttackOrder[0];
+            unitAttackOrder.RemoveAt(0);
             CurrentUnit.OnEnter();
         }
         else {
@@ -107,6 +118,10 @@ public class TurnGameManager : MonoBehaviour
     }
 
     void UpdateOrder() {
-        unitAttackOrder = new Queue<UnitManager>(AllUnitsInPlay.OrderBy(x => x.initiativeValue).Reverse());
+        unitAttackOrder = new List<UnitManager>(AllUnitsInPlay.OrderBy(x => x.initiativeValue).Reverse());
+
+        for (int i = 0; i < unitAttackOrder.Count; i++) {
+            unitAttackOrder[i].gameObject.GetComponentInChildren<Text>().text = (i + 1).ToString();
+        }
     }
 }

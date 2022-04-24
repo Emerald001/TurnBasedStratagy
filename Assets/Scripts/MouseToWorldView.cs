@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MouseToWorldView : MonoBehaviour
 {
-    public TurnManager Owner;
     private Hex lastTile;
 
     public Material Hovercolor;
@@ -27,14 +26,11 @@ public class MouseToWorldView : MonoBehaviour
 
                     MouseValues.HoverTileGridPos = UnitStaticFunctions.GetGridPosFromWorldPos(hitTile);
                     MouseValues.HoverPointPos = hit.point;
-
-                    Owner.blackBoard.CurrentHover = Owner.GetKeyFromValue(hitTile);
-                    Owner.blackBoard.HoverPoint = hit.point;
                 }
             }
             else if(lastTile != null) {
                 lastTile.ResetColor();
-                Owner.blackBoard.CurrentHover = Vector2Int.zero;
+                MouseValues.HoverTileGridPos = Vector2Int.zero;
             }
         }
     }
