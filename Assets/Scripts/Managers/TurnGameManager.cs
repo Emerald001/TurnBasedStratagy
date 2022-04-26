@@ -44,7 +44,8 @@ public class TurnGameManager : MonoBehaviour
         //needs to be improved
         Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, 10 + (gridHeight + gridWidth) / 10, -(10 + (gridHeight + gridWidth) / 10));
 
-        SpawnPlayableUnits();
+        SpawnUnits(UnitPrefab, PlayerUnitsInPlay, EnemyUnitsInPlay, true);
+        SpawnUnits(EnemyPrefab, EnemyUnitsInPlay, PlayerUnitsInPlay, false);
 
         UpdateOrder();
 
@@ -54,20 +55,28 @@ public class TurnGameManager : MonoBehaviour
     private void Update() {
         if (CurrentUnit != null) {
             CurrentUnit.OnUpdate();
+
             if (CurrentUnit.IsDone)
                 NextUnit();
         }
     }
 
-    private void SpawnPlayableUnits() {
+    private void SpawnUnits(GameObject prefab, List<UnitManager> listToAddTo, List<UnitManager> enemyList, bool spawnLeft) {
         for (int i = 0; i < unitAmount; i++) {
-            var gridPos = new Vector2Int(0, i + Mathf.RoundToInt((gridHeight / 2) - (unitAmount / 2)));
+            var gridPos = Vector2Int.zero;
+
+            if(spawnLeft)
+                gridPos = new Vector2Int(0, i + Mathf.RoundToInt((gridHeight / 2) - (unitAmount / 2)));
+            else
+                gridPos = new Vector2Int(gridWidth - 1, i + Mathf.RoundToInt((gridHeight / 2) - (unitAmount / 2)));
+
             var worldPos = Tiles[gridPos].transform.position;
 
-            var Unit = GameObject.Instantiate(UnitPrefab, worldPos, Quaternion.identity);
+            var Unit = GameObject.Instantiate(prefab, worldPos, Quaternion.identity);
             var UnitScript = Unit.GetComponent<UnitManager>();
             UnitScript.turnManager = this;
             UnitScript.gridPos = gridPos;
+            UnitScript.enemyList = enemyList;
 
             UnitScript.baseDamageValue = Random.Range(1, 10);
             UnitScript.baseInitiativeValue = Random.Range(1, 10);
@@ -84,8 +93,8 @@ public class TurnGameManager : MonoBehaviour
             //HealthScript.DefenceValue = HealthScript.baseDefenceValue;
             //HealthScript.HealthValue = HealthScript.baseHealthValue;
 
+            listToAddTo.Add(UnitScript);
             AllUnitsInPlay.Add(UnitScript);
-            PlayerUnitsInPlay.Add(UnitScript);
         }
     }
 

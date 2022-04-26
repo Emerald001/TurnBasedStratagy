@@ -327,7 +327,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 488264891}
-  - component: {fileID: 488264892}
   - component: {fileID: 488264893}
   m_Layer: 0
   m_Name: ControlHandler
@@ -350,36 +349,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &488264892
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 488264890}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b7e660dc0109c74da83da9c8d35932f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HexPrefab: {fileID: 5083955677021701114, guid: d278ba7054574dd498e363a1ada88350, type: 3}
-  ObstructedHexPrefab: {fileID: 5083955677021701114, guid: 779a83714aa96d549ac5d1af8efdc7d9, type: 3}
-  gridWidth: 12
-  gridHeight: 7
-  gap: 0.01
-  obstructedCellAmount: 10
-  UnitPrefab: {fileID: 5443118734026192755, guid: 416a7d4d1dc802f448abe84953f35244, type: 3}
-  EnemyPrefab: {fileID: 5443118734026192755, guid: 52278923416777e43a40f170142c7a67, type: 3}
-  ActiveUnitColor: {fileID: 2100000, guid: aff0495b390634f4a847120f54b0cd59, type: 2}
-  NormalUnitColor: {fileID: 2100000, guid: b0fa939a650ad64469623634848cd194, type: 2}
-  WalkableTileColor: {fileID: 2100000, guid: cb91ec0f95279a041bc15fba2eb9e233, type: 2}
-  AttackableTileColor: {fileID: 2100000, guid: 193dd9bcbccac3e4cb7365d018e71f5e, type: 2}
-  unitAmount: 2
-  enemyAmount: 2
-  AllUnitsInPlay: []
-  EnemyUnitsInPlay: []
-  PlayerUnitsInPlay: []
-  CurrentUnit: {fileID: 0}
 --- !u!114 &488264893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -399,11 +368,11 @@ MonoBehaviour:
   gap: 0.01
   obstructedCellAmount: 10
   UnitPrefab: {fileID: 1607403617007298681, guid: bf5f6e323ab836947ae1ea9ba388fd82, type: 3}
-  EnemyPrefab: {fileID: 5443118734026192755, guid: 52278923416777e43a40f170142c7a67, type: 3}
+  EnemyPrefab: {fileID: 260751586979326579, guid: 959fc4eaf4fbc0d46a4af98e4e284714, type: 3}
   WalkableTileColor: {fileID: 2100000, guid: cb91ec0f95279a041bc15fba2eb9e233, type: 2}
   AttackableTileColor: {fileID: 2100000, guid: 193dd9bcbccac3e4cb7365d018e71f5e, type: 2}
-  unitAmount: 5
-  enemyAmount: 0
+  unitAmount: 3
+  enemyAmount: 3
   AllUnitsInPlay: []
   EnemyUnitsInPlay: []
   PlayerUnitsInPlay: []

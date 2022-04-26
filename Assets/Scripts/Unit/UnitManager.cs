@@ -16,6 +16,7 @@ public abstract class UnitManager : MonoBehaviour
     [HideInInspector] public HealthComponent health;
 
     [HideInInspector] public Vector2Int gridPos;
+    [HideInInspector] public List<UnitManager> enemyList = new List<UnitManager>();
     [HideInInspector] public List<Vector2Int> currentPath = new List<Vector2Int>();
     [HideInInspector] public List<Vector2Int> AttackableTiles = new List<Vector2Int>();
     [HideInInspector] public List<Vector2Int> AccessableTiles = new List<Vector2Int>();
@@ -80,7 +81,6 @@ public abstract class UnitManager : MonoBehaviour
                 else {
                     CurrentAction = null;
 
-                    ResetTiles();
                     FindTiles();
 
                     return;
@@ -120,7 +120,7 @@ public abstract class UnitManager : MonoBehaviour
 
     public virtual void FindTiles() {
         AccessableTiles = defineAccessableTiles.FindAccessableTiles(gridPos, speedValue, ref TileParents, turnManager.Tiles);
-        AttackableTiles = defineAttackableTiles.FindAttackableTiles(turnManager.EnemyUnitsInPlay, EnemyPositions, turnManager.Tiles);
+        AttackableTiles = defineAttackableTiles.FindAttackableTiles(enemyList, EnemyPositions, turnManager.Tiles);
     }
 
     public virtual void ResetTiles() {
