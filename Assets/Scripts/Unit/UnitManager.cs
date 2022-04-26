@@ -99,15 +99,15 @@ public abstract class UnitManager : MonoBehaviour
 
         ResetTiles();
     }
-
+    
     public virtual void PickedTile(Vector2Int pickedTile) {
         if (AttackableTiles.Contains(pickedTile)) {
-            if (gridPos == defineAttackableTiles.GetClosestTile(pickedTile, turnManager.blackBoard.HoverPoint, AccessableTiles)) {
+            if (gridPos == defineAttackableTiles.GetClosestTile(pickedTile, MouseValues.HoverPointPos, AccessableTiles)) {
                 ActionQueue.Enqueue(new UnitAttack(Unit, EnemyPositions[pickedTile], damageValue));
                 ResetTiles();
             }
             else {
-                ActionQueue.Enqueue(new UnitMoveToTile(this, pathfinding.FindPathToTile(gridPos, defineAttackableTiles.GetClosestTile(pickedTile, turnManager.blackBoard.HoverPoint, AccessableTiles), TileParents)));
+                ActionQueue.Enqueue(new UnitMoveToTile(this, pathfinding.FindPathToTile(gridPos, defineAttackableTiles.GetClosestTile(pickedTile, MouseValues.HoverPointPos, AccessableTiles), TileParents)));
                 ActionQueue.Enqueue(new UnitAttack(Unit, EnemyPositions[pickedTile], damageValue));
                 ResetTiles();
             }

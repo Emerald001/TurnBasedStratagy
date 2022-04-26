@@ -5,6 +5,8 @@ using UnityEngine;
 namespace UnitComponents {
     public class UnitAttack : UnitAction
     {
+        public float timer = 1f;
+
         public UnitAttack(GameObject Unit, GameObject Enemy, int Damage) {
             this.Unit = Unit;
             this.Enemy = Enemy;
@@ -17,10 +19,22 @@ namespace UnitComponents {
         private GameObject Enemy;
         private int Damage;
 
+        public override void OnUpdate() {
+            if (WaitTime() > 0)
+                return;
+
+            Attack();
+        }
+
         public void Attack() {
             Unit.transform.GetChild(0).LookAt(Enemy.transform);
-            Enemy.GetComponent<HealthComponent>().TakeDamage(Damage);
+            Debug.Log("Attack!");
+            //Enemy.GetComponent<HealthComponent>().TakeDamage(Damage);
             IsDone = true;
+        }
+
+        public float WaitTime() {
+            return timer -= Time.deltaTime;
         }
     }
 }

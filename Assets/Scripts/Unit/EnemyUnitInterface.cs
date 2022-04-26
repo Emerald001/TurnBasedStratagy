@@ -12,15 +12,15 @@ public class EnemyUnitInterface : UnitManager {
     }
 
     public override void OnExit() {
-        ResetTiles();
+        base.OnExit();
     }
 
     public override void OnUpdate() {
         base.OnUpdate();
 
-        //if (WaitTime() > 0) {
-        //    return;
-        //}
+        if (WaitTime() > 0) {
+            return;
+        }
 
         PickAction();
     }
