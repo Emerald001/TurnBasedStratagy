@@ -99,15 +99,15 @@ public abstract class UnitManager : MonoBehaviour
 
         ResetTiles();
     }
-    
-    public virtual void PickedTile(Vector2Int pickedTile) {
+
+    public virtual void PickedTile(Vector2Int pickedTile, Vector2Int stadingPos_optional) {
         if (AttackableTiles.Contains(pickedTile)) {
-            if (gridPos == defineAttackableTiles.GetClosestTile(pickedTile, MouseValues.HoverPointPos, AccessableTiles)) {
+            if (gridPos == stadingPos_optional) {
                 ActionQueue.Enqueue(new UnitAttack(Unit, EnemyPositions[pickedTile], damageValue));
                 ResetTiles();
             }
             else {
-                ActionQueue.Enqueue(new UnitMoveToTile(this, pathfinding.FindPathToTile(gridPos, defineAttackableTiles.GetClosestTile(pickedTile, MouseValues.HoverPointPos, AccessableTiles), TileParents)));
+                ActionQueue.Enqueue(new UnitMoveToTile(this, pathfinding.FindPathToTile(gridPos, stadingPos_optional, TileParents)));
                 ActionQueue.Enqueue(new UnitAttack(Unit, EnemyPositions[pickedTile], damageValue));
                 ResetTiles();
             }
@@ -120,7 +120,7 @@ public abstract class UnitManager : MonoBehaviour
 
     public virtual void FindTiles() {
         AccessableTiles = defineAccessableTiles.FindAccessableTiles(gridPos, speedValue, ref TileParents, turnManager.Tiles);
-        AttackableTiles = defineAttackableTiles.FindAttackableTiles(enemyList, EnemyPositions, turnManager.Tiles);
+        AttackableTiles = defineAttackableTiles.FindAttackableTiles(gridPos, enemyList, EnemyPositions, turnManager.Tiles);
     }
 
     public virtual void ResetTiles() {

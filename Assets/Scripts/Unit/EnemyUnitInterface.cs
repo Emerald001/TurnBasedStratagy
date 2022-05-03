@@ -28,10 +28,13 @@ public class EnemyUnitInterface : UnitManager {
     private void PickAction() {
         //Picks the action Properly
 
-        if (AttackableTiles.Count != 0)
-            PickedTile(AttackableTiles[Random.Range(0, AttackableTiles.Count)]);
+        if (AttackableTiles.Count != 0) {
+            //Needs better Second position defenition!
+            var pickedTile = AttackableTiles[Random.Range(0, AttackableTiles.Count)];
+            PickedTile(pickedTile, defineAttackableTiles.GetClosestTile(gridPos, pickedTile, Vector3.zero, AccessableTiles));
+        }
         else if (AccessableTiles.Count != 0)
-            PickedTile(AccessableTiles[Random.Range(0, AccessableTiles.Count)]);
+            PickedTile(AccessableTiles[Random.Range(0, AccessableTiles.Count)], Vector2Int.zero);
     }
 
     public float WaitTime() {

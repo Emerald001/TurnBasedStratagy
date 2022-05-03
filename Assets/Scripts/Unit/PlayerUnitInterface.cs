@@ -18,7 +18,7 @@ public class PlayerUnitInterface : UnitManager {
         base.OnUpdate();
 
         if (Input.GetKeyDown(KeyCode.Mouse0)) {
-            PickedTile(MouseValues.HoverTileGridPos);
+            PickedTile(MouseValues.HoverTileGridPos, defineAttackableTiles.GetClosestTile(gridPos, MouseValues.HoverTileGridPos, MouseValues.HoverPointPos, AccessableTiles));
         }
     }
 
@@ -58,8 +58,10 @@ public class PlayerUnitInterface : UnitManager {
 
         if (AccessableTiles.Contains(endPos))
             currentPath = pathfinding.FindPathToTile(gridPos, endPos, TileParents);
-        else if (AttackableTiles.Contains(endPos))
-            currentPath = pathfinding.FindPathToTile(gridPos, defineAttackableTiles.GetClosestTile(endPos, turnManager.blackBoard.HoverPoint, AccessableTiles), TileParents);
+        else if (AttackableTiles.Contains(endPos)) {
+            currentPath = pathfinding.FindPathToTile(gridPos, defineAttackableTiles.GetClosestTile(gridPos, endPos, MouseValues.HoverPointPos, AccessableTiles), TileParents);
+            currentPath.Add(MouseValues.HoverTileGridPos);
+        }
         else {
             line.enabled = false;
             return;
@@ -67,7 +69,7 @@ public class PlayerUnitInterface : UnitManager {
 
         DrawPathWithLine();
     }
-
+    
     private void DrawPathWithLine() {
         line.enabled = true;
 

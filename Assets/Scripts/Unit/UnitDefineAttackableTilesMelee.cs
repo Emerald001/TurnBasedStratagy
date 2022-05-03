@@ -24,13 +24,13 @@ namespace UnitComponents {
             new Vector2Int(1, 1),
         };
 
-        public override List<Vector2Int> FindAttackableTiles(List<UnitManager> AttackList, Dictionary<Vector2Int, GameObject> EnemyPositions, Dictionary<Vector2Int, GameObject> grid) {
+        public override List<Vector2Int> FindAttackableTiles(Vector2Int gridPos, List<UnitManager> AttackList, Dictionary<Vector2Int, GameObject> EnemyPositions, Dictionary<Vector2Int, GameObject> grid) {
             //clear previous attackable tiles!
 
             var attackableTiles = new List<Vector2Int>();
+            var currentPos = gridPos;
 
-            for (int i = 0; i < Owner.AccessableTiles.Count; i++) {
-                var currentPos = Owner.AccessableTiles[i];
+            for (int i = 0; i < Owner.AccessableTiles.Count + 1; i++) {
                 Vector2Int[] listToUse;
 
                 if (currentPos.y % 2 != 0)
@@ -58,12 +58,15 @@ namespace UnitComponents {
 
                     attackableTiles.Add(neighbour);
                 }
+
+                if(i !< Owner.AccessableTiles.Count)
+                    currentPos = Owner.AccessableTiles[i];
             }
 
             return attackableTiles;
         }
 
-        public override Vector2Int GetClosestTile(Vector2Int tile, Vector3 worldpoint, List<Vector2Int> accessableTiles) {
+        public override Vector2Int GetClosestTile(Vector2Int gridPos, Vector2Int tile, Vector3 worldpoint, List<Vector2Int> accessableTiles) {
             float smallestDistance = Mathf.Infinity;
             Vector2Int closestTile = Vector2Int.zero;
 
@@ -78,7 +81,7 @@ namespace UnitComponents {
             for (int k = 0; k < 6; k++) {
                 var neighbour = currentPos + listToUse[k];
 
-                if (!accessableTiles.Contains(neighbour))
+                if (!accessableTiles.Contains(neighbour) && neighbour != gridPos)
                     continue;
 
                 if (Vector3.Distance(UnitStaticFunctions.CalcWorldPos(neighbour), worldpoint) < smallestDistance) {
