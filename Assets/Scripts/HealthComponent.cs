@@ -2,32 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthComponent : MonoBehaviour
+public class HealthComponent : MonoBehaviour, IDamagable
 {
+    public UnitManager Owner;
+
     public int baseDefenceValue;
     public int baseHealthValue;
 
-    public int HealthValue;
-    public int DefenceValue;
+    public int Health { get; set; }
+    public int Defence { get; set; }
 
-    public virtual void TakeDamage(int damage) {
+    public void TakeDamage(int Damage) {
         var damPoints = 0;
 
-        if (DefenceValue < damage) {
-            damPoints = (damage * 2) / DefenceValue;
+        if (Defence < Damage) {
+            damPoints = (Damage * 2) / Mathf.RoundToInt(Defence);
         }
         else {
-            damPoints = damage - DefenceValue;
+            damPoints = Damage - Mathf.RoundToInt(Defence);
         }
 
-        HealthValue -= damage;
+        Health -= Damage;
 
         CheckHealth();
     }
 
-    public virtual void CheckHealth() {
-        if(HealthValue < 1) {
-            Destroy(gameObject);
+    public void CheckHealth() {
+        if(Health < 1) {
+            OnDeath();
         }
+    }
+
+    public void OnDeath() {
+        Owner.turnManager.AllUnitsInPlay.Remove(Owner);
     }
 }

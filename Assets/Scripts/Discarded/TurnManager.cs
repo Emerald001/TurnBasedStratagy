@@ -79,8 +79,8 @@ public class TurnManager : MonoBehaviour {
 
             UnitScript.thisHealth = HealthScript;
 
-            HealthScript.DefenceValue = HealthScript.baseDefenceValue;
-            HealthScript.HealthValue = HealthScript.baseHealthValue;
+            HealthScript.Defence = HealthScript.baseDefenceValue;
+            HealthScript.Health = HealthScript.baseHealthValue;
 
             UnitScript.SetValues();
 
@@ -107,8 +107,8 @@ public class TurnManager : MonoBehaviour {
 
             UnitScript.thisHealth = HealthScript;
 
-            HealthScript.DefenceValue = HealthScript.baseDefenceValue;
-            HealthScript.HealthValue = HealthScript.baseHealthValue;
+            HealthScript.Defence = HealthScript.baseDefenceValue;
+            HealthScript.Health = HealthScript.baseHealthValue;
 
             UnitScript.SetValues();
 
