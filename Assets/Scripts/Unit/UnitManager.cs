@@ -16,12 +16,14 @@ public abstract class UnitManager : MonoBehaviour
     [HideInInspector] public HealthComponent health;
 
     [HideInInspector] public Vector2Int gridPos;
-    [HideInInspector] public List<UnitManager> enemyList = new List<UnitManager>();
-    [HideInInspector] public List<Vector2Int> currentPath = new List<Vector2Int>();
+    [HideInInspector] public List<UnitManager> EnemyList = new List<UnitManager>();
+    [HideInInspector] public List<Vector2Int> CurrentPath = new List<Vector2Int>();
     [HideInInspector] public List<Vector2Int> AttackableTiles = new List<Vector2Int>();
     [HideInInspector] public List<Vector2Int> AccessableTiles = new List<Vector2Int>();
     [HideInInspector] public Dictionary<Vector2Int, Vector2Int> TileParents = new Dictionary<Vector2Int, Vector2Int>();
     [HideInInspector] public Dictionary<Vector2Int, GameObject> EnemyPositions = new Dictionary<Vector2Int, GameObject>();
+
+    [HideInInspector] public List<UnitEffect> Effects = new List<UnitEffect>();
 
     //Base unit values
     [HideInInspector] public int baseSpeedValue;
@@ -120,13 +122,13 @@ public abstract class UnitManager : MonoBehaviour
 
     public virtual void FindTiles() {
         AccessableTiles = defineAccessableTiles.FindAccessableTiles(gridPos, speedValue, ref TileParents, turnManager.Tiles);
-        AttackableTiles = defineAttackableTiles.FindAttackableTiles(gridPos, enemyList, EnemyPositions, turnManager.Tiles);
+        AttackableTiles = defineAttackableTiles.FindAttackableTiles(gridPos, EnemyList, EnemyPositions, turnManager.Tiles);
     }
 
     public virtual void ResetTiles() {
         AccessableTiles.Clear();
         AttackableTiles.Clear();
         TileParents.Clear();
-        currentPath.Clear();
+        CurrentPath.Clear();
     }
 }

@@ -27,12 +27,14 @@ public class TurnGameManager : MonoBehaviour
 
     //Own vars
     [HideInInspector] public MakeGrid makeGrid;
-    [HideInInspector] public BlackBoard blackBoard = new BlackBoard();
     [HideInInspector] public Dictionary<Vector2Int, GameObject> Tiles = new Dictionary<Vector2Int, GameObject>();
 
     [HideInInspector] public List<UnitManager> AllUnitsInPlay = new List<UnitManager>();
+    [HideInInspector] public List<UnitManager> LivingUnitsInPlay = new List<UnitManager>();
+    [HideInInspector] public List<UnitManager> DeadUnitsInPlay = new List<UnitManager>();
     [HideInInspector] public List<UnitManager> EnemyUnitsInPlay = new List<UnitManager>();
     [HideInInspector] public List<UnitManager> PlayerUnitsInPlay = new List<UnitManager>();
+
     [HideInInspector] public List<UnitManager> unitAttackOrder = new List<UnitManager>();
     [HideInInspector] public UnitManager CurrentUnit;
 
@@ -73,28 +75,29 @@ public class TurnGameManager : MonoBehaviour
             var worldPos = Tiles[gridPos].transform.position;
 
             var Unit = GameObject.Instantiate(prefab, worldPos, Quaternion.identity);
+            Unit.AddComponent<HealthComponent>();
+
             var UnitScript = Unit.GetComponent<UnitManager>();
             UnitScript.turnManager = this;
             UnitScript.gridPos = gridPos;
-            UnitScript.enemyList = enemyList;
+            UnitScript.EnemyList = enemyList;
 
-            UnitScript.baseDamageValue = Random.Range(1, 10);
+            UnitScript.baseDamageValue = Random.Range(5, 10);
             UnitScript.baseInitiativeValue = Random.Range(1, 10);
             UnitScript.baseSpeedValue = Random.Range(4, 7);
 
             UnitScript.SetValues();
 
-            //var HealthScript = UnitScript.GetComponent<HealthComponent>();
-            //HealthScript.baseHealthValue = Random.Range(10, 20);
-            //HealthScript.baseDefenceValue = Random.Range(2, 7);
+            var HealthScript = UnitScript.GetComponent<HealthComponent>();
+            HealthScript.baseHealthValue = Random.Range(70, 100);
+            HealthScript.baseDefenceValue = Random.Range(2, 7);
 
-            //UnitScript.thisHealth = HealthScript;
-
-            //HealthScript.DefenceValue = HealthScript.baseDefenceValue;
-            //HealthScript.HealthValue = HealthScript.baseHealthValue;
+            HealthScript.Defence = HealthScript.baseDefenceValue;
+            HealthScript.Health = HealthScript.baseHealthValue;
 
             listToAddTo.Add(UnitScript);
             AllUnitsInPlay.Add(UnitScript);
+            LivingUnitsInPlay.Add(UnitScript);
         }
     }
 
@@ -127,10 +130,15 @@ public class TurnGameManager : MonoBehaviour
     }
 
     void UpdateOrder() {
-        unitAttackOrder = new List<UnitManager>(AllUnitsInPlay.OrderBy(x => x.initiativeValue).Reverse());
+        unitAttackOrder = new List<UnitManager>(LivingUnitsInPlay.OrderBy(x => x.initiativeValue).Reverse());
 
         for (int i = 0; i < unitAttackOrder.Count; i++) {
             unitAttackOrder[i].gameObject.GetComponentInChildren<Text>().text = (i + 1).ToString();
         }
+    }
+
+    public void UnitDeath(UnitManager unit) {
+        LivingUnitsInPlay.Remove(unit);
+        DeadUnitsInPlay.Add(unit);
     }
 }

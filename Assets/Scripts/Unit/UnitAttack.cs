@@ -29,7 +29,7 @@ namespace UnitComponents {
         public void Attack() {
             Unit.transform.GetChild(0).LookAt(Enemy.transform);
             Debug.Log("Attack!");
-            //Enemy.GetComponent<HealthComponent>().TakeDamage(Damage);
+            Enemy.GetComponent<HealthComponent>().TakeDamage(Damage);
             IsDone = true;
         }
 

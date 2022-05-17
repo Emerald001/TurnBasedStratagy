@@ -57,10 +57,10 @@ public class PlayerUnitInterface : UnitManager {
         var endPos = MouseValues.HoverTileGridPos;
 
         if (AccessableTiles.Contains(endPos))
-            currentPath = pathfinding.FindPathToTile(gridPos, endPos, TileParents);
+            CurrentPath = pathfinding.FindPathToTile(gridPos, endPos, TileParents);
         else if (AttackableTiles.Contains(endPos)) {
-            currentPath = pathfinding.FindPathToTile(gridPos, defineAttackableTiles.GetClosestTile(gridPos, endPos, MouseValues.HoverPointPos, AccessableTiles), TileParents);
-            currentPath.Add(MouseValues.HoverTileGridPos);
+            CurrentPath = pathfinding.FindPathToTile(gridPos, defineAttackableTiles.GetClosestTile(gridPos, endPos, MouseValues.HoverPointPos, AccessableTiles), TileParents);
+            CurrentPath.Add(MouseValues.HoverTileGridPos);
         }
         else {
             line.enabled = false;
@@ -73,14 +73,14 @@ public class PlayerUnitInterface : UnitManager {
     private void DrawPathWithLine() {
         line.enabled = true;
 
-        if (currentPath != null && currentPath.Count > 0) {
-            line.positionCount = currentPath.Count + 1;
-            for (int i = 0; i < currentPath.Count + 1; i++) {
+        if (CurrentPath != null && CurrentPath.Count > 0) {
+            line.positionCount = CurrentPath.Count + 1;
+            for (int i = 0; i < CurrentPath.Count + 1; i++) {
                 if(i == 0) {
                     line.SetPosition(0, UnitStaticFunctions.CalcWorldPos(gridPos));
                     continue;
                 }
-                line.SetPosition(i, UnitStaticFunctions.CalcWorldPos(currentPath[i - 1]));
+                line.SetPosition(i, UnitStaticFunctions.CalcWorldPos(CurrentPath[i - 1]));
             }
         }
     }
