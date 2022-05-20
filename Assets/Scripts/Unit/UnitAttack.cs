@@ -34,6 +34,7 @@ namespace UnitComponents {
         }
 
         public float WaitTime() {
+            Unit.transform.GetChild(0).rotation = Quaternion.RotateTowards(Unit.transform.GetChild(0).rotation, Quaternion.LookRotation(Enemy.transform.position - Unit.transform.position), 360f * Time.deltaTime);
             return timer -= Time.deltaTime;
         }
     }

@@ -13,7 +13,7 @@ namespace UnitComponents {
         private List<Vector2Int> Path;
 
         public override void OnUpdate() {            
-            MoveToTile(ref Owner.gridPos, ref Owner.speedValue);
+            MoveToTile(ref Owner.gridPos, ref Owner.values.speedValue);
         }
 
         public void MoveToTile(ref Vector2Int gridPos, ref int speedValue) {

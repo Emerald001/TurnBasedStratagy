@@ -22,6 +22,12 @@ public class PlayerUnitInterface : UnitManager {
         }
     }
 
+    public override void OnExit() {
+        base.OnExit();
+
+        line.enabled = false;
+    }
+
     public override void ResetTiles() {
         for (int i = 0; i < AccessableTiles.Count; i++) {
             if (turnManager.Tiles[AccessableTiles[i]].GetComponent<Hex>().GivenColor == turnManager.WalkableTileColor) {

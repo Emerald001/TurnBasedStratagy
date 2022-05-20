@@ -24,7 +24,7 @@ namespace UnitComponents {
             new Vector2Int(1, 1),
         };
 
-        public override List<Vector2Int> FindAttackableTiles(Vector2Int gridPos, List<UnitManager> AttackList, Dictionary<Vector2Int, GameObject> EnemyPositions, Dictionary<Vector2Int, GameObject> grid) {
+        public override List<Vector2Int> FindAttackableTiles(Vector2Int gridPos, List<UnitManager> AttackList, float range, Dictionary<Vector2Int, GameObject> EnemyPositions, Dictionary<Vector2Int, GameObject> grid) {
             //clear previous attackable tiles!
 
             var attackableTiles = new List<Vector2Int>();
