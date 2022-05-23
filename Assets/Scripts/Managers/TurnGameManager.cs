@@ -22,6 +22,7 @@ public class TurnGameManager : MonoBehaviour
 
     public Material WalkableTileColor;
     public Material AttackableTileColor;
+    public Material ActiveUnitTileColor;
 
     public int unitAmount;
     public int enemyAmount;
@@ -196,5 +197,8 @@ public class TurnGameManager : MonoBehaviour
         UnitsWithTurnLeft.Add(curUnit);
         curUnit.values.initiativeValue *= -1;
         UpdateOrder();
+        for (int i = 0; i < unitAttackOrder.Count; i++) {
+            unitAttackOrder[i].gameObject.GetComponentInChildren<Text>().text = (i + 1).ToString();
+        }
     }
 }

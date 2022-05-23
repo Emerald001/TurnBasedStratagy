@@ -30,5 +30,11 @@ namespace UnitComponents {
                 Effects[i].ApplyEffect(this);
             }
         }
+
+        public void TurnUpdate() {
+            for (int i = 0; i < Effects.Count; i++) {
+
+            }
+        }
     }
 }

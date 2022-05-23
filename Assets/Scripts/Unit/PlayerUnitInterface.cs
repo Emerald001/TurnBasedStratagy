@@ -42,6 +42,9 @@ public class PlayerUnitInterface : UnitManager {
             turnManager.Tiles[AttackableTiles[i]].GetComponent<Hex>().ResetColor();
         }
 
+        turnManager.Tiles[gridPos].GetComponent<Hex>().GivenColor = null;
+        turnManager.Tiles[gridPos].GetComponent<Hex>().ResetColor();
+
         base.ResetTiles();
     }
 
@@ -50,6 +53,9 @@ public class PlayerUnitInterface : UnitManager {
 
         ChangeHexColor(AccessableTiles, turnManager.WalkableTileColor);
         ChangeHexColor(AttackableTiles, turnManager.AttackableTileColor);
+
+        turnManager.Tiles[gridPos].GetComponent<Hex>().GivenColor = turnManager.ActiveUnitTileColor;
+        turnManager.Tiles[gridPos].GetComponent<Hex>().SetColor(turnManager.ActiveUnitTileColor);
     }
 
     public void ChangeHexColor(List<Vector2Int> list, Material color) {
