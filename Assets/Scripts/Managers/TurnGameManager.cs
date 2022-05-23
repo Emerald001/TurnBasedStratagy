@@ -188,6 +188,9 @@ public class TurnGameManager : MonoBehaviour
     }
 
     public void UnitWait() {
+        if (CurrentUnit.values.initiativeValue < 1)
+            return;
+
         var curUnit = CurrentUnit;
         NextUnit();
         UnitsWithTurnLeft.Add(curUnit);

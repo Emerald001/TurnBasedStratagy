@@ -39,7 +39,7 @@ public class MakeGrid {
 
     private List<Vector2Int> emptyCells = new List<Vector2Int>();
     private List<Vector2Int> obstructedCells = new List<Vector2Int>();
-    private List<Vector2Int> treasureCells = new List<Vector2Int>();
+    //private List<Vector2Int> treasureCells = new List<Vector2Int>();
 
     private Vector3 startpos;
 
