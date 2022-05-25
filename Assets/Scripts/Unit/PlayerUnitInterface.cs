@@ -6,6 +6,8 @@ public class PlayerUnitInterface : UnitManager {
 
     [HideInInspector] public LineRenderer line;
 
+    private Vector2Int lastHoverPos = Vector2Int.zero;
+
     public override void OnEnter() {
         base.OnEnter();
         line = GetComponent<LineRenderer>();
@@ -20,6 +22,16 @@ public class PlayerUnitInterface : UnitManager {
         if (Input.GetKeyDown(KeyCode.Mouse0)) {
             PickedTile(MouseValues.HoverTileGridPos, defineAttackableTiles.GetClosestTile(gridPos, MouseValues.HoverTileGridPos, MouseValues.HoverPointPos, AccessableTiles));
         }
+
+        //For highlighting enemy walking distance
+        //if (AttackableTiles.Contains(MouseValues.HoverTileGridPos)) {
+        //    HighlightEnemyTiles(EnemyPositions[MouseValues.HoverTileGridPos].GetComponent<UnitManager>());
+        //    lastHoverPos = MouseValues.HoverTileGridPos;
+        //}
+        //if (lastHoverPos != MouseValues.HoverTileGridPos && lastHoverPos != Vector2Int.zero) {
+        //    UnHighlightEnemyTiles(EnemyPositions[lastHoverPos].GetComponent<UnitManager>());
+        //    lastHoverPos = Vector2Int.zero;
+        //}
     }
 
     public override void OnExit() {
@@ -63,6 +75,23 @@ public class PlayerUnitInterface : UnitManager {
             turnManager.Tiles[list[i]].GetComponent<Hex>().GivenColor = color;
             turnManager.Tiles[list[i]].GetComponent<Hex>().SetColor(color);
         }
+    }
+
+    private void HighlightEnemyTiles(UnitManager enemy) {
+        if (enemy.AccessableTiles.Count > 1)
+            return;
+
+        enemy.FindTiles();
+        for (int i = 0; i < enemy.AccessableTiles.Count; i++) {
+            turnManager.Tiles[enemy.AccessableTiles[i]].GetComponent<Hex>().SetColor(turnManager.WalkableTileColor);
+        }
+    }
+
+    private void UnHighlightEnemyTiles(UnitManager enemy) {
+        for (int i = 0; i < enemy.AccessableTiles.Count; i++) {
+            turnManager.Tiles[enemy.AccessableTiles[i]].GetComponent<Hex>().ResetColor();
+        }
+        enemy.ResetTiles();
     }
 
     private void CreatePathForLine() {

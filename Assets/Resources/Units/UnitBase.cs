@@ -5,10 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Unit")]
 public class UnitBase : ScriptableObject
 {
-    public Vector2Int gridPos;
-
     public bool isRanged;
-    public bool spawnLeft;
 
     public int baseDamageValue;
     public int baseInitiativeValue;

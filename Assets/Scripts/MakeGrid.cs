@@ -46,6 +46,7 @@ public class MakeGrid {
     public void OnStart() {
         Parent = new GameObject();
         Parent.name = "Grid";
+        Parent.transform.parent = Owner.gameObject.transform;
 
         TrimCorners();
         DefineObstacle();

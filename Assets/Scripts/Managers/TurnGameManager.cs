@@ -5,8 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnitComponents;
 
-public class TurnGameManager : MonoBehaviour
-{
+public class TurnGameManager : MonoBehaviour {
     [Header("Grid Settings")]
     public GameObject HexPrefab;
     public GameObject ObstructedHexPrefab;
@@ -52,10 +51,25 @@ public class TurnGameManager : MonoBehaviour
         UnitStaticFunctions.Grid = Tiles;
 
         //needs to be improved
-        Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, 10 + (gridHeight + gridWidth) / 10, -(10 + (gridHeight + gridWidth) / 10));
+        var camPos = transform.GetChild(0).transform;
+        Camera.main.transform.position = camPos.position;
+        Camera.main.transform.rotation = camPos.rotation;
 
-        SpawnUnits(UnitPrefab, PlayerUnitsInPlay, EnemyUnitsInPlay, true);
-        SpawnUnits(EnemyPrefab, EnemyUnitsInPlay, PlayerUnitsInPlay, false);
+        var PlayerParent = new GameObject().transform;
+        PlayerParent.name = "Player Units";
+        PlayerParent.parent = this.transform;
+        for (int i = 0; i < unitAmount; i++) {
+            var values = Resources.Load<UnitBase>("Units/PlayerUnits/PlayerUnit" + (i + 1).ToString());
+            SpawnUnits(UnitPrefab, values, PlayerUnitsInPlay, EnemyUnitsInPlay, true, PlayerParent, i);
+        }
+
+        var EnemyParent = new GameObject().transform;
+        EnemyParent.name = "Enemy Units";
+        EnemyParent.parent = this.transform;
+        for (int i = 0; i < unitAmount; i++) {
+            var values = Resources.LoadAll<UnitBase>("Units/EnemyUnits/");
+            SpawnUnits(EnemyPrefab, values[Random.Range(0, values.Length)], EnemyUnitsInPlay, PlayerUnitsInPlay, false, EnemyParent, i);
+        }
 
         NextTurn();
     }
@@ -73,62 +87,13 @@ public class TurnGameManager : MonoBehaviour
         }
     }
 
-    private void SpawnUnits(GameObject prefab, List<UnitManager> listToAddTo, List<UnitManager> enemyList, bool spawnLeft) {
-        for (int i = 0; i < unitAmount; i++) {
-            var gridPos = Vector2Int.zero;
-            bool isRanged = Random.Range(0, 2) != 0;
+    private void OnExit() {
+        if (EnemyUnitsInPlay.Count < 1)
+            InfoText.text = "Win!";
+        else if(PlayerUnitsInPlay.Count < 1)
+            InfoText.text = "Lose!";
 
-            if(spawnLeft)
-                gridPos = new Vector2Int(0, i + Mathf.RoundToInt((gridHeight / 2) - (unitAmount / 2)));
-            else
-                gridPos = new Vector2Int(gridWidth - 1, i + Mathf.RoundToInt((gridHeight / 2) - (unitAmount / 2)));
-
-            var worldPos = Tiles[gridPos].transform.position;
-
-            //create the Unit
-            var Unit = GameObject.Instantiate(prefab, worldPos, Quaternion.identity);
-            Unit.AddComponent<HealthComponent>();
-
-            var UnitScript = Unit.GetComponent<UnitManager>();
-
-            //set Scripts
-            if (isRanged)
-                UnitScript.defineAttackableTiles = new UnitDefineAttackableTilesRanged();
-            else
-                UnitScript.defineAttackableTiles = new UnitDefineAttackableTilesMelee();
-
-            UnitScript.pathfinding = new UnitPathfinding();
-            UnitScript.defineAccessableTiles = new UnitDefineAccessableTiles();
-            UnitScript.defineAccessableTiles.Owner = UnitScript;
-            UnitScript.defineAttackableTiles.Owner = UnitScript;
-
-            //Give Values
-            UnitScript.turnManager = this;
-            UnitScript.gridPos = gridPos;
-            UnitScript.EnemyList = enemyList;
-
-            //Random values -- Will change in replacement with scriptable Objects
-            var values = UnitScript.values;
-            values.baseDamageValue = Random.Range(5, 10);
-            values.baseInitiativeValue = Random.Range(1, 10);
-            values.baseSpeedValue = Random.Range(4, 7);
-            values.baseRangeValue = 100;
-
-            //run setvalues
-            values.SetValues();
-
-            //give health
-            var HealthScript = UnitScript.GetComponent<HealthComponent>();
-            HealthScript.baseHealthValue = Random.Range(70, 100);
-            HealthScript.baseDefenceValue = Random.Range(2, 7);
-
-            HealthScript.Defence = HealthScript.baseDefenceValue;
-            HealthScript.Health = HealthScript.baseHealthValue;
-
-            listToAddTo.Add(UnitScript);
-            AllUnitsInPlay.Add(UnitScript);
-            LivingUnitsInPlay.Add(UnitScript);
-        }
+        Destroy(this.gameObject);
     }
 
     void NextUnit() {
@@ -159,7 +124,7 @@ public class TurnGameManager : MonoBehaviour
         foreach (var unit in LivingUnitsInPlay) {
             UnitsWithTurnLeft.Add(unit);
         }
-        
+
         CurrentTurn++;
         InfoText.text = "Turn " + CurrentTurn.ToString();
 
@@ -182,10 +147,18 @@ public class TurnGameManager : MonoBehaviour
 
         UpdateOrder();
 
-        if (PlayerUnitsInPlay.Contains(unit))
+        if (PlayerUnitsInPlay.Contains(unit)) {
             PlayerUnitsInPlay.Remove(unit);
-        else if (EnemyUnitsInPlay.Contains(unit))
+
+            if (PlayerUnitsInPlay.Count < 1)
+                OnExit();
+        }
+        else if (EnemyUnitsInPlay.Contains(unit)) {
             EnemyUnitsInPlay.Remove(unit);
+
+            if (EnemyUnitsInPlay.Count < 1)
+                OnExit();
+        }
     }
 
     public void UnitWait() {
@@ -197,8 +170,71 @@ public class TurnGameManager : MonoBehaviour
         UnitsWithTurnLeft.Add(curUnit);
         curUnit.values.initiativeValue *= -1;
         UpdateOrder();
+
         for (int i = 0; i < unitAttackOrder.Count; i++) {
             unitAttackOrder[i].gameObject.GetComponentInChildren<Text>().text = (i + 1).ToString();
         }
+    }
+
+    public void UnitEndTurn() {
+        CurrentUnit.values.damageValue *= 2;
+        NextUnit();
+    }
+
+    private void SpawnUnits(GameObject prefab, UnitBase values, List<UnitManager> listToAddTo, List<UnitManager> enemyList, bool spawnLeft, Transform unitParent, int index) {
+        var gridPos = Vector2Int.zero;
+        bool isRanged = values.isRanged;
+
+        if (spawnLeft)
+            gridPos = new Vector2Int(0, index + Mathf.RoundToInt((gridHeight / 2) - (unitAmount / 2)));
+        else
+            gridPos = new Vector2Int(gridWidth - 1, index + Mathf.RoundToInt((gridHeight / 2) - (unitAmount / 2)));
+
+        var worldPos = Tiles[gridPos].transform.position;
+
+        //create the Unit
+        var Unit = GameObject.Instantiate(prefab, worldPos, Quaternion.identity);
+        Unit.transform.parent = unitParent;
+        Unit.AddComponent<HealthComponent>();
+
+        var UnitScript = Unit.GetComponent<UnitManager>();
+
+        //set Scripts
+        if (isRanged)
+            UnitScript.defineAttackableTiles = new UnitDefineAttackableTilesRanged();
+        else
+            UnitScript.defineAttackableTiles = new UnitDefineAttackableTilesMelee();
+
+        UnitScript.pathfinding = new UnitPathfinding();
+        UnitScript.defineAccessableTiles = new UnitDefineAccessableTiles();
+        UnitScript.defineAccessableTiles.Owner = UnitScript;
+        UnitScript.defineAttackableTiles.Owner = UnitScript;
+
+        //Give Values
+        UnitScript.turnManager = this;
+        UnitScript.gridPos = gridPos;
+        UnitScript.EnemyList = enemyList;
+
+        //Random values -- Will change in replacement with scriptable Objects
+        var unitValues = UnitScript.values;
+        unitValues.baseDamageValue = values.baseDamageValue;
+        unitValues.baseInitiativeValue = values.baseInitiativeValue;
+        unitValues.baseSpeedValue = values.baseSpeedValue;
+        unitValues.baseRangeValue = values.baseRangeValue;
+
+        //run setvalues
+        unitValues.SetValues();
+
+        //give health
+        var HealthScript = UnitScript.GetComponent<HealthComponent>();
+        HealthScript.baseHealthValue = values.baseHealthValue;
+        HealthScript.baseDefenceValue = values.baseDefenceValue;
+
+        HealthScript.Defence = HealthScript.baseDefenceValue;
+        HealthScript.Health = HealthScript.baseHealthValue;
+
+        listToAddTo.Add(UnitScript);
+        AllUnitsInPlay.Add(UnitScript);
+        LivingUnitsInPlay.Add(UnitScript);
     }
 }

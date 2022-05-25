@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnitComponents;
 
-public abstract class UnitManager : MonoBehaviour
-{
+public abstract class UnitManager : MonoBehaviour {
     [HideInInspector] public GameObject Unit;
 
     [HideInInspector] public TurnGameManager turnManager;
     [HideInInspector] public bool IsDone;
-    
+
     [HideInInspector] public UnitDefineAccessableTiles defineAccessableTiles = new UnitDefineAccessableTiles();
     [HideInInspector] public UnitPathfinding pathfinding = new UnitPathfinding();
     [HideInInspector] public UnitValues values = new UnitValues();
-    
+
     [HideInInspector] public UnitDefineAttackableTiles defineAttackableTiles;
 
     [HideInInspector] public Vector2Int gridPos;
@@ -25,10 +24,10 @@ public abstract class UnitManager : MonoBehaviour
     [HideInInspector] public Dictionary<Vector2Int, GameObject> EnemyPositions = new Dictionary<Vector2Int, GameObject>();
 
     [HideInInspector] public List<UnitAbility> abilities = new List<UnitAbility>();
-    
+
     private UnitAction CurrentAction;
     private Queue<UnitAction> ActionQueue = new Queue<UnitAction>();
-    
+
     public virtual void OnEnter() {
         Unit = this.gameObject;
 
@@ -39,8 +38,6 @@ public abstract class UnitManager : MonoBehaviour
 
     public virtual void OnUpdate() {
         CheckActionQueue();
-
-
     }
 
     private void CheckActionQueue() {

@@ -44,4 +44,8 @@ public class EnemyUnitInterface : UnitManager {
     public override void FindTiles() {
         base.FindTiles();
     }
+
+    public override void ResetTiles() {
+        base.ResetTiles();
+    }
 }
