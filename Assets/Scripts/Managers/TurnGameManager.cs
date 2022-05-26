@@ -23,11 +23,12 @@ public class TurnGameManager : MonoBehaviour {
     public Material AttackableTileColor;
     public Material ActiveUnitTileColor;
 
-    public int unitAmount;
-    public int enemyAmount;
-
     [Header("References")]
     public Text InfoText;
+
+    //shit it's given
+    [HideInInspector] public List<UnitBase> PlayerUnitsToSpawn;
+    [HideInInspector] public List<UnitBase> EnemiesToSpawn;
 
     //Own vars
     [HideInInspector] public MakeGrid makeGrid;
@@ -52,23 +53,22 @@ public class TurnGameManager : MonoBehaviour {
 
         //needs to be improved
         var camPos = transform.GetChild(0).transform;
-        Camera.main.transform.position = camPos.position;
-        Camera.main.transform.rotation = camPos.rotation;
+        Camera.main.transform.SetPositionAndRotation(camPos.position, camPos.rotation);
 
+        //spawn Player units and set them as child in an object
         var PlayerParent = new GameObject().transform;
         PlayerParent.name = "Player Units";
         PlayerParent.parent = this.transform;
-        for (int i = 0; i < unitAmount; i++) {
-            var values = Resources.Load<UnitBase>("Units/PlayerUnits/PlayerUnit" + (i + 1).ToString());
-            SpawnUnits(UnitPrefab, values, PlayerUnitsInPlay, EnemyUnitsInPlay, true, PlayerParent, i);
+        for (int i = 0; i < PlayerUnitsToSpawn.Count; i++) {
+            SpawnUnits(UnitPrefab, PlayerUnitsToSpawn[i], PlayerUnitsInPlay, EnemyUnitsInPlay, true, PlayerParent, i, PlayerUnitsToSpawn.Count);
         }
 
+        //spawn enemies and set them as child in an object
         var EnemyParent = new GameObject().transform;
         EnemyParent.name = "Enemy Units";
         EnemyParent.parent = this.transform;
-        for (int i = 0; i < unitAmount; i++) {
-            var values = Resources.LoadAll<UnitBase>("Units/EnemyUnits/");
-            SpawnUnits(EnemyPrefab, values[Random.Range(0, values.Length)], EnemyUnitsInPlay, PlayerUnitsInPlay, false, EnemyParent, i);
+        for (int i = 0; i < EnemiesToSpawn.Count; i++) {
+            SpawnUnits(EnemyPrefab, EnemiesToSpawn[i], EnemyUnitsInPlay, PlayerUnitsInPlay, false, EnemyParent, i, EnemiesToSpawn.Count);
         }
 
         NextTurn();
@@ -181,14 +181,14 @@ public class TurnGameManager : MonoBehaviour {
         NextUnit();
     }
 
-    private void SpawnUnits(GameObject prefab, UnitBase values, List<UnitManager> listToAddTo, List<UnitManager> enemyList, bool spawnLeft, Transform unitParent, int index) {
+    private void SpawnUnits(GameObject prefab, UnitBase values, List<UnitManager> listToAddTo, List<UnitManager> enemyList, bool spawnLeft, Transform unitParent, int index, int amount) {
         var gridPos = Vector2Int.zero;
         bool isRanged = values.isRanged;
 
         if (spawnLeft)
-            gridPos = new Vector2Int(0, index + Mathf.RoundToInt((gridHeight / 2) - (unitAmount / 2)));
+            gridPos = new Vector2Int(0, index + Mathf.RoundToInt((gridHeight / 2) - (amount / 2)));
         else
-            gridPos = new Vector2Int(gridWidth - 1, index + Mathf.RoundToInt((gridHeight / 2) - (unitAmount / 2)));
+            gridPos = new Vector2Int(gridWidth - 1, index + Mathf.RoundToInt((gridHeight / 2) - (amount / 2)));
 
         var worldPos = Tiles[gridPos].transform.position;
 
@@ -215,7 +215,7 @@ public class TurnGameManager : MonoBehaviour {
         UnitScript.gridPos = gridPos;
         UnitScript.EnemyList = enemyList;
 
-        //Random values -- Will change in replacement with scriptable Objects
+        //Get values from Scriptable Object
         var unitValues = UnitScript.values;
         unitValues.baseDamageValue = values.baseDamageValue;
         unitValues.baseInitiativeValue = values.baseInitiativeValue;
@@ -225,7 +225,7 @@ public class TurnGameManager : MonoBehaviour {
         //run setvalues
         unitValues.SetValues();
 
-        //give health
+        //give and set health
         var HealthScript = UnitScript.GetComponent<HealthComponent>();
         HealthScript.baseHealthValue = values.baseHealthValue;
         HealthScript.baseDefenceValue = values.baseDefenceValue;
@@ -233,6 +233,7 @@ public class TurnGameManager : MonoBehaviour {
         HealthScript.Defence = HealthScript.baseDefenceValue;
         HealthScript.Health = HealthScript.baseHealthValue;
 
+        //add to lists for better accessability
         listToAddTo.Add(UnitScript);
         AllUnitsInPlay.Add(UnitScript);
         LivingUnitsInPlay.Add(UnitScript);

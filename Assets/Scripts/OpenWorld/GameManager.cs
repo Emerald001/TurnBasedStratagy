@@ -4,19 +4,29 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private GameObject battleManager; 
+    [SerializeField] private GameObject TurnManager;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    private StateMachine stateMachine = new StateMachine();
+
+    private MenuState menustate = new MenuState();
+    private OpenWorldState openWorld = new OpenWorldState();
+
+    void Start() {
+        stateMachine.OnEnter(openWorld);
+
+        var list = new List<UnitBase>();
+        var SO = Resources.LoadAll<UnitBase>("Units/EnemyUnits/");
+        foreach(UnitBase unit in SO) {
+            list.Add(unit);
+        }
+        AddBattleState(list);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.B)) {
-            Instantiate(battleManager);
-        }
+    void Update() {
+        stateMachine.OnUpdate();
+    }
+
+    public void AddBattleState(List<UnitBase> EnemyList) {
+        stateMachine.AddState(new BattleState(EnemyList, TurnManager));
     }
 }

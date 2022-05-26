@@ -1,25 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class NPCFollow : MonoBehaviour
 {
     public GameObject ObjectToFollow;
+    public float distanceToFollowAt;
 
-    public float maxDistance = 5;
-    public float followingSpeed = 10;
+    private NavMeshAgent agent;
+
+    private void Start() {
+        agent = GetComponent<NavMeshAgent>();
+    }
 
     private void Update() {
-        var distanceToObject = Vector3.Distance(transform.position, ObjectToFollow.transform.position);
-        var currentSpeed = followingSpeed + distanceToObject;
-        
-
-        transform.LookAt(ObjectToFollow.transform);
-
-        if(distanceToObject > maxDistance) {
-            transform.position = Vector3.MoveTowards(transform.position, ObjectToFollow.transform.position, currentSpeed * Time.deltaTime);
+        if(Vector3.Distance(transform.position, ObjectToFollow.transform.position) > distanceToFollowAt) {
+            agent.SetDestination(ObjectToFollow.transform.position);
         }
-
-        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        else {
+            agent.SetDestination(transform.position);
+        }
     }
 }

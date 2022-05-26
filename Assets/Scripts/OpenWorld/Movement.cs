@@ -4,18 +4,15 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class Movement : MonoBehaviour {
-    public float speed;
-    private Vector3 targetPosition;
+    private NavMeshAgent agent;
+
+    private void Start() {
+        agent = GetComponent<NavMeshAgent>();
+    }
 
     void Update() {
         if (Input.GetMouseButtonDown(0)) {
-            RaycastHit hit;
-
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100)) {
-                targetPosition = hit.point;
-            }
+            agent.destination = MouseValues.HoverPointPos;
         }
-
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
     }
 }

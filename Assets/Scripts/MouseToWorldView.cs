@@ -25,13 +25,14 @@ public class MouseToWorldView : MonoBehaviour
                     lastTile.SetColor(Hovercolor);
 
                     MouseValues.HoverTileGridPos = UnitStaticFunctions.GetGridPosFromWorldPos(hitTile);
-                    MouseValues.HoverPointPos = hit.point;
                 }
             }
             else if(lastTile != null) {
                 lastTile.ResetColor();
                 MouseValues.HoverTileGridPos = Vector2Int.zero;
             }
+
+            MouseValues.HoverPointPos = hit.point;
         }
     }
 }
