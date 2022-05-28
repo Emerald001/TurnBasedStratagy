@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnitComponents;
 
-public class TurnGameManager : MonoBehaviour {
+public class TurnManager : MonoBehaviour {
     [Header("Grid Settings")]
     public GameObject HexPrefab;
     public GameObject ObstructedHexPrefab;
@@ -45,6 +45,7 @@ public class TurnGameManager : MonoBehaviour {
     [HideInInspector] public UnitManager CurrentUnit;
 
     private int CurrentTurn;
+    [HideInInspector] public bool isDone; 
 
     void Start() {
         makeGrid = new MakeGrid(this, HexPrefab, ObstructedHexPrefab, gridWidth, gridHeight, gap, obstructedCellAmount);
@@ -71,6 +72,8 @@ public class TurnGameManager : MonoBehaviour {
             SpawnUnits(EnemyPrefab, EnemiesToSpawn[i], EnemyUnitsInPlay, PlayerUnitsInPlay, false, EnemyParent, i, EnemiesToSpawn.Count);
         }
 
+        Tooltip.HideTooltip_Static();
+
         NextTurn();
     }
 
@@ -93,7 +96,7 @@ public class TurnGameManager : MonoBehaviour {
         else if(PlayerUnitsInPlay.Count < 1)
             InfoText.text = "Lose!";
 
-        Destroy(this.gameObject);
+        isDone = true;
     }
 
     void NextUnit() {
@@ -150,11 +153,15 @@ public class TurnGameManager : MonoBehaviour {
         if (PlayerUnitsInPlay.Contains(unit)) {
             PlayerUnitsInPlay.Remove(unit);
 
+            Debug.Log("Remove Player Unit from List, Player Units left: " + PlayerUnitsInPlay.Count);
+
             if (PlayerUnitsInPlay.Count < 1)
                 OnExit();
         }
         else if (EnemyUnitsInPlay.Contains(unit)) {
             EnemyUnitsInPlay.Remove(unit);
+
+            Debug.Log("Remove Enemy Unit from List, Enemy Units left: " + EnemyUnitsInPlay.Count);
 
             if (EnemyUnitsInPlay.Count < 1)
                 OnExit();
@@ -183,7 +190,6 @@ public class TurnGameManager : MonoBehaviour {
 
     private void SpawnUnits(GameObject prefab, UnitBase values, List<UnitManager> listToAddTo, List<UnitManager> enemyList, bool spawnLeft, Transform unitParent, int index, int amount) {
         var gridPos = Vector2Int.zero;
-        bool isRanged = values.isRanged;
 
         if (spawnLeft)
             gridPos = new Vector2Int(0, index + Mathf.RoundToInt((gridHeight / 2) - (amount / 2)));
@@ -200,7 +206,7 @@ public class TurnGameManager : MonoBehaviour {
         var UnitScript = Unit.GetComponent<UnitManager>();
 
         //set Scripts
-        if (isRanged)
+        if (values.isRanged)
             UnitScript.defineAttackableTiles = new UnitDefineAttackableTilesRanged();
         else
             UnitScript.defineAttackableTiles = new UnitDefineAttackableTilesMelee();

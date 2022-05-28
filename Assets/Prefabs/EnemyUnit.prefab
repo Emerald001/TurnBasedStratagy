@@ -48,18 +48,11 @@ MonoBehaviour:
   Unit: {fileID: 0}
   turnManager: {fileID: 0}
   IsDone: 0
-  health: {fileID: 0}
   gridPos: {x: 0, y: 0}
-  enemyList: []
-  currentPath: []
+  EnemyList: []
+  CurrentPath: []
   AttackableTiles: []
   AccessableTiles: []
-  baseSpeedValue: 0
-  baseInitiativeValue: 0
-  baseDamageValue: 0
-  speedValue: 0
-  initiativeValue: 0
-  damageValue: 0
   timer: 1
 --- !u!1 &1079572798893845756
 GameObject:
@@ -161,7 +154,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3117277421734706119}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.0000000074508}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.002, y: 0.002, z: 1}
   m_Children:
   - {fileID: 2197535574824409766}
@@ -171,8 +164,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.10025, y: 0.000000018626}
-  m_SizeDelta: {x: 399.75, y: 100}
+  m_AnchoredPosition: {x: 0.10025, y: 0}
+  m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1402257052638468470
 MonoBehaviour:

@@ -21,22 +21,23 @@ public class PlayerUnitInterface : UnitManager {
 
         if (Input.GetKeyDown(KeyCode.Mouse0)) {
             PickedTile(MouseValues.HoverTileGridPos, defineAttackableTiles.GetClosestTile(gridPos, MouseValues.HoverTileGridPos, MouseValues.HoverPointPos, AccessableTiles));
+            Tooltip.HideTooltip_Static();
         }
 
-        //For highlighting enemy walking distance
-        //if (AttackableTiles.Contains(MouseValues.HoverTileGridPos)) {
-        //    HighlightEnemyTiles(EnemyPositions[MouseValues.HoverTileGridPos].GetComponent<UnitManager>());
-        //    lastHoverPos = MouseValues.HoverTileGridPos;
-        //}
-        //if (lastHoverPos != MouseValues.HoverTileGridPos && lastHoverPos != Vector2Int.zero) {
-        //    UnHighlightEnemyTiles(EnemyPositions[lastHoverPos].GetComponent<UnitManager>());
-        //    lastHoverPos = Vector2Int.zero;
-        //}
+        if (AttackableTiles.Contains(MouseValues.HoverTileGridPos)) {
+            Tooltip.ShowTooltip_Static(GetEnemyInfo(EnemyPositions[MouseValues.HoverTileGridPos].GetComponent<HealthComponent>()));
+            lastHoverPos = MouseValues.HoverTileGridPos;
+        }
+        if (lastHoverPos != MouseValues.HoverTileGridPos && lastHoverPos != Vector2Int.zero) {
+            Tooltip.HideTooltip_Static();
+            lastHoverPos = Vector2Int.zero;
+        }
     }
 
     public override void OnExit() {
         base.OnExit();
 
+        Tooltip.HideTooltip_Static();
         line.enabled = false;
     }
 
@@ -77,23 +78,6 @@ public class PlayerUnitInterface : UnitManager {
         }
     }
 
-    private void HighlightEnemyTiles(UnitManager enemy) {
-        if (enemy.AccessableTiles.Count > 1)
-            return;
-
-        enemy.FindTiles();
-        for (int i = 0; i < enemy.AccessableTiles.Count; i++) {
-            turnManager.Tiles[enemy.AccessableTiles[i]].GetComponent<Hex>().SetColor(turnManager.WalkableTileColor);
-        }
-    }
-
-    private void UnHighlightEnemyTiles(UnitManager enemy) {
-        for (int i = 0; i < enemy.AccessableTiles.Count; i++) {
-            turnManager.Tiles[enemy.AccessableTiles[i]].GetComponent<Hex>().ResetColor();
-        }
-        enemy.ResetTiles();
-    }
-
     private void CreatePathForLine() {
         var endPos = MouseValues.HoverTileGridPos;
 
@@ -124,5 +108,22 @@ public class PlayerUnitInterface : UnitManager {
                 line.SetPosition(i, UnitStaticFunctions.CalcWorldPos(CurrentPath[i - 1]));
             }
         }
+    }
+
+    private string GetEnemyInfo(HealthComponent enemyHealthComponent) {
+        Vector2Int minmax = enemyHealthComponent.CalcDamage(values.damageValue);
+
+        string minMaxDam = "Damage " + minmax.x + "-" + minmax.y;
+
+        var MinKills = minmax.x > enemyHealthComponent.Health ? 1 : 0;
+        var MaxKills = minmax.y < enemyHealthComponent.Health ? 0 : 1;
+
+        string kills = "";
+        if(MinKills != MaxKills)
+            kills = "Kills " + MinKills + "-" + MaxKills;
+        else
+            kills = "Kills " + MinKills;
+
+        return minMaxDam + "\n" + kills;
     }
 }

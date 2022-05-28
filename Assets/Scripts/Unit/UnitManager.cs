@@ -6,7 +6,7 @@ using UnitComponents;
 public abstract class UnitManager : MonoBehaviour {
     [HideInInspector] public GameObject Unit;
 
-    [HideInInspector] public TurnGameManager turnManager;
+    [HideInInspector] public TurnManager turnManager;
     [HideInInspector] public bool IsDone;
 
     [HideInInspector] public UnitDefineAccessableTiles defineAccessableTiles = new UnitDefineAccessableTiles();

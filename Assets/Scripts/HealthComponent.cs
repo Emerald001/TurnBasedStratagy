@@ -19,16 +19,10 @@ public class HealthComponent : MonoBehaviour, IDamagable
     }
 
     public void TakeDamage(int Damage) {
-        var damPoints = 0;
+        Vector2Int CalculatedDamage = CalcDamage(Damage);
+        var damPoints = Random.Range(CalculatedDamage.x, CalculatedDamage.y);
 
-        if (Defence < Damage) {
-            damPoints = (Damage * 2) / Mathf.RoundToInt(Defence);
-        }
-        else {
-            damPoints = Damage - Mathf.RoundToInt(Defence);
-        }
-
-        Health -= Damage;
+        Health -= damPoints;
 
         UpdateHealth();
     }
@@ -40,6 +34,17 @@ public class HealthComponent : MonoBehaviour, IDamagable
         }
     }
 
+    public Vector2Int CalcDamage(int damage) {
+        var newdamage = damage * (100f / (100f + Defence));
+
+        var difference = damage - newdamage;
+
+        int minDamage = Mathf.RoundToInt(newdamage - difference * 2);
+        int maxDamage = Mathf.RoundToInt(damage - difference / 2);
+
+        return new Vector2Int(minDamage, maxDamage);
+    }
+
     private void UpdateHealth() {
         HealthBar.value = Health;
 
@@ -49,6 +54,8 @@ public class HealthComponent : MonoBehaviour, IDamagable
     }
 
     public void OnDeath() {
+        HealthBar.transform.parent.gameObject.SetActive(false);
+
         var Owner = GetComponent<UnitManager>();
         Owner.turnManager.UnitDeath(Owner);
     }

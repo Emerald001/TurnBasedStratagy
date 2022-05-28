@@ -3,21 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class OpenWorldState : IState {
+
+    public GameObject OpenWorld;
     public bool IsDone { get; set; }
 
     private float timeToWait = 3f;
 
+    public OpenWorldState(GameObject openworld) {
+        OpenWorld = openworld;
+    }
+
     public void OnEnter() {
-        Debug.Log("Enter Open World state");
+        OpenWorld.SetActive(true);
     }
 
     public void OnExit() {
-        Debug.Log("Exit Open World state");
+        OpenWorld.SetActive(false);
     }
 
     public void OnUpdate() {
-        Debug.Log("Update Open World state");
-
         if (timer())
             IsDone = true;
     }

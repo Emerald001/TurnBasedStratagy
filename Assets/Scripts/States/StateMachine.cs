@@ -24,10 +24,11 @@ public class StateMachine
         }
     }
 
-    private void SwitchState(IState state) {
-        if (currentState != null)
-            currentState.OnExit();
+    public void SwitchState(IState state) {
+        if (currentState == null)
+            return;
 
+        currentState.OnExit();
         currentState = state;
         currentState.OnEnter();
     }

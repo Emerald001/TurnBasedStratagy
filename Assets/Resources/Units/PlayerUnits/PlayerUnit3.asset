@@ -16,6 +16,6 @@ MonoBehaviour:
   baseDamageValue: 30
   baseInitiativeValue: 1
   baseSpeedValue: 1
-  baseRangeValue: 6
+  baseRangeValue: 12
   baseHealthValue: 40
   baseDefenceValue: 2
