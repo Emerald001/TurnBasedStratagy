@@ -24,7 +24,8 @@ public class TurnManager : MonoBehaviour {
     public Material ActiveUnitTileColor;
 
     [Header("References")]
-    public Text InfoText;
+    public GameObject InfoText;
+    public List<GameObject> Buttons;
 
     //shit it's given
     [HideInInspector] public List<UnitBase> PlayerUnitsToSpawn;
@@ -32,6 +33,8 @@ public class TurnManager : MonoBehaviour {
 
     //Own vars
     [HideInInspector] public MakeGrid makeGrid;
+    [HideInInspector] public TurnUIManager UIManager;
+    [HideInInspector] public UnitSpawn SpawnUnits = new UnitSpawn();
     [HideInInspector] public Dictionary<Vector2Int, GameObject> Tiles = new Dictionary<Vector2Int, GameObject>();
 
     [HideInInspector] public List<UnitManager> AllUnitsInPlay = new List<UnitManager>();
@@ -47,10 +50,12 @@ public class TurnManager : MonoBehaviour {
     private int CurrentTurn;
     [HideInInspector] public bool isDone; 
 
-    void Start() {
+    private void Start() {
         makeGrid = new MakeGrid(this, HexPrefab, ObstructedHexPrefab, gridWidth, gridHeight, gap, obstructedCellAmount);
         makeGrid.OnStart();
         UnitStaticFunctions.Grid = Tiles;
+
+        UIManager = new TurnUIManager(Buttons, InfoText);
 
         //needs to be improved
         var camPos = transform.GetChild(0).transform;
@@ -61,7 +66,8 @@ public class TurnManager : MonoBehaviour {
         PlayerParent.name = "Player Units";
         PlayerParent.parent = this.transform;
         for (int i = 0; i < PlayerUnitsToSpawn.Count; i++) {
-            SpawnUnits(UnitPrefab, PlayerUnitsToSpawn[i], PlayerUnitsInPlay, EnemyUnitsInPlay, true, PlayerParent, i, PlayerUnitsToSpawn.Count);
+            var gridPos = new Vector2Int(0, i + Mathf.RoundToInt((gridHeight / 2) - (PlayerUnitsToSpawn.Count / 2)));
+            SpawnUnits.SpawnUnits(this, UnitPrefab, PlayerUnitsToSpawn[i], gridPos, PlayerUnitsInPlay, EnemyUnitsInPlay, PlayerParent);
         }
 
         //spawn enemies and set them as child in an object
@@ -69,7 +75,8 @@ public class TurnManager : MonoBehaviour {
         EnemyParent.name = "Enemy Units";
         EnemyParent.parent = this.transform;
         for (int i = 0; i < EnemiesToSpawn.Count; i++) {
-            SpawnUnits(EnemyPrefab, EnemiesToSpawn[i], EnemyUnitsInPlay, PlayerUnitsInPlay, false, EnemyParent, i, EnemiesToSpawn.Count);
+            var gridPos = new Vector2Int(gridWidth - 1, i + Mathf.RoundToInt((gridHeight / 2) - (EnemiesToSpawn.Count / 2)));
+            SpawnUnits.SpawnUnits(this, EnemyPrefab, EnemiesToSpawn[i], gridPos, EnemyUnitsInPlay, PlayerUnitsInPlay, EnemyParent);
         }
 
         Tooltip.HideTooltip_Static();
@@ -92,14 +99,14 @@ public class TurnManager : MonoBehaviour {
 
     private void OnExit() {
         if (EnemyUnitsInPlay.Count < 1)
-            InfoText.text = "Win!";
+            UIManager.SetInfoText("Win!");
         else if(PlayerUnitsInPlay.Count < 1)
-            InfoText.text = "Lose!";
+            UIManager.SetInfoText("Lose!");
 
         isDone = true;
     }
 
-    void NextUnit() {
+    private void NextUnit() {
         if (unitAttackOrder.Count != 0) {
             for (int i = 0; i < unitAttackOrder.Count; i++) {
                 unitAttackOrder[i].gameObject.GetComponentInChildren<Text>().text = (i + 1).ToString();
@@ -123,19 +130,20 @@ public class TurnManager : MonoBehaviour {
         }
     }
 
-    void NextTurn() {
+    private void NextTurn() {
         foreach (var unit in LivingUnitsInPlay) {
             UnitsWithTurnLeft.Add(unit);
         }
 
         CurrentTurn++;
-        InfoText.text = "Turn " + CurrentTurn.ToString();
+
+        UIManager.SetInfoText("Turn " + CurrentTurn.ToString());
 
         UpdateOrder();
         NextUnit();
     }
 
-    void UpdateOrder() {
+    private void UpdateOrder() {
         unitAttackOrder = new List<UnitManager>(UnitsWithTurnLeft.OrderBy(x => x.values.initiativeValue).Reverse());
     }
 
@@ -153,15 +161,11 @@ public class TurnManager : MonoBehaviour {
         if (PlayerUnitsInPlay.Contains(unit)) {
             PlayerUnitsInPlay.Remove(unit);
 
-            Debug.Log("Remove Player Unit from List, Player Units left: " + PlayerUnitsInPlay.Count);
-
             if (PlayerUnitsInPlay.Count < 1)
                 OnExit();
         }
         else if (EnemyUnitsInPlay.Contains(unit)) {
             EnemyUnitsInPlay.Remove(unit);
-
-            Debug.Log("Remove Enemy Unit from List, Enemy Units left: " + EnemyUnitsInPlay.Count);
 
             if (EnemyUnitsInPlay.Count < 1)
                 OnExit();
@@ -186,62 +190,5 @@ public class TurnManager : MonoBehaviour {
     public void UnitEndTurn() {
         CurrentUnit.values.damageValue *= 2;
         NextUnit();
-    }
-
-    private void SpawnUnits(GameObject prefab, UnitBase values, List<UnitManager> listToAddTo, List<UnitManager> enemyList, bool spawnLeft, Transform unitParent, int index, int amount) {
-        var gridPos = Vector2Int.zero;
-
-        if (spawnLeft)
-            gridPos = new Vector2Int(0, index + Mathf.RoundToInt((gridHeight / 2) - (amount / 2)));
-        else
-            gridPos = new Vector2Int(gridWidth - 1, index + Mathf.RoundToInt((gridHeight / 2) - (amount / 2)));
-
-        var worldPos = Tiles[gridPos].transform.position;
-
-        //create the Unit
-        var Unit = GameObject.Instantiate(prefab, worldPos, Quaternion.identity);
-        Unit.transform.parent = unitParent;
-        Unit.AddComponent<HealthComponent>();
-
-        var UnitScript = Unit.GetComponent<UnitManager>();
-
-        //set Scripts
-        if (values.isRanged)
-            UnitScript.defineAttackableTiles = new UnitDefineAttackableTilesRanged();
-        else
-            UnitScript.defineAttackableTiles = new UnitDefineAttackableTilesMelee();
-
-        UnitScript.pathfinding = new UnitPathfinding();
-        UnitScript.defineAccessableTiles = new UnitDefineAccessableTiles();
-        UnitScript.defineAccessableTiles.Owner = UnitScript;
-        UnitScript.defineAttackableTiles.Owner = UnitScript;
-
-        //Give Values
-        UnitScript.turnManager = this;
-        UnitScript.gridPos = gridPos;
-        UnitScript.EnemyList = enemyList;
-
-        //Get values from Scriptable Object
-        var unitValues = UnitScript.values;
-        unitValues.baseDamageValue = values.baseDamageValue;
-        unitValues.baseInitiativeValue = values.baseInitiativeValue;
-        unitValues.baseSpeedValue = values.baseSpeedValue;
-        unitValues.baseRangeValue = values.baseRangeValue;
-
-        //run setvalues
-        unitValues.SetValues();
-
-        //give and set health
-        var HealthScript = UnitScript.GetComponent<HealthComponent>();
-        HealthScript.baseHealthValue = values.baseHealthValue;
-        HealthScript.baseDefenceValue = values.baseDefenceValue;
-
-        HealthScript.Defence = HealthScript.baseDefenceValue;
-        HealthScript.Health = HealthScript.baseHealthValue;
-
-        //add to lists for better accessability
-        listToAddTo.Add(UnitScript);
-        AllUnitsInPlay.Add(UnitScript);
-        LivingUnitsInPlay.Add(UnitScript);
     }
 }

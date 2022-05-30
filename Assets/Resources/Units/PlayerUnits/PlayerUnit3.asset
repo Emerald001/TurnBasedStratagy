@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a004d67df591c14e966dca61bf41c97, type: 3}
   m_Name: PlayerUnit3
   m_EditorClassIdentifier: 
+  name: Shotgunner
   isRanged: 1
   baseDamageValue: 30
-  baseInitiativeValue: 1
-  baseSpeedValue: 1
+  baseInitiativeValue: 2
+  baseSpeedValue: 2
   baseRangeValue: 12
   baseHealthValue: 40
   baseDefenceValue: 2

@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a004d67df591c14e966dca61bf41c97, type: 3}
   m_Name: PlayerUnit5
   m_EditorClassIdentifier: 
+  name: Sniper
+  Model: {fileID: 0}
+  portrait: {fileID: 0}
   isRanged: 1
+  baseRangeValue: 50
   baseDamageValue: 20
   baseInitiativeValue: 4
   baseSpeedValue: 3
-  baseRangeValue: 50
   baseHealthValue: 40
   baseDefenceValue: 6

@@ -12,10 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a004d67df591c14e966dca61bf41c97, type: 3}
   m_Name: PlayerUnit4
   m_EditorClassIdentifier: 
+  name: Tank
+  Model: {fileID: 0}
+  portrait: {fileID: 0}
   isRanged: 0
+  baseRangeValue: 0
   baseDamageValue: 17
   baseInitiativeValue: 6
   baseSpeedValue: 5
-  baseRangeValue: 0
   baseHealthValue: 60
   baseDefenceValue: 12
+  abilities: []

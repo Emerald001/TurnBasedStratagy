@@ -25,13 +25,11 @@ public class BattleState : IState {
     }
 
     public void OnExit() {
-        GameObject.Destroy(TurnManager);
-
-        Debug.Log("Exit Battle state");
+        GameObject.Destroy(currentManager.gameObject);
     }
 
     public void OnUpdate() {
-        if (TurnManager.GetComponent<TurnManager>().isDone)
+        if (currentManager.isDone)
             IsDone = true;
     }
 }

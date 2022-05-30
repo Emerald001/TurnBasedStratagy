@@ -8,7 +8,7 @@ public class StateMachine
     private readonly Queue<IState> stateQueue = new Queue<IState>();
 
     public void OnEnter(IState state) {
-        currentState = state;
+        SwitchState(state);
     }
 
     public void OnUpdate() {
@@ -25,10 +25,9 @@ public class StateMachine
     }
 
     public void SwitchState(IState state) {
-        if (currentState == null)
-            return;
+        if (currentState != null)
+            currentState.OnExit();
 
-        currentState.OnExit();
         currentState = state;
         currentState.OnEnter();
     }

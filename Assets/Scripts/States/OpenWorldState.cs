@@ -22,7 +22,7 @@ public class OpenWorldState : IState {
     }
 
     public void OnUpdate() {
-        if (timer())
+        if (timer()) 
             IsDone = true;
     }
 

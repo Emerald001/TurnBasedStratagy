@@ -11,6 +11,8 @@ public class PlayerUnitInterface : UnitManager {
     public override void OnEnter() {
         base.OnEnter();
         line = GetComponent<LineRenderer>();
+
+        turnManager.UIManager.SetAbilities(abilities, this);
     }
 
     public override void OnUpdate() {
@@ -18,6 +20,9 @@ public class PlayerUnitInterface : UnitManager {
             CreatePathForLine();
         
         base.OnUpdate();
+
+        if(pickedAbility)
+
 
         if (Input.GetKeyDown(KeyCode.Mouse0)) {
             PickedTile(MouseValues.HoverTileGridPos, defineAttackableTiles.GetClosestTile(gridPos, MouseValues.HoverTileGridPos, MouseValues.HoverPointPos, AccessableTiles));

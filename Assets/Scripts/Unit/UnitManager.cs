@@ -7,6 +7,7 @@ public abstract class UnitManager : MonoBehaviour {
     [HideInInspector] public GameObject Unit;
 
     [HideInInspector] public TurnManager turnManager;
+    [HideInInspector] public HealthComponent HealthComponent;
     [HideInInspector] public bool IsDone;
 
     [HideInInspector] public UnitDefineAccessableTiles defineAccessableTiles = new UnitDefineAccessableTiles();
@@ -23,7 +24,8 @@ public abstract class UnitManager : MonoBehaviour {
     [HideInInspector] public Dictionary<Vector2Int, Vector2Int> TileParents = new Dictionary<Vector2Int, Vector2Int>();
     [HideInInspector] public Dictionary<Vector2Int, GameObject> EnemyPositions = new Dictionary<Vector2Int, GameObject>();
 
-    [HideInInspector] public List<UnitAbility> abilities = new List<UnitAbility>();
+    [HideInInspector] public List<AbilityBase> abilities = new List<AbilityBase>();
+    [HideInInspector] public AbilityBase pickedAbility;
 
     private UnitAction CurrentAction;
     private Queue<UnitAction> ActionQueue = new Queue<UnitAction>();
@@ -95,6 +97,20 @@ public abstract class UnitManager : MonoBehaviour {
         }
     }
 
+    public virtual void RunAbility(AbilityBase abilityToRun, List<Vector2Int> pickedTiles, Vector2Int standingPos_optional) {
+        if (pickedAbility != null) {
+            if (gridPos == standingPos_optional) {
+                ActionQueue.Enqueue(new UnitAbility(pickedAbility, pickedTiles, EnemyPositions));
+                ResetTiles();
+            }
+            else {
+                ActionQueue.Enqueue(new UnitMoveToTile(this, pathfinding.FindPathToTile(gridPos, standingPos_optional, TileParents)));
+                ActionQueue.Enqueue(new UnitAbility(pickedAbility, pickedTiles, EnemyPositions));
+                ResetTiles();
+            }
+        }
+    }
+
     public virtual void FindTiles() {
         AccessableTiles = defineAccessableTiles.FindAccessableTiles(gridPos, values.speedValue, ref TileParents, turnManager.Tiles);
         AttackableTiles = defineAttackableTiles.FindAttackableTiles(gridPos, EnemyList, values.rangeValue, EnemyPositions, turnManager.Tiles);
@@ -110,5 +126,12 @@ public abstract class UnitManager : MonoBehaviour {
 
     public void AddEffect(UnitEffect effect) {
         values.Effects.Add(effect);
+    }
+
+    public void SelectAbility(int index) {
+        if (pickedAbility == abilities[index - 1])
+            pickedAbility = null;
+        else
+            pickedAbility = abilities[index - 1];
     }
 }
