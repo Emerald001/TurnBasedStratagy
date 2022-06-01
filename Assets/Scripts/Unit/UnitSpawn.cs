@@ -9,6 +9,7 @@ namespace UnitComponents {
 
             //create the Unit
             var Unit = GameObject.Instantiate(prefab, worldPos, Quaternion.identity);
+            Unit.name = values.name;
             Unit.transform.parent = unitParent;
             Unit.AddComponent<HealthComponent>();
 

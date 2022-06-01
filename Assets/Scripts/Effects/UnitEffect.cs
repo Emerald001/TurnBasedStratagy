@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace UnitComponents {
-    public abstract class UnitEffect : MonoBehaviour {
+    public abstract class UnitEffect {
         public int Duration;
         public int ValueToChange;
 

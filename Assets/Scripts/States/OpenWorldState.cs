@@ -14,10 +14,14 @@ public class OpenWorldState : IState {
     }
 
     public void OnEnter() {
+        Camera.main.transform.parent = OpenWorld.transform.GetChild(0);
+
         OpenWorld.SetActive(true);
     }
 
     public void OnExit() {
+        Camera.main.transform.parent = null;
+
         OpenWorld.SetActive(false);
     }
 

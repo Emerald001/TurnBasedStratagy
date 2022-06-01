@@ -40,6 +40,8 @@ public abstract class UnitManager : MonoBehaviour {
 
     public virtual void OnUpdate() {
         CheckActionQueue();
+
+
     }
 
     private void CheckActionQueue() {
@@ -73,7 +75,7 @@ public abstract class UnitManager : MonoBehaviour {
 
     public virtual void OnExit() {
         values.initiativeValue = values.baseInitiativeValue;
-
+        pickedAbility = null;
         IsDone = false;
 
         ResetTiles();

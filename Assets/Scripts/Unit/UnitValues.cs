@@ -13,7 +13,6 @@ namespace UnitComponents {
         public int baseRangeValue;
 
         //Current unit values
-        private List<int> Values;
         public int speedValue;
         public int initiativeValue;
         public int damageValue;
@@ -28,7 +27,7 @@ namespace UnitComponents {
             rangeValue = baseRangeValue;
 
             for (int i = 0; i < Effects.Count; i++) {
-                ApplyEffect(Effects[i], Values);
+                //ApplyEffect(Effects[i], Values);
             }
         }
 

@@ -26,15 +26,32 @@ public class EnemyUnitInterface : UnitManager {
     }
 
     private void PickAction() {
-        //Picks the action Properly
-
         if (AttackableTiles.Count != 0) {
-            //Needs better Second position defenition!
-            var pickedTile = AttackableTiles[Random.Range(0, AttackableTiles.Count)];
+            UnitManager lastEnemy = null;
+
+            for (int i = 0; i < AttackableTiles.Count; i++) {
+                if (lastEnemy == null) {
+                    lastEnemy = EnemyPositions[AttackableTiles[i]].GetComponent<UnitManager>();
+                    continue;
+                }
+
+                if (EnemyPositions[AttackableTiles[i]].GetComponent<HealthComponent>().Health < lastEnemy.GetComponent<HealthComponent>().Health)
+                    lastEnemy = EnemyPositions[AttackableTiles[i]].GetComponent<UnitManager>();
+            }
+
+            Vector2Int pickedTile = lastEnemy.gridPos;
             PickedTile(pickedTile, defineAttackableTiles.GetClosestTile(gridPos, pickedTile, Vector3.zero, AccessableTiles));
         }
-        else if (AccessableTiles.Count != 0)
-            PickedTile(AccessableTiles[Random.Range(0, AccessableTiles.Count)], Vector2Int.zero);
+        else if (AccessableTiles.Count != 0) {
+            Vector2Int pickedTile = new Vector2Int(100, 100);
+
+            for (int i = 0; i < AccessableTiles.Count; i++) {
+                if (AccessableTiles[i].x < pickedTile.x)
+                    pickedTile = AccessableTiles[i];
+            }
+
+            PickedTile(pickedTile, Vector2Int.zero);
+        }
     }
 
     public float WaitTime() {

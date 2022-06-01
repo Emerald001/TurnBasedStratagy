@@ -13,5 +13,5 @@ public abstract class AbilityBase : ScriptableObject
     [Header("Ability Settings, Fill which is Applicable:")]
     public bool EndsTurn;
 
-    public abstract void WhatItDoes(UnitManager target, List<Vector2Int> positions);
+    public abstract void WhatItDoes(UnitManager target, params Vector2Int[] positions);
 }

@@ -7,7 +7,7 @@ public class SummonAbilityBase : AbilityBase
     public GameObject prefab;
     public UnitBase UnitToSpawn;
 
-    public override void WhatItDoes(UnitManager target, List<Vector2Int> positions) {
+    public override void WhatItDoes(UnitManager target, Vector2Int[] positions) {
         List<Vector3> spawnpoint = new List<Vector3>();
 
         foreach(var pos in positions) {
