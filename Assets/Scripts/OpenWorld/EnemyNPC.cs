@@ -8,13 +8,16 @@ public class EnemyNPC : MonoBehaviour
     [SerializeField] private float viewDistance = 10;
     [SerializeField] private float battleStartDistance = 2;
     
+    public int teamSize = 5;
     private List<UnitBase> Team = new List<UnitBase>();
-    private int teamSize = 5;
 
     private GameObject Player;
     private NavMeshAgent agent;
+    private Vector3 StartingPosition;
 
     void Start() {
+        StartingPosition = transform.position;
+
         agent = GetComponent<NavMeshAgent>();
         Player = GameManager.instance.Player;
 
@@ -28,7 +31,7 @@ public class EnemyNPC : MonoBehaviour
         if (Vector3.Distance(transform.position, Player.transform.position) < viewDistance)
             agent.SetDestination(Player.transform.position);
         else
-            agent.SetDestination(transform.position);
+            agent.SetDestination(StartingPosition);
 
         if (Vector3.Distance(transform.position, Player.transform.position) < battleStartDistance) {
             GameManager.instance.AddBattleState(Team);

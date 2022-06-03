@@ -10,8 +10,9 @@ public class CameraFollow : MonoBehaviour {
 
     private Vector2 rotation;
 
-    private void Start() {
-        Camera.main.transform.position = offset;
+    public void OnEnter() {
+        transform.eulerAngles = new Vector3(0, 0, 0);
+        Camera.main.transform.position = transform.position + offset;
         Camera.main.transform.eulerAngles = new Vector3(45, 0, 0);
     }
 
@@ -21,8 +22,7 @@ public class CameraFollow : MonoBehaviour {
         if (Input.GetKey(KeyCode.Mouse1)) {
             rotation.y += Input.GetAxisRaw("Mouse X");
             rotation.x += -Input.GetAxisRaw("Mouse Y");
-
-            //rotation.x = Mathf.Clamp(rotation.x, )
+            rotation.x = Mathf.Clamp(rotation.x, -1, 4.5f);
 
             transform.eulerAngles = rotation * (lookAroundSpeed);
         }

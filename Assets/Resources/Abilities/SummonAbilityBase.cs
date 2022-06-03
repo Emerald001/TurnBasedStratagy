@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "Summon Ability", menuName = "Abilities/SummonAbility")]
 public class SummonAbilityBase : AbilityBase
 {
     public GameObject prefab;

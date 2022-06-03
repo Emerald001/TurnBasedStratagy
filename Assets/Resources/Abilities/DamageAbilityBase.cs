@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "Damage Ability", menuName = "Abilities/DamageAbility")]
 public class DamageAbilityBase : AbilityBase
 {
     public int DamageAmount;

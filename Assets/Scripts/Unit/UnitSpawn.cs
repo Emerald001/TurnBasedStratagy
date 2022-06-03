@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +11,15 @@ namespace UnitComponents {
             Unit.name = values.name;
             Unit.transform.parent = unitParent;
             Unit.AddComponent<HealthComponent>();
+
+            var model = GameObject.Instantiate(values.Model, worldPos, Quaternion.identity);
+            var visuals = Unit.transform.GetChild(0);
+            model.transform.parent = visuals;
+
+            if (gridPos.x > turnManager.gridWidth / 2)
+                visuals.LookAt(visuals.transform.position + new Vector3(-1, 0, 0));
+            else
+                visuals.LookAt(visuals.transform.position + new Vector3(1, 0, 0));
 
             var UnitScript = Unit.GetComponent<UnitManager>();
 

@@ -7,16 +7,16 @@ public class OpenWorldState : IState {
     public GameObject OpenWorld;
     public bool IsDone { get; set; }
 
-    private float timeToWait = 3f;
-
     public OpenWorldState(GameObject openworld) {
         OpenWorld = openworld;
     }
 
     public void OnEnter() {
-        Camera.main.transform.parent = OpenWorld.transform.GetChild(0);
-
         OpenWorld.SetActive(true);
+        
+        var camFollowObject = OpenWorld.transform.GetChild(0);
+        Camera.main.transform.parent = camFollowObject;
+        camFollowObject.GetComponent<CameraFollow>().OnEnter();
     }
 
     public void OnExit() {
@@ -26,11 +26,6 @@ public class OpenWorldState : IState {
     }
 
     public void OnUpdate() {
-        if (timer()) 
-            IsDone = true;
-    }
-
-    bool timer() {
-        return (timeToWait -= Time.deltaTime) < 0;
+        IsDone = true;
     }
 }

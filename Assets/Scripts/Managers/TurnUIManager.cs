@@ -23,6 +23,7 @@ public class TurnUIManager
     public void ActivateButtons() {
         foreach (var button in FunctionButtons) {
             button.GetComponent<Button>().interactable = true;
+            button.transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 1);
         }
         foreach (var button in AbilityButtons) {
             button.GetComponent<Button>().interactable = true;
@@ -31,9 +32,11 @@ public class TurnUIManager
     public void DeactivateButtons() {
         foreach (var button in FunctionButtons) {
             button.GetComponent<Button>().interactable = false;
+            button.transform.GetChild(0).GetComponent<Image>().color = new Color(.5f, .5f, .5f, 1);
         }
         foreach (var button in AbilityButtons) {
             button.GetComponent<Button>().interactable = false;
+            button.transform.GetChild(0).gameObject.SetActive(false);
         }
     }
 
@@ -43,14 +46,25 @@ public class TurnUIManager
             return;
         }
 
+        int ButtonsUsed = 0;
+
         for (int i = 0; i < abilities.Count; i++) {
             var buttonGO = AbilityButtons[i];
 
+            buttonGO.transform.GetChild(0).gameObject.SetActive(true);
             var image = buttonGO.transform.GetChild(0).GetComponent<Image>();
             image.sprite = abilities[i].Icon;
 
             var funcButton = buttonGO.GetComponent<Button>();
+            funcButton.interactable = true;
             funcButton.onClick.AddListener(delegate{AbilityOwner.SelectAbility(i);});
+
+            ButtonsUsed++;
+        }
+
+        for (int i = ButtonsUsed; i < 3; i++) {
+            AbilityButtons[i].transform.GetChild(0).gameObject.SetActive(false);
+            AbilityButtons[i].GetComponent<Button>().interactable = false;
         }
     }
 

@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: PlayerUnit2
   m_EditorClassIdentifier: 
   name: Samurai
+  Model: {fileID: 5987447768901874949, guid: f4606a9cbb428094cbc3d4e3c9606ea9, type: 3}
+  portrait: {fileID: 0}
   isRanged: 0
+  baseRangeValue: 0
   baseDamageValue: 15
   baseInitiativeValue: 5
   baseSpeedValue: 7
-  baseRangeValue: 0
   baseHealthValue: 60
   baseDefenceValue: 10
+  abilities: []

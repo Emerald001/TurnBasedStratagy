@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnitComponents;
 
-[CreateAssetMenu(fileName = "Effect Ability")]
+[CreateAssetMenu(fileName = "Effect Ability", menuName = "Abilities/EffectAbility")]
 public class EffectAbilityBase : AbilityBase {
     public int valueChanged;
     public UnitEffect effect;

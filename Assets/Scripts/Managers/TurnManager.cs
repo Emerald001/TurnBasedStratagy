@@ -56,6 +56,7 @@ public class TurnManager : MonoBehaviour {
         UnitStaticFunctions.Grid = Tiles;
 
         UIManager = new TurnUIManager(Buttons, InfoText);
+        UIManager.DeactivateButtons();
 
         //needs to be improved
         var camPos = transform.GetChild(0).transform;
@@ -93,7 +94,7 @@ public class TurnManager : MonoBehaviour {
         }
 
         if (Input.GetKeyDown(KeyCode.Space)) {
-            UnitWait();
+            OnExit();
         }
     }
 

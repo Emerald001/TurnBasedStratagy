@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FirstEnemy
   m_EditorClassIdentifier: 
   name: Bigger Gunner
-  Model: {fileID: 0}
+  Model: {fileID: 6672022713438159037, guid: 87fe20cb68be97545a8783b0ccde3fc8, type: 3}
   portrait: {fileID: 0}
   isRanged: 1
   baseRangeValue: 7

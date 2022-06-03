@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerUnit4
   m_EditorClassIdentifier: 
   name: Tank
-  Model: {fileID: 0}
+  Model: {fileID: 5987447768901874949, guid: f4606a9cbb428094cbc3d4e3c9606ea9, type: 3}
   portrait: {fileID: 0}
   isRanged: 0
   baseRangeValue: 0
@@ -22,4 +22,5 @@ MonoBehaviour:
   baseSpeedValue: 5
   baseHealthValue: 60
   baseDefenceValue: 12
-  abilities: []
+  abilities:
+  - {fileID: 11400000, guid: e0ea8a59820922945956dfd835a5fb62, type: 2}

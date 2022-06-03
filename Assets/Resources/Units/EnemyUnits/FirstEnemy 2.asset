@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FirstEnemy 2
   m_EditorClassIdentifier: 
   name: Tank Droid
-  Model: {fileID: 0}
+  Model: {fileID: 5987447768901874949, guid: f4606a9cbb428094cbc3d4e3c9606ea9, type: 3}
   portrait: {fileID: 0}
   isRanged: 0
   baseRangeValue: 0

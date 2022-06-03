@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d05e75dd8162fbb4aa5e5e1198797679, type: 3}
-  m_Name: Effect Ability
+  m_Script: {fileID: 11500000, guid: 204d91f4839996d4e8d4fc1a821720eb, type: 3}
+  m_Name: SureShot
   m_EditorClassIdentifier: 
-  name: 
-  Icon: {fileID: 0}
-  EndsTurn: 0
-  ValueThatChanged: 0
-  valueChanged: 0
+  name: SureShot
+  Icon: {fileID: 21300000, guid: eaa9efe73dfaad242989b4bcac0dbf72, type: 3}
+  EndsTurn: 1
+  DamageAmount: 50

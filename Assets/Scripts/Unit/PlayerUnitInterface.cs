@@ -12,6 +12,7 @@ public class PlayerUnitInterface : UnitManager {
         base.OnEnter();
         line = GetComponent<LineRenderer>();
 
+        turnManager.UIManager.ActivateButtons();
         turnManager.UIManager.SetAbilities(abilities, this);
     }
 
@@ -21,9 +22,9 @@ public class PlayerUnitInterface : UnitManager {
         
         base.OnUpdate();
 
-        if (pickedAbility) {
-
-        }
+        //if (pickedAbility) {
+        //    return;
+        //}
 
         if (Input.GetKeyDown(KeyCode.Mouse0)) {
             PickedTile(MouseValues.HoverTileGridPos, defineAttackableTiles.GetClosestTile(gridPos, MouseValues.HoverTileGridPos, MouseValues.HoverPointPos, AccessableTiles));
@@ -45,23 +46,14 @@ public class PlayerUnitInterface : UnitManager {
     public override void OnExit() {
         base.OnExit();
 
+        turnManager.UIManager.DeactivateButtons();
         Tooltip.HideTooltip_Static();
         line.enabled = false;
     }
 
     public override void ResetTiles() {
-        for (int i = 0; i < AccessableTiles.Count; i++) {
-            if (turnManager.Tiles[AccessableTiles[i]].GetComponent<Hex>().GivenColor == turnManager.WalkableTileColor) {
-                turnManager.Tiles[AccessableTiles[i]].GetComponent<Hex>().GivenColor = null;
-            }
-            turnManager.Tiles[AccessableTiles[i]].GetComponent<Hex>().ResetColor();
-        }
-        for (int i = 0; i < AttackableTiles.Count; i++) {
-            if (turnManager.Tiles[AttackableTiles[i]].GetComponent<Hex>().GivenColor == turnManager.AttackableTileColor) {
-                turnManager.Tiles[AttackableTiles[i]].GetComponent<Hex>().GivenColor = null;
-            }
-            turnManager.Tiles[AttackableTiles[i]].GetComponent<Hex>().ResetColor();
-        }
+        ResetHexColor(AccessableTiles);
+        ResetHexColor(AttackableTiles);
 
         turnManager.Tiles[gridPos].GetComponent<Hex>().GivenColor = null;
         turnManager.Tiles[gridPos].GetComponent<Hex>().ResetColor();
@@ -81,8 +73,16 @@ public class PlayerUnitInterface : UnitManager {
 
     public void ChangeHexColor(List<Vector2Int> list, Material color) {
         for (int i = 0; i < list.Count; i++) {
-            turnManager.Tiles[list[i]].GetComponent<Hex>().GivenColor = color;
-            turnManager.Tiles[list[i]].GetComponent<Hex>().SetColor(color);
+            var hex = turnManager.Tiles[list[i]].GetComponent<Hex>();
+            hex.GivenColor = color;
+            hex.SetColor(color);
+        }
+    }
+    public void ResetHexColor(List<Vector2Int> list) {
+        for (int i = 0; i < list.Count; i++) {
+            var hex = turnManager.Tiles[list[i]].GetComponent<Hex>();
+            hex.GivenColor = null;
+            hex.ResetColor();
         }
     }
 
