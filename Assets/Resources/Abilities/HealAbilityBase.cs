@@ -7,7 +7,8 @@ public class HealAbilityBase : AbilityBase
 {
     public int HealAmount;
 
-    public override void WhatItDoes(UnitManager target, params Vector2Int[] positions) {
-        target.HealthComponent.Heal(HealAmount);
+    public override void WhatItDoes(UnitManager[] targets) {
+        foreach(UnitManager unit in targets)
+            unit.HealthComponent.Heal(HealAmount);
     }
 }

@@ -7,7 +7,9 @@ public class DamageAbilityBase : AbilityBase
 {
     public int DamageAmount;
 
-    public override void WhatItDoes(UnitManager target, params Vector2Int[] positions) {
-        target.HealthComponent.TakeDamage(DamageAmount);
+    public override void WhatItDoes(UnitManager[] targets) {
+        foreach (var unit in targets) {
+            unit.HealthComponent.TakeDamage(DamageAmount);
+        }
     }
 }

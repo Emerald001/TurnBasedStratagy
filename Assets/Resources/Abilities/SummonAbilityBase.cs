@@ -8,13 +8,15 @@ public class SummonAbilityBase : AbilityBase
     public GameObject prefab;
     public UnitBase UnitToSpawn;
 
-    public override void WhatItDoes(UnitManager target, Vector2Int[] positions) {
-        List<Vector3> spawnpoint = new List<Vector3>();
+    //Make when Vrij is done!
 
-        foreach(var pos in positions) {
-            spawnpoint.Add(UnitStaticFunctions.CalcWorldPos(pos));
-        }
+    public override void WhatItDoes(UnitManager[] target) {
+        //List<Vector3> spawnpoint = new List<Vector3>();
 
-        var spawnedUnit = GameObject.Instantiate(prefab);
+        //foreach (var pos in positions) {
+        //    spawnpoint.Add(UnitStaticFunctions.CalcWorldPos(pos));
+        //}
+
+        //var spawnedUnit = GameObject.Instantiate(prefab);
     }
 }

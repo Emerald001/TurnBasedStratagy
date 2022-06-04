@@ -8,7 +8,8 @@ public class EffectAbilityBase : AbilityBase {
     public int valueChanged;
     public UnitEffect effect;
 
-    public override void WhatItDoes(UnitManager target, params Vector2Int[] positions) {
-
+    public override void WhatItDoes(UnitManager[] targets) {
+        foreach (UnitManager unit in targets)
+            unit.AddEffect(effect);
     }
 }

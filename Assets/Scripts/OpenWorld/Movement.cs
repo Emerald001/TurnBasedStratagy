@@ -11,7 +11,7 @@ public class Movement : MonoBehaviour {
     }
 
     void Update() {
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetKey(KeyCode.Mouse0)) {
             agent.destination = MouseValues.HoverPointPos;
         }
     }
