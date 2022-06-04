@@ -33,8 +33,6 @@ public abstract class UnitManager : MonoBehaviour {
     public virtual void OnEnter() {
         Unit = this.gameObject;
 
-        values.SetValues();
-
         FindTiles();
     }
 
@@ -82,6 +80,17 @@ public abstract class UnitManager : MonoBehaviour {
     }
 
     public virtual void PickedTile(Vector2Int pickedTile, Vector2Int standingPos_optional) {
+        if (pickedAbility) {
+            if (!pickedAbility.SelectUnit) {
+                var thisManager = GetComponents<UnitManager>();
+                pickedAbility.WhatItDoes(thisManager);
+                ActionQueue.Enqueue(new UnitAbility());
+            }
+            else {
+
+            }
+        }
+
         if (AttackableTiles.Contains(pickedTile)) {
             if (gridPos == standingPos_optional) {
                 ActionQueue.Enqueue(new UnitAttack(Unit, EnemyPositions[pickedTile], values.damageValue));
@@ -126,8 +135,8 @@ public abstract class UnitManager : MonoBehaviour {
         CurrentPath.Clear();
     }
 
-    public void AddEffect(UnitEffect effect) {
-        values.Effects.Add(effect);
+    public void AddEffect(UnitEffect effect, int valueChanged, int duration) {
+        values.ApplyEffect(effect, valueChanged, duration);
     }
 
     public void SelectAbility(int index) {

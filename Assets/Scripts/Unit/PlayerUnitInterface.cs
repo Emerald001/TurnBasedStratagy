@@ -22,10 +22,6 @@ public class PlayerUnitInterface : UnitManager {
         
         base.OnUpdate();
 
-        //if (pickedAbility) {
-        //    return;
-        //}
-
         if (Input.GetKeyDown(KeyCode.Mouse0)) {
             PickedTile(MouseValues.HoverTileGridPos, defineAttackableTiles.GetClosestTile(gridPos, MouseValues.HoverTileGridPos, MouseValues.HoverPointPos, AccessableTiles));
             Tooltip.HideTooltip_Static();
@@ -34,7 +30,7 @@ public class PlayerUnitInterface : UnitManager {
         if (AttackableTiles.Contains(MouseValues.HoverTileGridPos)) {
             var list = new List<HealthComponent>();
             list.Add(EnemyPositions[MouseValues.HoverTileGridPos].GetComponent<HealthComponent>());
-            Tooltip.ShowTooltip_Static(GetEnemyInfo(list));
+            Tooltip.ShowTooltip_Static(GetEnemyInfo(list, values.damageValue));
             lastHoverPos = MouseValues.HoverTileGridPos;
         }
         if (lastHoverPos != MouseValues.HoverTileGridPos && lastHoverPos != Vector2Int.zero) {
@@ -118,12 +114,12 @@ public class PlayerUnitInterface : UnitManager {
         }
     }
 
-    private string GetEnemyInfo(List<HealthComponent> enemyHealthComponents) {
+    private string GetEnemyInfo(List<HealthComponent> enemyHealthComponents, int DamageValue) {
         string kills = "";
 
         for (int i = 0; i < enemyHealthComponents.Count; i++) {
             var thisString = enemyHealthComponents[i].gameObject.name + "\n";
-            Vector2Int minmax = enemyHealthComponents[i].CalcDamage(values.damageValue);
+            Vector2Int minmax = enemyHealthComponents[i].CalcDamage(DamageValue);
 
             thisString += "Damage " + minmax.x + "-" + minmax.y + "\n";
 

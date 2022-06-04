@@ -16,8 +16,8 @@ namespace UnitComponents {
         private List<Vector2Int> pickedTiles;
         private AbilityBase ValueBase;
 
-        public override void OnUpdate() { 
-            
+        public override void OnUpdate() {
+
         }
     }
 }

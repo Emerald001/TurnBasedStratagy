@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace UnitComponents {
     public abstract class UnitEffect : ScriptableObject {
-        public int Duration;
-        public int ValueToChange;
+        [HideInInspector] public int Duration;
+        [HideInInspector] public int ValueToChange;
 
         public abstract void ApplyEffect(UnitValues values);
     }

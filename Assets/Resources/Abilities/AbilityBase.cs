@@ -12,6 +12,7 @@ public abstract class AbilityBase : ScriptableObject
 
     [Header("Ability Settings, Fill which is Applicable:")]
     public bool EndsTurn;
+    public bool SelectUnit;
 
     public abstract void WhatItDoes(UnitManager[] target);
 }
