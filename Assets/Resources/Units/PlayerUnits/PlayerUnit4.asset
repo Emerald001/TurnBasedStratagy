@@ -23,4 +23,5 @@ MonoBehaviour:
   baseHealthValue: 60
   baseDefenceValue: 12
   abilities:
-  - {fileID: 11400000, guid: e0ea8a59820922945956dfd835a5fb62, type: 2}
+  - {fileID: 11400000, guid: f3ffa91f386ad9c4bac07b9ebe6c47a6, type: 2}
+  - {fileID: 11400000, guid: 87ebd1b8ceed2764ba2d8ec998576838, type: 2}

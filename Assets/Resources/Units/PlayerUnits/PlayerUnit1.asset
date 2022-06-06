@@ -12,14 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a004d67df591c14e966dca61bf41c97, type: 3}
   m_Name: PlayerUnit1
   m_EditorClassIdentifier: 
-  name: Rifleman
+  name: Combat Medic
   Model: {fileID: 6672022713438159037, guid: 87fe20cb68be97545a8783b0ccde3fc8, type: 3}
   portrait: {fileID: 0}
   isRanged: 1
   baseRangeValue: 20
   baseDamageValue: 12
   baseInitiativeValue: 3
-  baseSpeedValue: 3
+  baseSpeedValue: 4
   baseHealthValue: 50
   baseDefenceValue: 7
-  abilities: []
+  abilities:
+  - {fileID: 11400000, guid: 70fec2a3d8781444db1801aa808217f7, type: 2}
+  - {fileID: 11400000, guid: b38a0ed574b694a4697b28ae1ac42602, type: 2}

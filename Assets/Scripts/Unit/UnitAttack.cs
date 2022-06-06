@@ -7,7 +7,7 @@ namespace UnitComponents {
     {
         public float timer = 1f;
 
-        public UnitAttack(GameObject Unit, GameObject Enemy, int Damage) {
+        public UnitAttack(GameObject Unit, UnitManager Enemy, int Damage) {
             this.Unit = Unit;
             this.Enemy = Enemy;
             this.Damage = Damage;
@@ -16,7 +16,7 @@ namespace UnitComponents {
         }
 
         private GameObject Unit;
-        private GameObject Enemy;
+        private UnitManager Enemy;
         private int Damage;
 
         public override void OnUpdate() {
@@ -28,7 +28,7 @@ namespace UnitComponents {
 
         public void Attack() {
             Unit.transform.GetChild(0).LookAt(Enemy.transform);
-            Enemy.GetComponent<HealthComponent>().TakeDamage(Damage);
+            Enemy.HealthComponent.TakeDamage(Damage);
             IsDone = true;
         }
 

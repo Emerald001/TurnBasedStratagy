@@ -35,7 +35,10 @@ public class TurnUIManager
             button.transform.GetChild(0).GetComponent<Image>().color = new Color(.5f, .5f, .5f, 1);
         }
         foreach (var button in AbilityButtons) {
-            button.GetComponent<Button>().interactable = false;
+            var buttonClickable = button.GetComponent<Button>();
+            buttonClickable.interactable = false;
+            buttonClickable.onClick.RemoveAllListeners();
+            button.GetComponent<ToolTipTrigger>().TextToShow = "";
             button.transform.GetChild(0).gameObject.SetActive(false);
         }
     }
@@ -50,14 +53,25 @@ public class TurnUIManager
 
         for (int i = 0; i < abilities.Count; i++) {
             var buttonGO = AbilityButtons[i];
+            buttonGO.GetComponent<ToolTipTrigger>().TextToShow = abilities[i].Description;
 
             buttonGO.transform.GetChild(0).gameObject.SetActive(true);
             var image = buttonGO.transform.GetChild(0).GetComponent<Image>();
             image.sprite = abilities[i].Icon;
 
             var funcButton = buttonGO.GetComponent<Button>();
-            funcButton.interactable = true;
-            funcButton.onClick.AddListener(delegate{AbilityOwner.SelectAbility(i);});
+            funcButton.onClick.RemoveAllListeners();
+
+            if (abilities[i].currentCooldown < 1) {
+                image.color = new Color(1f, 1f, 1f, 1);
+                funcButton.interactable = true;
+                var param = i;
+                funcButton.onClick.AddListener(delegate{AbilityOwner.SelectAbility(param);});
+            }
+            else {
+                image.color = new Color(.5f, .5f, .5f, 1); 
+                funcButton.interactable = false;
+            }
 
             ButtonsUsed++;
         }
@@ -70,5 +84,12 @@ public class TurnUIManager
 
     public void SetInfoText(string newText) {
         TurnText.text = newText;
+    }
+
+    private void SetToolTip(string Description) {
+        Tooltip.ShowTooltip_Static(Description);
+    }
+    private void HideToolTip() {
+        Tooltip.HideTooltip_Static();
     }
 }

@@ -22,4 +22,5 @@ MonoBehaviour:
   baseSpeedValue: 3
   baseHealthValue: 40
   baseDefenceValue: 6
-  abilities: []
+  abilities:
+  - {fileID: 11400000, guid: e0ea8a59820922945956dfd835a5fb62, type: 2}

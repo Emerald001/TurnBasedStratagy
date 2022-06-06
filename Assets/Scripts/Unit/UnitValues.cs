@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace UnitComponents {
     public class UnitValues {
+        public UnitManager owner;
         public List<UnitEffect> Effects = new List<UnitEffect>();
 
         //Base unit values
@@ -12,6 +13,7 @@ namespace UnitComponents {
         public int baseDamageValue;
         public int baseRangeValue;
         public int baseDefenceValue;
+        public int baseHealthValue;
 
         //Current unit values
         public int speedValue;
@@ -29,23 +31,28 @@ namespace UnitComponents {
             rangeValue = baseRangeValue;
             defenceValue = baseDefenceValue;
 
+            for (int i = Effects.Count - 1; i >= 0; i--) {
+                Effects[i].Duration--;
+
+                if (Effects[i].Duration < 1)
+                    Effects.RemoveAt(i);
+            }
+
             for (int i = 0; i < Effects.Count; i++) {
                 Effects[i].ApplyEffect(this);
             }
 
-            foreach (var effect in Effects) {
-                effect.Duration--;
-
-                if (effect.Duration < 1)
-                    Effects.Remove(effect);
+            for (int i = 0; i < owner.abilities.Count; i++) {
+                if (owner.abilities[i].currentCooldown > 0)
+                    owner.abilities[i].currentCooldown--;
             }
         }
 
         public void ApplyEffect(UnitEffect effect, int valueChanged, int duration) {
             var newEffect = ScriptableObject.Instantiate(effect);
-            newEffect.ApplyEffect(this);
             newEffect.ValueToChange = valueChanged;
             newEffect.Duration = duration;
+            newEffect.ApplyEffect(this);
 
             Effects.Add(newEffect);
         }

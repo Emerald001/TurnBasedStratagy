@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a004d67df591c14e966dca61bf41c97, type: 3}
   m_Name: PlayerUnit2
   m_EditorClassIdentifier: 
-  name: Samurai
+  name: Engineer
   Model: {fileID: 5987447768901874949, guid: f4606a9cbb428094cbc3d4e3c9606ea9, type: 3}
   portrait: {fileID: 0}
   isRanged: 0
@@ -22,4 +22,6 @@ MonoBehaviour:
   baseSpeedValue: 7
   baseHealthValue: 60
   baseDefenceValue: 10
-  abilities: []
+  abilities:
+  - {fileID: 11400000, guid: 19101cd9aa28281409815128d01eec55, type: 2}
+  - {fileID: 11400000, guid: f76d1aacc5dea5d4aa735e4ac411a8bd, type: 2}

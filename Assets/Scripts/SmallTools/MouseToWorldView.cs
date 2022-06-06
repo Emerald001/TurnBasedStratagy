@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class MouseToWorldView : MonoBehaviour
 {
-    private Hex lastTile;
-
     public Material Hovercolor;
+    private Hex lastTile;
 
     void Update()
     {

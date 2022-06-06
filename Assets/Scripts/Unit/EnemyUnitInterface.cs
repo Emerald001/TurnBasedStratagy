@@ -35,7 +35,7 @@ public class EnemyUnitInterface : UnitManager {
                     continue;
                 }
 
-                if (EnemyPositions[AttackableTiles[i]].GetComponent<HealthComponent>().Health < lastEnemy.GetComponent<HealthComponent>().Health)
+                if (EnemyPositions[AttackableTiles[i]].HealthComponent.Health < lastEnemy.HealthComponent.Health)
                     lastEnemy = EnemyPositions[AttackableTiles[i]].GetComponent<UnitManager>();
             }
 

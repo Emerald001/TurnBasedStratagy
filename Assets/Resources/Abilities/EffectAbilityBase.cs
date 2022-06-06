@@ -9,9 +9,15 @@ public class EffectAbilityBase : AbilityBase {
     public int duration;
     public UnitEffect effect;
 
-    public override void WhatItDoes(UnitManager[] targets) {
-        foreach (UnitManager unit in targets) {
+    public override void WhatItDoes(Vector2Int[] pos, UnitManager[] targets) {
+        foreach (var unit in targets) {
             unit.AddEffect(effect, valueChanged, duration);
         }
+
+        isDone = true;
+    }
+
+    public override string ToolTipText(List<HealthComponent> targetHealthComponents) {
+        return null;
     }
 }

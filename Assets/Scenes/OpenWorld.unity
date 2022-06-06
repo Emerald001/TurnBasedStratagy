@@ -1322,8 +1322,8 @@ Transform:
   m_Children:
   - {fileID: 761589411}
   - {fileID: 1859041549}
-  - {fileID: 1008732656}
   - {fileID: 1564987544}
+  - {fileID: 1008732656}
   - {fileID: 1115241341}
   - {fileID: 1442306897}
   m_Father: {fileID: 0}
@@ -2411,7 +2411,7 @@ Transform:
   m_Children:
   - {fileID: 1324477236}
   m_Father: {fileID: 484607426}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &1008732657
 NavMeshAgent:
@@ -4467,7 +4467,7 @@ Transform:
   - {fileID: 395939079}
   - {fileID: 755125065}
   m_Father: {fileID: 484607426}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1602750422
 PrefabInstance:
@@ -5360,7 +5360,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 5
+  m_Speed: 10
   m_Acceleration: 20
   avoidancePriority: 50
   m_AngularSpeed: 1000

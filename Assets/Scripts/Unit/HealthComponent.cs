@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthComponent : MonoBehaviour, IDamagable
+public class HealthComponent : IDamagable
 {
-    public int baseDefenceValue;
-    public int baseHealthValue;
+    public UnitManager owner;
 
     private Slider HealthBar;
 
     public int Health { get; set; }
-    public int Defence { get; set; }
 
-    private void Start() {
-        HealthBar = GetComponentInChildren<Slider>();
-        HealthBar.maxValue = baseHealthValue;
+    public void OnEnter() {
+        HealthBar = owner.GetComponentInChildren<Slider>();
+        HealthBar.maxValue = owner.values.baseHealthValue;
+        Health = owner.values.baseHealthValue;
     }
 
     public void TakeDamage(int Damage) {
@@ -29,13 +28,13 @@ public class HealthComponent : MonoBehaviour, IDamagable
 
     public void Heal(int Amount) {
         Health += Amount;
-        if(Health > baseHealthValue) {
-            Health = baseHealthValue;
+        if(Health > Health) {
+            Health = owner.values.baseHealthValue;
         }
     }
 
     public Vector2Int CalcDamage(int damage) {
-        var newdamage = damage * (100f / (100f + Defence));
+        var newdamage = damage * (100f / (100f + owner.values.defenceValue));
 
         var difference = damage - newdamage;
 
@@ -56,7 +55,7 @@ public class HealthComponent : MonoBehaviour, IDamagable
     public void OnDeath() {
         HealthBar.transform.parent.gameObject.SetActive(false);
 
-        var Owner = GetComponent<UnitManager>();
+        var Owner = owner.GetComponent<UnitManager>();
         Owner.turnManager.UnitDeath(Owner);
     }
 }

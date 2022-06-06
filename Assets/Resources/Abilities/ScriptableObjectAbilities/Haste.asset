@@ -14,7 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Haste
   Icon: {fileID: 21300000, guid: 420951119e32c5d499dddc26e11a6e4b, type: 3}
+  Description: Gain 3 additional movement points for this turn
+  Cooldown: 2
+  Ranged: 0
+  AbilityRange: 0
+  HitDiameter: 0
+  DropAnywhere: 0
+  tileRange: 0
+  SelectUnit: 0
+  targetAnything: 0
+  targetEnemy: 0
+  targetSelf: 1
   EndsTurn: 0
+  currentCooldown: 0
+  Tiles: []
+  isDone: 0
   valueChanged: 3
   duration: 1
   effect: {fileID: 11400000, guid: 3ff0f270bfbe0c9418d35490f8640969, type: 2}

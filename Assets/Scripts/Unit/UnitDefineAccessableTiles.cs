@@ -4,9 +4,6 @@ using UnityEngine;
 
 namespace UnitComponents { 
     public class UnitDefineAccessableTiles {
-
-        [HideInInspector] public UnitManager Owner;
-
         [HideInInspector]
         public Vector2Int[] evenNeighbours = {
             new Vector2Int(-1, -1),
@@ -27,7 +24,7 @@ namespace UnitComponents {
             new Vector2Int(1, 1),
         };
 
-        public virtual List<Vector2Int> FindAccessableTiles(Vector2Int gridPos, int speedValue, ref Dictionary<Vector2Int, Vector2Int> parentDic, Dictionary<Vector2Int, GameObject> grid) {
+        public virtual List<Vector2Int> FindAccessableTiles(UnitManager Owner, Vector2Int gridPos, int speedValue, ref Dictionary<Vector2Int, Vector2Int> parentDic, Dictionary<Vector2Int, GameObject> grid) {
             var accessableList = new List<Vector2Int>();
             var openList = new List<Vector2Int>();
             var layerList = new List<Vector2Int>();

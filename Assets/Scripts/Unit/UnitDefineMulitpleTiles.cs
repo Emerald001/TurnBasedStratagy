@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DefineMulitpleTiles
+public static class DefineMultipleTiles
 {
     [HideInInspector]
-    public Vector2Int[] evenNeighbours = {
+    public static Vector2Int[] evenNeighbours = {
         new Vector2Int(-1, -1),
         new Vector2Int(-1, 1),
         new Vector2Int(0, -1),
@@ -15,7 +15,7 @@ public class DefineMulitpleTiles
     };
 
     [HideInInspector]
-    public Vector2Int[] unevenNeighbours = {
+    public static Vector2Int[] unevenNeighbours = {
         new Vector2Int(0, -1),
         new Vector2Int(1, -1),
         new Vector2Int(-1, 0),
@@ -24,28 +24,55 @@ public class DefineMulitpleTiles
         new Vector2Int(1, 1),
     };
 
-    public List<Vector2Int> GetTiles(Vector2Int Point, Dictionary<Vector2Int, GameObject> grid) {
-        var tiles = new List<Vector2Int>();
+    public static List<Vector2Int> GetTiles(Vector2Int Point, int diamater, Dictionary<Vector2Int, GameObject> grid) {
+        if (Point == Vector2Int.zero)
+            return new List<Vector2Int>();
 
-        Vector2Int[] listToUse;
+        var accessableList = new List<Vector2Int>();
+        var openList = new List<Vector2Int>();
+        var layerList = new List<Vector2Int>();
+        var closedList = new List<Vector2Int>();
 
-        if (Point.y % 2 != 0)
-            listToUse = unevenNeighbours;
-        else
-            listToUse = evenNeighbours;
+        if(grid.ContainsKey(Point))
+            accessableList.Add(Point);
 
-        for (int i = 0; i < 6; i++) {
-            var neighbour = Point + listToUse[i];
+        openList.Add(Point);
 
-            if (!grid.ContainsKey(neighbour))
-                continue;
+        for (int i = 0; i < diamater; i++) {
+            for (int j = 0; j < openList.Count; j++) {
+                var currentPos = openList[j];
+                Vector2Int[] listToUse;
 
-            if (!grid[neighbour].CompareTag("WalkableTile"))
-                continue;
+                if (currentPos.y % 2 != 0)
+                    listToUse = unevenNeighbours;
+                else
+                    listToUse = evenNeighbours;
 
-            tiles.Add(neighbour);
+                for (int k = 0; k < 6; k++) {
+                    var neighbour = currentPos + listToUse[k];
+
+                    if (!grid.ContainsKey(neighbour))
+                        continue;
+
+                    if (openList.Contains(neighbour) || closedList.Contains(neighbour) || layerList.Contains(neighbour))
+                        continue;
+
+                    if (!grid[neighbour].CompareTag("WalkableTile")){
+                        layerList.Add(neighbour);
+                        continue;
+                    }
+
+                    layerList.Add(neighbour);
+                    accessableList.Add(neighbour);
+                }
+                closedList.Add(openList[j]);
+            }
+            openList.Clear();
+            for (int j = 0; j < layerList.Count; j++) {
+                openList.Add(layerList[j]);
+            }
+            layerList.Clear();
         }
-
-        return new List<Vector2Int>();
+        return accessableList;
     }
 }

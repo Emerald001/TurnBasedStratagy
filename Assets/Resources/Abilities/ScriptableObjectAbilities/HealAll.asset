@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd6b8662540746047a4cb46e1b12fafb, type: 3}
+  m_Name: HealAll
+  m_EditorClassIdentifier: 
+  name: Heal All
+  Icon: {fileID: 21300000, guid: 970f6441fa0c38f498e8cba5189d1599, type: 3}
+  Description: Heal All Allies
+  Cooldown: 5
+  Ranged: 0
+  AbilityRange: 0
+  HitDiameter: 0
+  DropAnywhere: 0
+  tileRange: 0
+  SelectUnit: 0
+  targetAnything: 0
+  targetEnemy: 0
+  targetSelf: 0
+  EndsTurn: 1
+  currentCooldown: 0
+  Tiles: []
+  isDone: 0
+  HealAmount: 10

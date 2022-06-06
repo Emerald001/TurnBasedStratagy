@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd6b8662540746047a4cb46e1b12fafb, type: 3}
+  m_Name: Heal
+  m_EditorClassIdentifier: 
+  name: Heal
+  Icon: {fileID: 21300000, guid: f4e6756a4afc82d44be06f49eca5ace2, type: 3}
+  Description: Heal 20 health on one of your units
+  Cooldown: 2
+  Ranged: 1
+  AbilityRange: 7
+  HitDiameter: 0
+  DropAnywhere: 0
+  DropOnEmptyTile: 0
+  tileRange: 0
+  SelectUnit: 1
+  targetAnything: 0
+  targetEnemy: 0
+  targetSelf: 0
+  EndsTurn: 1
+  currentCooldown: 0
+  Runner: {fileID: 0}
+  Tiles: []
+  isDone: 0
+  HealAmount: 20

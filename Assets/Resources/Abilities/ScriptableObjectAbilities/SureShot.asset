@@ -14,5 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: SureShot
   Icon: {fileID: 21300000, guid: eaa9efe73dfaad242989b4bcac0dbf72, type: 3}
+  Description: A strong shot against an enemy dealing 50 damage
+  Cooldown: 2
+  Ranged: 1
+  AbilityRange: 100
+  HitDiameter: 0
   EndsTurn: 1
+  SelectUnit: 1
+  targetAnything: 0
+  targetEnemy: 1
+  currentCooldown: 0
+  Tiles: []
+  isDone: 0
   DamageAmount: 50

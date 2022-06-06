@@ -22,6 +22,7 @@ public class TurnManager : MonoBehaviour {
     public Material WalkableTileColor;
     public Material AttackableTileColor;
     public Material ActiveUnitTileColor;
+    public Material SelectedTileColor;
 
     [Header("References")]
     public GameObject InfoText;
@@ -34,7 +35,6 @@ public class TurnManager : MonoBehaviour {
     //Own vars
     [HideInInspector] public MakeGrid makeGrid;
     [HideInInspector] public TurnUIManager UIManager;
-    [HideInInspector] public UnitSpawn SpawnUnits = new UnitSpawn();
     [HideInInspector] public Dictionary<Vector2Int, GameObject> Tiles = new Dictionary<Vector2Int, GameObject>();
 
     [HideInInspector] public List<UnitManager> AllUnitsInPlay = new List<UnitManager>();
@@ -68,7 +68,7 @@ public class TurnManager : MonoBehaviour {
         PlayerParent.parent = this.transform;
         for (int i = 0; i < PlayerUnitsToSpawn.Count; i++) {
             var gridPos = new Vector2Int(0, i + Mathf.RoundToInt((gridHeight / 2) - (PlayerUnitsToSpawn.Count / 2)));
-            SpawnUnits.SpawnUnits(this, UnitPrefab, PlayerUnitsToSpawn[i], gridPos, PlayerUnitsInPlay, EnemyUnitsInPlay, PlayerParent);
+            UnitSpawn.SpawnUnits(this, UnitPrefab, PlayerUnitsToSpawn[i], gridPos, PlayerUnitsInPlay, EnemyUnitsInPlay, PlayerParent);
         }
 
         //spawn enemies and set them as child in an object
@@ -77,7 +77,7 @@ public class TurnManager : MonoBehaviour {
         EnemyParent.parent = this.transform;
         for (int i = 0; i < EnemiesToSpawn.Count; i++) {
             var gridPos = new Vector2Int(gridWidth - 1, i + Mathf.RoundToInt((gridHeight / 2) - (EnemiesToSpawn.Count / 2)));
-            SpawnUnits.SpawnUnits(this, EnemyPrefab, EnemiesToSpawn[i], gridPos, EnemyUnitsInPlay, PlayerUnitsInPlay, EnemyParent);
+            UnitSpawn.SpawnUnits(this, EnemyPrefab, EnemiesToSpawn[i], gridPos, EnemyUnitsInPlay, PlayerUnitsInPlay, EnemyParent);
         }
 
         Tooltip.HideTooltip_Static();

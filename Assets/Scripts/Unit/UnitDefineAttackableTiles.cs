@@ -5,9 +5,7 @@ using UnityEngine;
 namespace UnitComponents { 
     public abstract class UnitDefineAttackableTiles {
 
-        [HideInInspector] public UnitManager Owner;
-
-        public virtual List<Vector2Int> FindAttackableTiles(Vector2Int gridPos, List<UnitManager> AttackList, float range, Dictionary<Vector2Int, GameObject> EnemyPositions, Dictionary<Vector2Int, GameObject> grid) {
+        public virtual List<Vector2Int> FindAttackableTiles(UnitManager Owner, Vector2Int gridPos, List<UnitManager> AttackList, float range, Dictionary<Vector2Int, UnitManager> EnemyPositions, Dictionary<Vector2Int, GameObject> grid) {
             //girdpos is unit's own Position
             //attacklist is a list of the enemy units
             //range is for the attackrange
