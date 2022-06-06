@@ -84,7 +84,7 @@ public abstract class UnitManager : MonoBehaviour {
             if (!pickedAbility.SelectUnit) {
                 var thisManager = GetComponents<UnitManager>();
                 pickedAbility.WhatItDoes(thisManager);
-                ActionQueue.Enqueue(new UnitAbility());
+                //ActionQueue.Enqueue(new UnitAbility());
             }
             else {
 

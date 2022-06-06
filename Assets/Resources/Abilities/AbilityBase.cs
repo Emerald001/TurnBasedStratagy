@@ -6,7 +6,7 @@ using UnitComponents;
 //[CreateAssetMenu(fileName = "Ability")]
 public abstract class AbilityBase : ScriptableObject
 {
-    [Header("Identefiers:")]
+    [Header("Identifiers:")]
     public new string name;
     public Sprite Icon;
 
