@@ -98,17 +98,9 @@ public abstract class AbilityBase : ScriptableObject
 
         List<UnitManager> Targets = new List<UnitManager>();
 
-        if(TargetPos.Length > 1) {
-            foreach (var pos in TargetPos) {
-                foreach (var unit in Runner.turnManager.AllUnitsInPlay) {
-                    if (unit.gridPos == pos)
-                        Targets.Add(unit);
-                }
-            }
-        }
-        else {
-            if (AbilityApplicable.ContainsKey(TargetPos[0]))
-                Targets.Add(AbilityApplicable[TargetPos[0]]);
+        foreach (var pos in TargetPos) {
+            if (AbilityApplicable.ContainsKey(pos))
+                Targets.Add(AbilityApplicable[pos]);
         }
 
         if (Runner.gridPos == standingPos_optional) {
