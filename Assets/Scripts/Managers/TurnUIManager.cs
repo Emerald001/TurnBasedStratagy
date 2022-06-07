@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class TurnUIManager
 {
-    public TurnUIManager (List<GameObject> buttons, GameObject Text) {
+    public TurnUIManager (TurnManager Owner, List<GameObject> buttons, GameObject Text, GameObject EndScreen) {
         for (int i = 0; i < buttons.Count; i++) {
             if (i < 2)
                 FunctionButtons.Add(buttons[i]);
@@ -13,12 +13,17 @@ public class TurnUIManager
                 AbilityButtons.Add(buttons[i]);
         }
 
+        this.Owner = Owner;
+        this.EndScreen = EndScreen;
         TurnText = Text.GetComponent<Text>();
     }
+
+    public TurnManager Owner;
 
     public List<GameObject> FunctionButtons = new List<GameObject>();
     public List<GameObject> AbilityButtons = new List<GameObject>();
     public Text TurnText;
+    public GameObject EndScreen;
 
     public void ActivateButtons() {
         foreach (var button in FunctionButtons) {
@@ -86,10 +91,18 @@ public class TurnUIManager
         TurnText.text = newText;
     }
 
-    private void SetToolTip(string Description) {
-        Tooltip.ShowTooltip_Static(Description);
+    public void ShowEndScreen(string Header, string Body) {
+        EndScreen.SetActive(true);
+        var texts = EndScreen.GetComponentsInChildren<Text>();
+        texts[0].text = Header;
+        texts[1].text = Body;
+
+        DeactivateButtons();
+
+        var funcbutton = EndScreen.transform.GetChild(0).GetComponent<Button>();
+        funcbutton.onClick.AddListener(delegate { CloseEndScreen(); });
     }
-    private void HideToolTip() {
-        Tooltip.HideTooltip_Static();
+    public void CloseEndScreen() {
+        Owner.isDone = true;
     }
 }

@@ -21,7 +21,7 @@ public class HealAbilityBase : AbilityBase
         for (int i = 0; i < targetHealthComponents.Count; i++) {
             var thisString = targetHealthComponents[i].owner.gameObject.name + "\n";
 
-            thisString += "Heal " + HealAmount + "\n";
+            thisString += "Heal " + HealAmount;
 
             if (i < targetHealthComponents.Count - 1)
                 thisString += "\n \n";

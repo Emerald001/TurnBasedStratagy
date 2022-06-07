@@ -26,6 +26,7 @@ public class TurnManager : MonoBehaviour {
 
     [Header("References")]
     public GameObject InfoText;
+    public GameObject EndScreen;
     public List<GameObject> Buttons;
 
     //shit it's given
@@ -55,7 +56,7 @@ public class TurnManager : MonoBehaviour {
         makeGrid.OnStart();
         UnitStaticFunctions.Grid = Tiles;
 
-        UIManager = new TurnUIManager(Buttons, InfoText);
+        UIManager = new TurnUIManager(this, Buttons, InfoText, EndScreen);
         UIManager.DeactivateButtons();
 
         //needs to be improved
@@ -86,25 +87,32 @@ public class TurnManager : MonoBehaviour {
     }
 
     private void Update() {
-        if (CurrentUnit != null) {
-            CurrentUnit.OnUpdate();
+        if (CurrentUnit == null)
+            return;
 
-            if (CurrentUnit.IsDone)
-                NextUnit();
+        if (CurrentUnit.IsDone) {
+            NextUnit();
+            return;
         }
-
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            OnExit();
-        }
+            
+        CurrentUnit.OnUpdate();
     }
 
     private void OnExit() {
-        if (EnemyUnitsInPlay.Count < 1)
-            UIManager.SetInfoText("Win!");
-        else if(PlayerUnitsInPlay.Count < 1)
-            UIManager.SetInfoText("Lose!");
+        CurrentUnit = null;
 
-        isDone = true;
+        if (EnemyUnitsInPlay.Count < 1) {
+            var header = "Win";
+            var body = "You won in " + CurrentTurn + " turns.";
+
+            UIManager.ShowEndScreen(header, body);
+        }
+        else if (PlayerUnitsInPlay.Count < 1) {
+            var header = "Lose";
+            var body = "You lost in " + CurrentTurn + " turns.";
+
+            UIManager.ShowEndScreen(header, body);
+        }
     }
 
     private void NextUnit() {
@@ -190,7 +198,7 @@ public class TurnManager : MonoBehaviour {
     }
 
     public void UnitEndTurn() {
-        CurrentUnit.values.damageValue *= 2;
+        CurrentUnit.values.defenceValue *= 2;
         NextUnit();
     }
 }

@@ -242,7 +242,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ph
+  m_Text: '-
+
+'
 --- !u!1 &1607403617007298681
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,10 +391,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Unit: {fileID: 0}
   turnManager: {fileID: 0}
-  HealthComponent: {fileID: 0}
   IsDone: 0
   gridPos: {x: 0, y: 0}
   EnemyList: []
+  OwnList: []
   CurrentPath: []
   AttackableTiles: []
   AccessableTiles: []

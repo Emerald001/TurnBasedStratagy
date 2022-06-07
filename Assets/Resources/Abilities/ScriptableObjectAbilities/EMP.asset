@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05e75dd8162fbb4aa5e5e1198797679, type: 3}
+  m_Name: EMP
+  m_EditorClassIdentifier: 
+  name: EMP
+  Icon: {fileID: 21300000, guid: 87fe390d085308a4eba57a5c360cfb31, type: 3}
+  Description: Slow Enemies in a range around where it lands
+  Cooldown: 2
+  Ranged: 0
+  AbilityRange: 0
+  HitDiameter: 1
+  DropAnywhere: 1
+  DropOnEmptyTile: 0
+  tileRange: 5
+  SelectUnit: 0
+  targetAnything: 0
+  targetEnemy: 1
+  targetSelf: 0
+  EndsTurn: 1
+  currentCooldown: 0
+  Runner: {fileID: 0}
+  Tiles: []
+  isDone: 0
+  valueChanged: -3
+  duration: 2
+  effect: {fileID: 11400000, guid: 3ff0f270bfbe0c9418d35490f8640969, type: 2}

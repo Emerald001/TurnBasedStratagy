@@ -28,9 +28,12 @@ public class HealthComponent : IDamagable
 
     public void Heal(int Amount) {
         Health += Amount;
-        if(Health > Health) {
+
+        if(Health > owner.values.baseHealthValue) {
             Health = owner.values.baseHealthValue;
         }
+
+        UpdateHealth();
     }
 
     public Vector2Int CalcDamage(int damage) {
