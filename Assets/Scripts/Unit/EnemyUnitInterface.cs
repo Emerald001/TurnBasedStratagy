@@ -49,6 +49,10 @@ public class EnemyUnitInterface : UnitManager {
                 if (AccessableTiles[i].x < pickedTile.x)
                     pickedTile = AccessableTiles[i];
             }
+            if(values.baseRangeValue > 1) {
+                if(AccessableTiles.Contains(pickedTile + new Vector2Int(1, 0)))
+                    pickedTile.x += 1;
+            }
 
             PickedTile(pickedTile, Vector2Int.zero);
         }

@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: FirstEnemy
   m_EditorClassIdentifier: 
   name: Bigger Gunner
-  Model: {fileID: 6672022713438159037, guid: 87fe20cb68be97545a8783b0ccde3fc8, type: 3}
-  portrait: {fileID: 0}
+  Model: {fileID: 1647928528180912902, guid: be562c8aa66d7bb49ad24572f000ab40, type: 3}
+  Weapon: {fileID: 7780061770706721758, guid: d716d66fe9e63094f9ba0a194602c3e0, type: 3}
+  Band: {fileID: 8708052414971507963, guid: dd664026a5d49af4bab12913e37dd7fb, type: 3}
+  Animator: {fileID: 9100000, guid: f430327aa4f05e649a29af6d438d6dac, type: 2}
+  Icon: {fileID: 21300000, guid: 87dd702f42a0fc843b4d2518d4f85ed1, type: 3}
   isRanged: 1
-  baseRangeValue: 7
+  baseRangeValue: 15
   baseDamageValue: 10
   baseInitiativeValue: 5
   baseSpeedValue: 4

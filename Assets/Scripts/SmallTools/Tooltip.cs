@@ -44,7 +44,6 @@ public class Tooltip : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    //replace with something wayyyy better
     public static void ShowTooltip_Static(string tooltipString) {
         instance.ShowTooltip(tooltipString);
     }

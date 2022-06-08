@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class ToolTipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [HideInInspector] public string TextToShow;
+    public string TextToShow;
 
     public void OnPointerEnter(PointerEventData eventData) {
         if (TextToShow != "")

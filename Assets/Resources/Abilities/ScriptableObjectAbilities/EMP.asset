@@ -15,6 +15,7 @@ MonoBehaviour:
   name: EMP
   Icon: {fileID: 21300000, guid: 87fe390d085308a4eba57a5c360cfb31, type: 3}
   Description: Slow Enemies in a range around where it lands
+  AnimationTrigger: Throw
   Cooldown: 2
   Ranged: 0
   AbilityRange: 0
@@ -34,3 +35,5 @@ MonoBehaviour:
   valueChanged: -3
   duration: 2
   effect: {fileID: 11400000, guid: 3ff0f270bfbe0c9418d35490f8640969, type: 2}
+  EffectDesciption: Lowers Speed by 3
+  EffectIcon: {fileID: 21300000, guid: 78d085111064ead4591dd10de73654a2, type: 3}

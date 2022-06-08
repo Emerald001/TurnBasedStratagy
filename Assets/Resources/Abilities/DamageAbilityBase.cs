@@ -10,6 +10,7 @@ public class DamageAbilityBase : AbilityBase
     public override void WhatItDoes(Vector2Int[] pos, UnitManager[] targets) {
         foreach (var unit in targets) {
             unit.HealthComponent.TakeDamage(DamageAmount);
+            unit.UnitAnimator.HitEnemy(unit);
         }
 
         isDone = true;
@@ -19,7 +20,7 @@ public class DamageAbilityBase : AbilityBase
         string kills = "";
 
         for (int i = 0; i < targetHealthComponents.Count; i++) {
-            var thisString = targetHealthComponents[i].owner.gameObject.name + "\n";
+            var thisString = targetHealthComponents[i].Owner.gameObject.name + "\n";
             Vector2Int minmax = targetHealthComponents[i].CalcDamage(DamageAmount);
 
             thisString += "Damage " + minmax.x + "-" + minmax.y + "\n";

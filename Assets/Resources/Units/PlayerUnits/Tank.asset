@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a004d67df591c14e966dca61bf41c97, type: 3}
+  m_Name: Tank
+  m_EditorClassIdentifier: 
+  name: Tank
+  Model: {fileID: 1647928528180912902, guid: be562c8aa66d7bb49ad24572f000ab40, type: 3}
+  Weapon: {fileID: 1291715733310625982, guid: 4490cc964e1661e448265c17089145c1, type: 3}
+  Band: {fileID: 8708052414971507963, guid: 574b2dd6ab22370429fc4f10bdfe37c7, type: 3}
+  Animator: {fileID: 9100000, guid: 64a95c97cd289c345b24c8051df409fd, type: 2}
+  Icon: {fileID: 21300000, guid: 5ae2f8a7ab83f6043b9e8a63f615893b, type: 3}
+  isRanged: 0
+  baseRangeValue: 0
+  baseDamageValue: 17
+  baseInitiativeValue: 6
+  baseSpeedValue: 5
+  baseHealthValue: 60
+  baseDefenceValue: 12
+  abilities:
+  - {fileID: 11400000, guid: f3ffa91f386ad9c4bac07b9ebe6c47a6, type: 2}
+  - {fileID: 11400000, guid: 87ebd1b8ceed2764ba2d8ec998576838, type: 2}
+  - {fileID: 11400000, guid: b125df53d7f36ef44bbc1fe202ff8d48, type: 2}

@@ -15,15 +15,21 @@ MonoBehaviour:
   name: Slice
   Icon: {fileID: 21300000, guid: 31b67ca39a2c716469261f794a22058b, type: 3}
   Description: Slice open your enemy, dealing 60 damage
+  AnimationTrigger: Attack
   Cooldown: 3
   Ranged: 0
   AbilityRange: 0
   HitDiameter: 0
-  EndsTurn: 1
+  DropAnywhere: 0
+  DropOnEmptyTile: 0
+  tileRange: 0
   SelectUnit: 1
   targetAnything: 0
   targetEnemy: 1
+  targetSelf: 0
+  EndsTurn: 1
   currentCooldown: 0
+  Runner: {fileID: 0}
   Tiles: []
   isDone: 0
   DamageAmount: 60

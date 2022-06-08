@@ -19,6 +19,7 @@ public static class UnitStaticFunctions {
     }
 
     public static Dictionary<Vector2Int, GameObject> Grid;
+    public static Dictionary<UnitManager, Vector2Int> UnitPositions;
 
     public static Vector2Int GetGridPosFromWorldPos(GameObject valueVar) {
         foreach (Vector2Int keyVar in Grid.Keys) {
@@ -27,5 +28,14 @@ public static class UnitStaticFunctions {
             }
         }
         return Vector2Int.zero;
+    }
+
+    public static UnitManager GetUnitFromGridPos(Vector2Int valueVar) {
+        foreach (UnitManager keyVar in UnitPositions.Keys) {
+            if (UnitPositions[keyVar] == valueVar) {
+                return keyVar;
+            }
+        }
+        return null;
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor.Animations;
 
 namespace UnitComponents {
     public static class UnitSpawn {
@@ -16,14 +17,29 @@ namespace UnitComponents {
             var visuals = Unit.transform.GetChild(0);
             model.transform.parent = visuals;
 
+            var bands = model.GetComponentsInChildren<ColorHolder>();
+            foreach(var item in bands) {
+                GameObject.Instantiate(values.Band, item.gameObject.transform);
+            }
+
             if (gridPos.x > turnManager.gridWidth / 2)
                 visuals.LookAt(visuals.transform.position + new Vector3(-1, 0, 0));
             else
                 visuals.LookAt(visuals.transform.position + new Vector3(1, 0, 0));
-
+            
             var UnitScript = Unit.GetComponent<UnitManager>();
+            UnitScript.Icon = values.Icon;
             UnitScript.HealthComponent = healthComponent;
-            healthComponent.owner = UnitScript;
+            healthComponent.Owner = UnitScript;
+
+            //Set Animator
+            model.GetComponent<Animator>().runtimeAnimatorController = values.Animator;
+            var AnimationScript = Unit.AddComponent<UnitAnimationManager>();
+            UnitScript.UnitAnimator = AnimationScript;
+            AnimationScript.Owner = UnitScript;
+            AnimationScript.Init();
+            if(values.Weapon != null)
+                GameObject.Instantiate(values.Weapon, AnimationScript.WeaponHolder.transform);
 
             //set Scripts
             if (values.isRanged)
@@ -63,6 +79,7 @@ namespace UnitComponents {
             listToAddTo.Add(UnitScript);
             turnManager.AllUnitsInPlay.Add(UnitScript);
             turnManager.LivingUnitsInPlay.Add(UnitScript);
+            turnManager.UnitPositions.Add(UnitScript, gridPos);
         }
     }
 }

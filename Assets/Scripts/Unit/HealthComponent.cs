@@ -5,16 +5,16 @@ using UnityEngine.UI;
 
 public class HealthComponent : IDamagable
 {
-    public UnitManager owner;
+    public UnitManager Owner;
 
     private Slider HealthBar;
 
     public int Health { get; set; }
 
     public void OnEnter() {
-        HealthBar = owner.GetComponentInChildren<Slider>();
-        HealthBar.maxValue = owner.values.baseHealthValue;
-        Health = owner.values.baseHealthValue;
+        HealthBar = Owner.GetComponentInChildren<Slider>();
+        HealthBar.maxValue = Owner.values.baseHealthValue;
+        Health = Owner.values.baseHealthValue;
     }
 
     public void TakeDamage(int Damage) {
@@ -29,15 +29,15 @@ public class HealthComponent : IDamagable
     public void Heal(int Amount) {
         Health += Amount;
 
-        if(Health > owner.values.baseHealthValue) {
-            Health = owner.values.baseHealthValue;
+        if(Health > Owner.values.baseHealthValue) {
+            Health = Owner.values.baseHealthValue;
         }
 
         UpdateHealth();
     }
 
     public Vector2Int CalcDamage(int damage) {
-        var newdamage = damage * (100f / (100f + owner.values.defenceValue));
+        var newdamage = damage * (100f / (100f + Owner.values.defenceValue));
 
         var difference = damage - newdamage;
 
@@ -58,7 +58,7 @@ public class HealthComponent : IDamagable
     public void OnDeath() {
         HealthBar.transform.parent.gameObject.SetActive(false);
 
-        var Owner = owner.GetComponent<UnitManager>();
+        Owner.UnitAnimator.DeathAnim();
         Owner.turnManager.UnitDeath(Owner);
     }
 }

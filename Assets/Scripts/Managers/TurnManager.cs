@@ -44,6 +44,7 @@ public class TurnManager : MonoBehaviour {
     [HideInInspector] public List<UnitManager> DeadUnitsInPlay = new List<UnitManager>();
     [HideInInspector] public List<UnitManager> EnemyUnitsInPlay = new List<UnitManager>();
     [HideInInspector] public List<UnitManager> PlayerUnitsInPlay = new List<UnitManager>();
+    [HideInInspector] public Dictionary<UnitManager, Vector2Int> UnitPositions = new Dictionary<UnitManager, Vector2Int>();
 
     [HideInInspector] public List<UnitManager> unitAttackOrder = new List<UnitManager>();
     [HideInInspector] public UnitManager CurrentUnit;
@@ -55,6 +56,7 @@ public class TurnManager : MonoBehaviour {
         makeGrid = new MakeGrid(this, HexPrefab, ObstructedHexPrefab, gridWidth, gridHeight, gap, obstructedCellAmount);
         makeGrid.OnStart();
         UnitStaticFunctions.Grid = Tiles;
+        UnitStaticFunctions.UnitPositions = UnitPositions;
 
         UIManager = new TurnUIManager(this, Buttons, InfoText, EndScreen);
         UIManager.DeactivateButtons();
@@ -172,13 +174,13 @@ public class TurnManager : MonoBehaviour {
             PlayerUnitsInPlay.Remove(unit);
 
             if (PlayerUnitsInPlay.Count < 1)
-                OnExit();
+                StartCoroutine(ExitDelay(2));
         }
         else if (EnemyUnitsInPlay.Contains(unit)) {
             EnemyUnitsInPlay.Remove(unit);
 
             if (EnemyUnitsInPlay.Count < 1)
-                OnExit();
+                StartCoroutine(ExitDelay(2));
         }
     }
 
@@ -200,5 +202,10 @@ public class TurnManager : MonoBehaviour {
     public void UnitEndTurn() {
         CurrentUnit.values.defenceValue *= 2;
         NextUnit();
+    }
+
+    public IEnumerator ExitDelay(float time) {
+        yield return new WaitForSeconds(time);
+        OnExit();
     }
 }

@@ -48,10 +48,12 @@ namespace UnitComponents {
             }
         }
 
-        public void ApplyEffect(UnitEffect effect, int valueChanged, int duration) {
+        public void ApplyEffect(UnitEffect effect, int valueChanged, int duration, string description, Sprite Icon) {
             var newEffect = ScriptableObject.Instantiate(effect);
             newEffect.ValueToChange = valueChanged;
             newEffect.Duration = duration;
+            newEffect.Description = description;
+            newEffect.Icon = Icon;
             newEffect.ApplyEffect(this);
 
             Effects.Add(newEffect);

@@ -9,9 +9,12 @@ public class EffectAbilityBase : AbilityBase {
     public int duration;
     public UnitEffect effect;
 
+    public string EffectDesciption;
+    public Sprite EffectIcon;
+
     public override void WhatItDoes(Vector2Int[] pos, UnitManager[] targets) {
         foreach (var unit in targets) {
-            unit.AddEffect(effect, valueChanged, duration);
+            unit.AddEffect(effect, valueChanged, duration, EffectDesciption, EffectIcon);
         }
 
         isDone = true;

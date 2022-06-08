@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Turret
   Model: {fileID: 8738924621004297630, guid: 312eb4fe1050d874988a513650303755, type: 3}
+  Weapon: {fileID: 0}
+  Animator: {fileID: 9100000, guid: f4293eebe9dfc1e44875884257725a45, type: 2}
   portrait: {fileID: 0}
   isRanged: 1
   baseRangeValue: 20

@@ -5,9 +5,11 @@ using UnitComponents;
 
 public abstract class UnitManager : MonoBehaviour {
     [HideInInspector] public GameObject Unit;
+    [HideInInspector] public Sprite Icon;
 
     [HideInInspector] public TurnManager turnManager;
     [HideInInspector] public HealthComponent HealthComponent;
+    [HideInInspector] public UnitAnimationManager UnitAnimator;
     [HideInInspector] public bool IsDone;
 
     [HideInInspector] public UnitDefineAccessableTiles defineAccessableTiles = new UnitDefineAccessableTiles();
@@ -76,7 +78,8 @@ public abstract class UnitManager : MonoBehaviour {
         
         if (pickedAbility != null)
             pickedAbility.OnExit();
-        
+
+        turnManager.UnitPositions[this] = gridPos;
         values.initiativeValue = values.baseInitiativeValue;
         pickedAbility = null;
         IsDone = false;
@@ -85,12 +88,12 @@ public abstract class UnitManager : MonoBehaviour {
     public virtual void PickedTile(Vector2Int pickedTile, Vector2Int standingPos_optional) {
         if (AttackableTiles.Contains(pickedTile)) {
             if (gridPos == standingPos_optional) {
-                ActionQueue.Enqueue(new UnitAttack(Unit, EnemyPositions[pickedTile], values.damageValue));
+                ActionQueue.Enqueue(new UnitAttack(this, Unit, EnemyPositions[pickedTile], values.damageValue));
                 ResetTiles();
             }
             else {
                 ActionQueue.Enqueue(new UnitMoveToTile(this, pathfinding.FindPathToTile(gridPos, standingPos_optional, TileParents)));
-                ActionQueue.Enqueue(new UnitAttack(Unit, EnemyPositions[pickedTile], values.damageValue));
+                ActionQueue.Enqueue(new UnitAttack(this, Unit, EnemyPositions[pickedTile], values.damageValue));
                 ResetTiles();
             }
         }
@@ -101,6 +104,7 @@ public abstract class UnitManager : MonoBehaviour {
     }
 
     public virtual void FindTiles() {
+        turnManager.UnitPositions[this] = gridPos;
         AccessableTiles = defineAccessableTiles.FindAccessableTiles(this, gridPos, values.speedValue, ref TileParents, turnManager.Tiles);
         AttackableTiles = defineAttackableTiles.FindAttackableTiles(this, gridPos, EnemyList, values.rangeValue, EnemyPositions, turnManager.Tiles);
     }
@@ -114,8 +118,8 @@ public abstract class UnitManager : MonoBehaviour {
         pickedAbility = null;
     }
 
-    public void AddEffect(UnitEffect effect, int valueChanged, int duration) {
-        values.ApplyEffect(effect, valueChanged, duration);
+    public void AddEffect(UnitEffect effect, int valueChanged, int duration, string description, Sprite Icon) {
+        values.ApplyEffect(effect, valueChanged, duration, description, Icon);
     }
 
     public void LowerAbilityCooldowns() {
@@ -137,7 +141,7 @@ public abstract class UnitManager : MonoBehaviour {
             pickedAbility = abilities[index];
 
             if (pickedAbility.targetAnything)
-                pickedAbility.OnEnter(this, turnManager.AllUnitsInPlay);
+                pickedAbility.OnEnter(this, turnManager.LivingUnitsInPlay);
             else if (pickedAbility.targetEnemy)
                 pickedAbility.OnEnter(this, EnemyList);
             else

@@ -15,11 +15,13 @@ MonoBehaviour:
   name: Concentrate
   Icon: {fileID: 21300000, guid: 30725ae731d9a094aadf0a7cd636d864, type: 3}
   Description: 'Gain extra range for this turn '
+  AnimationTrigger: Call
   Cooldown: 3
   Ranged: 0
   AbilityRange: 0
   HitDiameter: 0
   DropAnywhere: 0
+  DropOnEmptyTile: 0
   tileRange: 0
   SelectUnit: 0
   targetAnything: 0
@@ -27,6 +29,7 @@ MonoBehaviour:
   targetSelf: 1
   EndsTurn: 0
   currentCooldown: 0
+  Runner: {fileID: 0}
   Tiles: []
   isDone: 0
   valueChanged: 5

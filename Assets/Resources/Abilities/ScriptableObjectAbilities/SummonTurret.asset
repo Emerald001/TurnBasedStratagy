@@ -15,6 +15,7 @@ MonoBehaviour:
   name: SummonTurret
   Icon: {fileID: 21300000, guid: 93e5b166b9bbfc54ab9d3530119b12d4, type: 3}
   Description: Spawn a Unit to help fight for you
+  AnimationTrigger: Summon
   Cooldown: 5
   Ranged: 0
   AbilityRange: 0

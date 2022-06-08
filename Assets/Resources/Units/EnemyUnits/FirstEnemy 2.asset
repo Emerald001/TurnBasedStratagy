@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: FirstEnemy 2
   m_EditorClassIdentifier: 
   name: Tank Droid
-  Model: {fileID: 5987447768901874949, guid: f4606a9cbb428094cbc3d4e3c9606ea9, type: 3}
-  portrait: {fileID: 0}
+  Model: {fileID: 1647928528180912902, guid: be562c8aa66d7bb49ad24572f000ab40, type: 3}
+  Weapon: {fileID: 1291715733310625982, guid: 4490cc964e1661e448265c17089145c1, type: 3}
+  Band: {fileID: 8708052414971507963, guid: dd664026a5d49af4bab12913e37dd7fb, type: 3}
+  Animator: {fileID: 9100000, guid: 64a95c97cd289c345b24c8051df409fd, type: 2}
+  Icon: {fileID: 21300000, guid: 2655fc0097ffc1b458404c9ec48281bd, type: 3}
   isRanged: 0
   baseRangeValue: 0
   baseDamageValue: 20

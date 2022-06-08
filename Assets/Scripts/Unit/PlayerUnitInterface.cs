@@ -215,10 +215,16 @@ public class PlayerUnitInterface : UnitManager {
             foreach (var tile in pickedAbility.Tiles) {
                 lastAbilityTiles.Add(tile);
             }
+
+            turnManager.Tiles[gridPos].GetComponent<Hex>().GivenColor = turnManager.ActiveUnitTileColor;
+            turnManager.Tiles[gridPos].GetComponent<Hex>().SetColor(turnManager.ActiveUnitTileColor);
         }
         if(pickedAbility == null) {
             ResetHexColor(lastAbilityTiles);
             lastAbilityTiles.Clear();
+
+            turnManager.Tiles[gridPos].GetComponent<Hex>().GivenColor = turnManager.ActiveUnitTileColor;
+            turnManager.Tiles[gridPos].GetComponent<Hex>().SetColor(turnManager.ActiveUnitTileColor);
 
             ChangeHexColor(AccessableTiles, turnManager.WalkableTileColor);
             ChangeHexColor(AttackableTiles, turnManager.AttackableTileColor);
@@ -229,7 +235,7 @@ public class PlayerUnitInterface : UnitManager {
         string kills = "";
 
         for (int i = 0; i < enemyHealthComponents.Count; i++) {
-            var thisString = enemyHealthComponents[i].owner.gameObject.name + "\n";
+            var thisString = enemyHealthComponents[i].Owner.gameObject.name + "\n";
             Vector2Int minmax = enemyHealthComponents[i].CalcDamage(DamageValue);
 
             thisString += "Damage " + minmax.x + "-" + minmax.y + "\n";

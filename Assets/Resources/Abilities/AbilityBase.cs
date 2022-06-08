@@ -10,6 +10,7 @@ public abstract class AbilityBase : ScriptableObject
     public new string name;
     public Sprite Icon;
     public string Description;
+    public string AnimationTrigger;
 
     [Header("Ability Settings, Fill which is Applicable:")]
     public int Cooldown;
@@ -62,7 +63,7 @@ public abstract class AbilityBase : ScriptableObject
                 var units = unit.GetComponents<UnitManager>();
                 List<Vector2Int> positions = new List<Vector2Int>();
                 positions.Add(unit.gridPos);
-                unit.ActionQueue.Enqueue(new UnitAbility(this, unit.gameObject, positions.ToArray(), units));
+                unit.ActionQueue.Enqueue(new UnitAbility(unit, this, unit.gameObject, positions.ToArray(), units, null));
                 unit.ResetTiles();
                 OnExit();
                 currentCooldown = Cooldown;
@@ -73,7 +74,7 @@ public abstract class AbilityBase : ScriptableObject
                 for (int i = 0; i < applicableTargets.Count; i++) {
                     positions.Add(applicableTargets[i].gridPos);
                 }
-                unit.ActionQueue.Enqueue(new UnitAbility(this, unit.gameObject, positions.ToArray(), units.ToArray()));
+                unit.ActionQueue.Enqueue(new UnitAbility(unit, this, unit.gameObject, positions.ToArray(), units.ToArray(), null));
                 unit.ResetTiles();
                 OnExit();
                 currentCooldown = Cooldown;
@@ -104,12 +105,12 @@ public abstract class AbilityBase : ScriptableObject
         }
 
         if (Runner.gridPos == standingPos_optional) {
-            Runner.ActionQueue.Enqueue(new UnitAbility(this, Runner.gameObject, TargetPos, Targets.ToArray()));
+            Runner.ActionQueue.Enqueue(new UnitAbility(Runner, this, Runner.gameObject, TargetPos, Targets.ToArray(), Runner.turnManager.Tiles[TargetPos[0]]));
             Runner.ResetTiles();
         }
         else {
             Runner.ActionQueue.Enqueue(new UnitMoveToTile(Runner, Runner.pathfinding.FindPathToTile(Runner.gridPos, standingPos_optional, Runner.TileParents)));
-            Runner.ActionQueue.Enqueue(new UnitAbility(this, Runner.gameObject, TargetPos, Targets.ToArray()));
+            Runner.ActionQueue.Enqueue(new UnitAbility(Runner, this, Runner.gameObject, TargetPos, Targets.ToArray(), Runner.turnManager.Tiles[TargetPos[0]]));
             Runner.ResetTiles();
         }
             

@@ -15,11 +15,13 @@ MonoBehaviour:
   name: Heal All
   Icon: {fileID: 21300000, guid: 970f6441fa0c38f498e8cba5189d1599, type: 3}
   Description: Heal All Allies
+  AnimationTrigger: Call
   Cooldown: 5
   Ranged: 0
   AbilityRange: 0
   HitDiameter: 0
   DropAnywhere: 0
+  DropOnEmptyTile: 0
   tileRange: 0
   SelectUnit: 0
   targetAnything: 0
@@ -27,6 +29,7 @@ MonoBehaviour:
   targetSelf: 0
   EndsTurn: 1
   currentCooldown: 0
+  Runner: {fileID: 0}
   Tiles: []
   isDone: 0
   HealAmount: 10

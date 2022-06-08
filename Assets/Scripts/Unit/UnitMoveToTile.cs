@@ -7,12 +7,14 @@ namespace UnitComponents {
         public UnitMoveToTile(UnitManager manager, List<Vector2Int> path) {
             Owner = manager;
             Path = path;
+
+            Owner.UnitAnimator.WalkAnim(true);
         }
 
         private UnitManager Owner;
         private List<Vector2Int> Path;
 
-        public override void OnUpdate() {            
+        public override void OnUpdate() {
             MoveToTile(ref Owner.gridPos, ref Owner.values.speedValue);
         }
 
@@ -32,6 +34,7 @@ namespace UnitComponents {
             if (Path.Count < 1) {
                 if (speedValue < 1)
                     EndsTurn = true;
+                Owner.UnitAnimator.WalkAnim(false);
                 IsDone = true;
             }
         }

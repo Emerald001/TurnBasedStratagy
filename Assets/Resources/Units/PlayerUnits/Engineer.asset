@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a004d67df591c14e966dca61bf41c97, type: 3}
+  m_Name: Engineer
+  m_EditorClassIdentifier: 
+  name: Engineer
+  Model: {fileID: 1647928528180912902, guid: be562c8aa66d7bb49ad24572f000ab40, type: 3}
+  Weapon: {fileID: 8113272090482890211, guid: aae863663db5d154cad5444a6d79a965, type: 3}
+  Band: {fileID: 8708052414971507963, guid: 574b2dd6ab22370429fc4f10bdfe37c7, type: 3}
+  Animator: {fileID: 9100000, guid: 64a95c97cd289c345b24c8051df409fd, type: 2}
+  Icon: {fileID: 21300000, guid: 7772b2dcb194072418f654e99800f84a, type: 3}
+  isRanged: 0
+  baseRangeValue: 0
+  baseDamageValue: 15
+  baseInitiativeValue: 5
+  baseSpeedValue: 7
+  baseHealthValue: 60
+  baseDefenceValue: 10
+  abilities:
+  - {fileID: 11400000, guid: 19101cd9aa28281409815128d01eec55, type: 2}
+  - {fileID: 11400000, guid: f76d1aacc5dea5d4aa735e4ac411a8bd, type: 2}

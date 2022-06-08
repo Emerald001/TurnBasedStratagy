@@ -15,6 +15,7 @@ MonoBehaviour:
   name: Heal
   Icon: {fileID: 21300000, guid: f4e6756a4afc82d44be06f49eca5ace2, type: 3}
   Description: Heal 20 health on one of your units
+  AnimationTrigger: Call
   Cooldown: 2
   Ranged: 1
   AbilityRange: 7
