@@ -13,6 +13,7 @@ public class OpenWorldState : IState {
 
     public void OnEnter() {
         OpenWorld.SetActive(true);
+        GameManager.instance.PauseMenu.SetActive(true);
         
         var camFollowObject = OpenWorld.transform.GetChild(0);
         Camera.main.transform.parent = camFollowObject;

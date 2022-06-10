@@ -74,10 +74,10 @@ public abstract class UnitManager : MonoBehaviour {
     }
 
     public virtual void OnExit() {
-        ResetTiles();
-        
         if (pickedAbility != null)
             pickedAbility.OnExit();
+
+        ResetTiles();
 
         turnManager.UnitPositions[this] = gridPos;
         values.initiativeValue = values.baseInitiativeValue;

@@ -101,8 +101,6 @@ public class TurnManager : MonoBehaviour {
     }
 
     private void OnExit() {
-        CurrentUnit = null;
-
         if (EnemyUnitsInPlay.Count < 1) {
             var header = "Win";
             var body = "You won in " + CurrentTurn + " turns.";
@@ -205,6 +203,8 @@ public class TurnManager : MonoBehaviour {
     }
 
     public IEnumerator ExitDelay(float time) {
+        CurrentUnit = null;
+
         yield return new WaitForSeconds(time);
         OnExit();
     }

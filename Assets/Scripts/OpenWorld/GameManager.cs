@@ -4,25 +4,27 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    //Remove singleton at sonme point
+    //Remove singleton at some point
     public static GameManager instance;
     private void Awake() {
         instance = this;
     }
 
     public GameObject Player;
+    public GameObject PauseMenu;
 
     [SerializeField] private GameObject TurnManager;
     [SerializeField] private GameObject OpenWorld;
+    [SerializeField] private MainMenu menustate;
 
     private StateMachine stateMachine = new StateMachine();
 
-    private MenuState menustate = new MenuState();
     private OpenWorldState openWorld;
 
     void Start() {
         openWorld = new OpenWorldState(OpenWorld);
-        stateMachine.OnEnter(openWorld);
+        stateMachine.OnEnter(menustate);
+        stateMachine.AddState(openWorld);
     }
     
     void Update() {
