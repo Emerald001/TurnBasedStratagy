@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05e75dd8162fbb4aa5e5e1198797679, type: 3}
+  m_Name: Regen
+  m_EditorClassIdentifier: 
+  name: Regen
+  Icon: {fileID: 21300000, guid: 52282d7faac29a24694f084921d63da8, type: 3}
+  Description: Apply on an ally to heal 5 each turn
+  AnimationTrigger: Call
+  Cooldown: 3
+  Ranged: 1
+  AbilityRange: 10
+  HitDiameter: 0
+  DropAnywhere: 0
+  DropOnEmptyTile: 0
+  tileRange: 0
+  SelectUnit: 1
+  targetAnything: 0
+  targetEnemy: 0
+  targetSelf: 0
+  EndsTurn: 1
+  currentCooldown: 0
+  Runner: {fileID: 0}
+  Tiles: []
+  isDone: 0
+  valueChanged: 5
+  duration: 5
+  effect: {fileID: 11400000, guid: 5d71fe1590cb9ce40929d5cc0520aa5e, type: 2}
+  EffectDesciption: Heal 5 each turn
+  EffectIcon: {fileID: 21300000, guid: 52282d7faac29a24694f084921d63da8, type: 3}

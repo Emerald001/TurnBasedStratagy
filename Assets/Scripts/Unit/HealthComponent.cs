@@ -15,6 +15,7 @@ public class HealthComponent : IDamagable
         HealthBar = Owner.GetComponentInChildren<Slider>();
         HealthBar.maxValue = Owner.values.baseHealthValue;
         Health = Owner.values.baseHealthValue;
+        HealthBar.value = Health;
     }
 
     public void TakeDamage(int Damage) {

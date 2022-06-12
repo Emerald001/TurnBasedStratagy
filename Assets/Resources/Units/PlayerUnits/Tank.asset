@@ -13,15 +13,14 @@ MonoBehaviour:
   m_Name: Tank
   m_EditorClassIdentifier: 
   name: Tank
-  Model: {fileID: 1647928528180912902, guid: be562c8aa66d7bb49ad24572f000ab40, type: 3}
+  Model: {fileID: 3406049839837504803, guid: f9b98dae9eef96445b61cb8ba769ba21, type: 3}
   Weapon: {fileID: 1291715733310625982, guid: 4490cc964e1661e448265c17089145c1, type: 3}
   Band: {fileID: 8708052414971507963, guid: 574b2dd6ab22370429fc4f10bdfe37c7, type: 3}
-  Animator: {fileID: 9100000, guid: 64a95c97cd289c345b24c8051df409fd, type: 2}
   Icon: {fileID: 21300000, guid: 5ae2f8a7ab83f6043b9e8a63f615893b, type: 3}
   isRanged: 0
   baseRangeValue: 0
   baseDamageValue: 17
-  baseInitiativeValue: 6
+  baseInitiativeValue: 7
   baseSpeedValue: 5
   baseHealthValue: 60
   baseDefenceValue: 12

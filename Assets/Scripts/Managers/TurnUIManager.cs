@@ -58,7 +58,7 @@ public class TurnUIManager
 
         for (int i = 0; i < abilities.Count; i++) {
             var buttonGO = AbilityButtons[i];
-            buttonGO.GetComponent<ToolTipTrigger>().TextToShow = abilities[i].Description;
+            buttonGO.GetComponent<ToolTipTrigger>().TextToShow = abilities[i].name + ": \n" + abilities[i].Description;
 
             buttonGO.transform.GetChild(0).gameObject.SetActive(true);
             var image = buttonGO.transform.GetChild(0).GetComponent<Image>();

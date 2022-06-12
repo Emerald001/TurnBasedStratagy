@@ -10,19 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1a004d67df591c14e966dca61bf41c97, type: 3}
-  m_Name: FirstEnemy 2
+  m_Name: Rifleman
   m_EditorClassIdentifier: 
-  name: Tank Droid
-  Model: {fileID: 1647928528180912902, guid: be562c8aa66d7bb49ad24572f000ab40, type: 3}
-  Weapon: {fileID: 1291715733310625982, guid: 4490cc964e1661e448265c17089145c1, type: 3}
+  name: Rifleman
+  Model: {fileID: 3474261482969570553, guid: a334b3326506fb04abc3d21871d24e28, type: 3}
+  Weapon: {fileID: 804475123441694517, guid: 46fc8587ed6799a45a2e220c12454be3, type: 3}
   Band: {fileID: 8708052414971507963, guid: dd664026a5d49af4bab12913e37dd7fb, type: 3}
-  Animator: {fileID: 9100000, guid: 64a95c97cd289c345b24c8051df409fd, type: 2}
-  Icon: {fileID: 21300000, guid: 2655fc0097ffc1b458404c9ec48281bd, type: 3}
-  isRanged: 0
-  baseRangeValue: 0
+  Icon: {fileID: 21300000, guid: 558ce24c3f55a3c478c020030b0322f6, type: 3}
+  isRanged: 1
+  baseRangeValue: 15
   baseDamageValue: 20
-  baseInitiativeValue: 4
+  baseInitiativeValue: 5
   baseSpeedValue: 6
-  baseHealthValue: 90
-  baseDefenceValue: 12
+  baseHealthValue: 40
+  baseDefenceValue: 10
   abilities: []

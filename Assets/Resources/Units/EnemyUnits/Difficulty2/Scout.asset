@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a004d67df591c14e966dca61bf41c97, type: 3}
+  m_Name: Scout
+  m_EditorClassIdentifier: 
+  name: Scout
+  Model: {fileID: 3406049839837504803, guid: f9b98dae9eef96445b61cb8ba769ba21, type: 3}
+  Weapon: {fileID: 6850437351798921346, guid: d97525d561972264aa6a45cb441cbceb, type: 3}
+  Band: {fileID: 8708052414971507963, guid: dd664026a5d49af4bab12913e37dd7fb, type: 3}
+  Icon: {fileID: 21300000, guid: 909f0f4b7ccdb1141a540387e5c5d041, type: 3}
+  isRanged: 0
+  baseRangeValue: 0
+  baseDamageValue: 20
+  baseInitiativeValue: 10
+  baseSpeedValue: 8
+  baseHealthValue: 20
+  baseDefenceValue: 5
+  abilities: []

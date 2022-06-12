@@ -62,7 +62,7 @@ public class UnitInfoPiece : MonoBehaviour
             if(unit.abilities.Count > i && unit.abilities.Count != 0) {
                 AbilityImages[i].gameObject.SetActive(true);
                 AbilityImages[i].sprite = unit.abilities[i].Icon;
-                AbilityImages[i].GetComponent<ToolTipTrigger>().TextToShow = unit.abilities[i].Description;
+                AbilityImages[i].GetComponent<ToolTipTrigger>().TextToShow = unit.abilities[i].name + ": \n" + unit.abilities[i].Description;
             }
             else {
                 AbilityImages[i].gameObject.SetActive(false);

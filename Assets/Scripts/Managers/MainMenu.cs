@@ -6,6 +6,9 @@ public class MainMenu : MonoBehaviour, IState
 {
     public bool IsDone { get; set; }
 
+    public Transform CamPos;
+    public MoveComponent moveComponent;
+
     public void StartGame() {
         IsDone = true;
     }
@@ -19,10 +22,14 @@ public class MainMenu : MonoBehaviour, IState
     }
 
     public void OnEnter() {
+        Camera.main.transform.SetPositionAndRotation(CamPos.position, CamPos.rotation);
         GameManager.instance.PauseMenu.SetActive(false);
+
+        moveComponent.Move = true;
     }
 
     public void OnExit() {
+        moveComponent.Move = false;
         gameObject.SetActive(false);
     }
 }

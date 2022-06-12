@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.Animations;
 
 namespace UnitComponents {
     public static class UnitSpawn {
@@ -11,7 +10,6 @@ namespace UnitComponents {
             var Unit = GameObject.Instantiate(prefab, worldPos, Quaternion.identity);
             Unit.name = values.name;
             Unit.transform.parent = unitParent;
-            HealthComponent healthComponent = new HealthComponent();
 
             var model = GameObject.Instantiate(values.Model, worldPos, Quaternion.identity);
             var visuals = Unit.transform.GetChild(0);
@@ -29,11 +27,8 @@ namespace UnitComponents {
             
             var UnitScript = Unit.GetComponent<UnitManager>();
             UnitScript.Icon = values.Icon;
-            UnitScript.HealthComponent = healthComponent;
-            healthComponent.Owner = UnitScript;
 
             //Set Animator
-            model.GetComponent<Animator>().runtimeAnimatorController = values.Animator;
             var AnimationScript = Unit.AddComponent<UnitAnimationManager>();
             UnitScript.UnitAnimator = AnimationScript;
             AnimationScript.Owner = UnitScript;
@@ -73,6 +68,9 @@ namespace UnitComponents {
             unitValues.SetValues();
 
             //give and set health
+            HealthComponent healthComponent = new HealthComponent();
+            UnitScript.HealthComponent = healthComponent;
+            healthComponent.Owner = UnitScript;
             healthComponent.OnEnter();
 
             //add to lists for better accessability

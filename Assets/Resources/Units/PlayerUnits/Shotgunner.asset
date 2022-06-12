@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: Shotgunner
   m_EditorClassIdentifier: 
   name: Shotgunner
-  Model: {fileID: 1647928528180912902, guid: be562c8aa66d7bb49ad24572f000ab40, type: 3}
+  Model: {fileID: 3474261482969570553, guid: a334b3326506fb04abc3d21871d24e28, type: 3}
   Weapon: {fileID: 6431619875677687990, guid: ed105adf0f2a489409bfcf5d2458b1d9, type: 3}
   Band: {fileID: 8708052414971507963, guid: 574b2dd6ab22370429fc4f10bdfe37c7, type: 3}
-  Animator: {fileID: 9100000, guid: f430327aa4f05e649a29af6d438d6dac, type: 2}
   Icon: {fileID: 21300000, guid: 6d1a5a711703f6744b9f3c5349f69ae3, type: 3}
   isRanged: 1
   baseRangeValue: 12
@@ -27,3 +26,5 @@ MonoBehaviour:
   baseDefenceValue: 2
   abilities:
   - {fileID: 11400000, guid: e65295dcd587a3542ba99b90c57f87d0, type: 2}
+  - {fileID: 11400000, guid: 3520fdaba70ccba45bb068b55586d606, type: 2}
+  - {fileID: 11400000, guid: d6b03be5ac7cd5749b50479522238cee, type: 2}

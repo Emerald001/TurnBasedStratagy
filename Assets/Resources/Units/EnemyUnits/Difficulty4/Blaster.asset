@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a004d67df591c14e966dca61bf41c97, type: 3}
+  m_Name: Blaster
+  m_EditorClassIdentifier: 
+  name: Blaster
+  Model: {fileID: 3474261482969570553, guid: a334b3326506fb04abc3d21871d24e28, type: 3}
+  Weapon: {fileID: 6431619875677687990, guid: ed105adf0f2a489409bfcf5d2458b1d9, type: 3}
+  Band: {fileID: 8708052414971507963, guid: dd664026a5d49af4bab12913e37dd7fb, type: 3}
+  Icon: {fileID: 21300000, guid: ce3d3b75fa92b904db5fae6ec2a283ac, type: 3}
+  isRanged: 1
+  baseRangeValue: 15
+  baseDamageValue: 30
+  baseInitiativeValue: 5
+  baseSpeedValue: 2
+  baseHealthValue: 60
+  baseDefenceValue: 10
+  abilities: []

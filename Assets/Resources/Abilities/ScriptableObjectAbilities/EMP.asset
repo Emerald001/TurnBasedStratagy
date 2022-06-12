@@ -37,3 +37,4 @@ MonoBehaviour:
   effect: {fileID: 11400000, guid: 3ff0f270bfbe0c9418d35490f8640969, type: 2}
   EffectDesciption: Lowers Speed by 3
   EffectIcon: {fileID: 21300000, guid: 78d085111064ead4591dd10de73654a2, type: 3}
+  DoHitAnimation: 1

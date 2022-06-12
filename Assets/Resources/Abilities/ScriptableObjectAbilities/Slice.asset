@@ -32,4 +32,4 @@ MonoBehaviour:
   Runner: {fileID: 0}
   Tiles: []
   isDone: 0
-  DamageAmount: 60
+  DamageAmount: 50

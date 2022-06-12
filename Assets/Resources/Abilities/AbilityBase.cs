@@ -98,6 +98,7 @@ public abstract class AbilityBase : ScriptableObject
             return;
 
         List<UnitManager> Targets = new List<UnitManager>();
+        currentCooldown = Cooldown;
 
         foreach (var pos in TargetPos) {
             if (AbilityApplicable.ContainsKey(pos))
@@ -115,7 +116,6 @@ public abstract class AbilityBase : ScriptableObject
         }
             
         OnExit();
-        currentCooldown = Cooldown;
     }
 
     public abstract void WhatItDoes(Vector2Int[] pos, UnitManager[] targets);

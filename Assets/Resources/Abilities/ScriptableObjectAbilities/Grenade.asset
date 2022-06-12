@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Grenade
   Icon: {fileID: 21300000, guid: 95acdeb11f724ab4595c02b7b1a625df, type: 3}
-  Description: Hit an enemy with a grenade, dealing 40 damage
+  Description: Throw a grenade, dealing 40 damage to each enemy it hits
   AnimationTrigger: Throw
   Cooldown: 2
   Ranged: 0

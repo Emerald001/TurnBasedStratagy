@@ -32,4 +32,4 @@ MonoBehaviour:
   Runner: {fileID: 0}
   Tiles: []
   isDone: 0
-  HealAmount: 20
+  HealAmount: 30

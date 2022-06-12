@@ -56,6 +56,9 @@ public class EnemyUnitInterface : UnitManager {
 
             PickedTile(pickedTile, Vector2Int.zero);
         }
+        else if(values.speedValue == 0 && CurrentAction == null) {
+            IsDone = true;
+        }
     }
 
     public float WaitTime() {

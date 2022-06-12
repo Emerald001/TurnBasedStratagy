@@ -31,7 +31,7 @@ public abstract class UnitManager : MonoBehaviour {
     [HideInInspector] public AbilityBase pickedAbility;
 
     [HideInInspector] public Queue<UnitAction> ActionQueue = new Queue<UnitAction>();
-    private UnitAction CurrentAction;
+    [HideInInspector] public UnitAction CurrentAction;
 
     public virtual void OnEnter() {
         Unit = this.gameObject;

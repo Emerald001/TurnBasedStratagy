@@ -10,19 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1a004d67df591c14e966dca61bf41c97, type: 3}
-  m_Name: FirstEnemy
+  m_Name: Marauder
   m_EditorClassIdentifier: 
-  name: Bigger Gunner
-  Model: {fileID: 1647928528180912902, guid: be562c8aa66d7bb49ad24572f000ab40, type: 3}
-  Weapon: {fileID: 7780061770706721758, guid: d716d66fe9e63094f9ba0a194602c3e0, type: 3}
+  name: Marauder
+  Model: {fileID: 3406049839837504803, guid: f9b98dae9eef96445b61cb8ba769ba21, type: 3}
+  Weapon: {fileID: 1291715733310625982, guid: 4490cc964e1661e448265c17089145c1, type: 3}
   Band: {fileID: 8708052414971507963, guid: dd664026a5d49af4bab12913e37dd7fb, type: 3}
-  Animator: {fileID: 9100000, guid: f430327aa4f05e649a29af6d438d6dac, type: 2}
-  Icon: {fileID: 21300000, guid: 87dd702f42a0fc843b4d2518d4f85ed1, type: 3}
-  isRanged: 1
-  baseRangeValue: 15
-  baseDamageValue: 10
+  Icon: {fileID: 21300000, guid: da66d51a63906cc41b9200c3802afd67, type: 3}
+  isRanged: 0
+  baseRangeValue: 0
+  baseDamageValue: 20
   baseInitiativeValue: 5
   baseSpeedValue: 4
-  baseHealthValue: 50
-  baseDefenceValue: 10
+  baseHealthValue: 30
+  baseDefenceValue: 7
   abilities: []

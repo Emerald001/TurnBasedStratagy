@@ -26,7 +26,8 @@ namespace UnitComponents {
         private Vector2Int[] positions;
         private UnitManager[] targets;
 
-        private float abilityTimer = 0;
+        private float abilityTimer = .5f;
+        private float EndTimer = 1.5f;
         private bool DoneAnimation = false;
         private bool DoneAbility = false;
 
@@ -39,7 +40,8 @@ namespace UnitComponents {
                 return;
             }
 
-            IsDone = true;
+            if(Timer(ref EndTimer) < 0)
+                IsDone = true;
         }
 
         public void RunAbility() {

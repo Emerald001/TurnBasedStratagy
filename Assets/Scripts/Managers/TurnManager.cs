@@ -140,9 +140,12 @@ public class TurnManager : MonoBehaviour {
     }
 
     private void NextTurn() {
+        for (int i = LivingUnitsInPlay.Count - 1; i >= 0; i--) {
+            LivingUnitsInPlay[i].values.SetValues();
+        }
+        
         foreach (var unit in LivingUnitsInPlay) {
             UnitsWithTurnLeft.Add(unit);
-            unit.values.SetValues();
         }
 
         CurrentTurn++;

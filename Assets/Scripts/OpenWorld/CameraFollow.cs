@@ -7,6 +7,8 @@ public class CameraFollow : MonoBehaviour {
     [SerializeField] private float lookAroundSpeed;
     [SerializeField] private GameObject followObject;
     [SerializeField] private Vector3 offset;
+    
+    [SerializeField] private GameObject SmallTutorial;
 
     private Vector2 rotation;
 
@@ -18,13 +20,14 @@ public class CameraFollow : MonoBehaviour {
 
     void Update() { 
         transform.position = Vector3.Slerp(transform.position, followObject.transform.position, 5 * Time.deltaTime);
+        transform.eulerAngles = rotation * (lookAroundSpeed);
 
         if (Input.GetKey(KeyCode.Mouse1)) {
+            SmallTutorial.SetActive(false);
+
             rotation.y += Input.GetAxisRaw("Mouse X");
             rotation.x += -Input.GetAxisRaw("Mouse Y");
             rotation.x = Mathf.Clamp(rotation.x, -1, 4.5f);
-
-            transform.eulerAngles = rotation * (lookAroundSpeed);
         }
     }
 }

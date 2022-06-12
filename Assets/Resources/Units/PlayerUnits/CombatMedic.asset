@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: CombatMedic
   m_EditorClassIdentifier: 
   name: Combat Medic
-  Model: {fileID: 1647928528180912902, guid: be562c8aa66d7bb49ad24572f000ab40, type: 3}
+  Model: {fileID: 208062951193449389, guid: b24d1af66e65c7f429266072c53a116b, type: 3}
   Weapon: {fileID: 1848741818610381608, guid: 15299b3d15ef0d44a9dba1a6bb8ce8fd, type: 3}
   Band: {fileID: 8708052414971507963, guid: 574b2dd6ab22370429fc4f10bdfe37c7, type: 3}
-  Animator: {fileID: 9100000, guid: f9a9f4ca5924a8342aedae1a2dbdff8b, type: 2}
   Icon: {fileID: 21300000, guid: d193520dadb42f947b9aee02c6dcdd3d, type: 3}
   isRanged: 1
   baseRangeValue: 20
@@ -28,3 +27,4 @@ MonoBehaviour:
   abilities:
   - {fileID: 11400000, guid: 70fec2a3d8781444db1801aa808217f7, type: 2}
   - {fileID: 11400000, guid: b38a0ed574b694a4697b28ae1ac42602, type: 2}
+  - {fileID: 11400000, guid: 9e63afd9e16c15f4d97e1665fd86089d, type: 2}

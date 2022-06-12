@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.Animations;
 
 [CreateAssetMenu(fileName = "Unit")]
 public class UnitBase : ScriptableObject
@@ -11,7 +10,6 @@ public class UnitBase : ScriptableObject
     public GameObject Model;
     public GameObject Weapon;
     public GameObject Band;
-    public AnimatorController Animator;
     public Sprite Icon;
 
     [Header("Ranged Settings: ")]

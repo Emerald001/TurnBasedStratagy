@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    protected int targetFPS = 144;
+
     //Remove singleton at some point
     public static GameManager instance;
     private void Awake() {
+        QualitySettings.vSyncCount = 1;
+        Application.targetFrameRate = targetFPS;
         instance = this;
     }
 
@@ -15,6 +19,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject TurnManager;
     [SerializeField] private GameObject OpenWorld;
+    [SerializeField] private GameObject SmallTutorial;
     [SerializeField] private MainMenu menustate;
 
     private StateMachine stateMachine = new StateMachine();
@@ -22,12 +27,15 @@ public class GameManager : MonoBehaviour
     private OpenWorldState openWorld;
 
     void Start() {
-        openWorld = new OpenWorldState(OpenWorld);
+        openWorld = new OpenWorldState(OpenWorld, SmallTutorial);
         stateMachine.OnEnter(menustate);
         stateMachine.AddState(openWorld);
     }
     
     void Update() {
+        if (Application.targetFrameRate != targetFPS)
+            Application.targetFrameRate = targetFPS;
+
         stateMachine.OnUpdate();
     }
 
