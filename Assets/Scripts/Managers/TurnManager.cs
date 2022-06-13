@@ -27,6 +27,7 @@ public class TurnManager : MonoBehaviour {
     [Header("References")]
     public GameObject InfoText;
     public GameObject EndScreen;
+    public GameObject Text;
     public List<GameObject> Buttons;
 
     //shit it's given
@@ -89,6 +90,9 @@ public class TurnManager : MonoBehaviour {
     }
 
     private void Update() {
+        if (Input.GetKeyDown(KeyCode.Mouse1) || Input.GetKeyDown(KeyCode.Mouse0))
+            Text.SetActive(false);
+
         if (CurrentUnit == null)
             return;
 
