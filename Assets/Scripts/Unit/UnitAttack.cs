@@ -6,7 +6,9 @@ namespace UnitComponents {
     public class UnitAttack : UnitAction
     {
         public float timer = 1.5f;
+        public float AudioTimer = .4f;
         private bool DoneAttack = false;
+        private bool DoneAudio = false;
 
         public UnitAttack(UnitManager Owner, GameObject Unit, UnitManager Enemy, int Damage) {
             this.Owner = Owner;
@@ -29,15 +31,24 @@ namespace UnitComponents {
             if(!DoneAttack)
                 Attack();
 
-            if (Timer() < 0)
+            if (Timer(ref timer) < 0)
                 IsDone = true;
         }
 
         public void Attack() {
-            Unit.transform.GetChild(0).LookAt(Enemy.transform);
-            Owner.UnitAnimator.AttackAnim();
-            Enemy.HealthComponent.TakeDamage(Damage);
-            Owner.UnitAnimator.HitEnemy(Enemy);
+            if (!DoneAudio) {
+                Unit.transform.GetChild(0).LookAt(Enemy.transform);
+                Owner.UnitAnimator.AttackAnim();
+                Enemy.HealthComponent.TakeDamage(Damage);
+                Owner.UnitAnimator.HitEnemy(Enemy);
+                DoneAudio = true;
+            }
+
+            if (Timer(ref AudioTimer) > 0)
+                return;
+
+            Owner.UnitAudio.PlayAudio("Attack");
+
             DoneAttack = true;
         }
 
@@ -48,7 +59,8 @@ namespace UnitComponents {
             }
             return true;
         }
-        public float Timer() {
+
+        public float Timer(ref float timer) {
             return timer -= Time.deltaTime;
         }
     }

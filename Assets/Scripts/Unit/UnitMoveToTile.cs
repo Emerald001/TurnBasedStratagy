@@ -9,6 +9,7 @@ namespace UnitComponents {
             Path = path;
 
             Owner.UnitAnimator.WalkAnim(true);
+            Owner.UnitAudio.PlayLoopedAudio("Walking", true);
         }
 
         private UnitManager Owner;
@@ -35,6 +36,7 @@ namespace UnitComponents {
                 if (speedValue < 1)
                     EndsTurn = true;
                 Owner.UnitAnimator.WalkAnim(false);
+                Owner.UnitAudio.PlayLoopedAudio("Walking", false);
                 IsDone = true;
             }
         }

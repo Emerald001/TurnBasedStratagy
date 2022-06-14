@@ -36,6 +36,12 @@ namespace UnitComponents {
             if(values.Weapon != null)
                 GameObject.Instantiate(values.Weapon, AnimationScript.WeaponHolder.transform);
 
+            //Set AudioManager
+            var AudioManager = Unit.AddComponent<UnitAudioManager>();
+            UnitScript.UnitAudio = AudioManager;
+            AudioManager.sounds = values.sounds;
+            AudioManager.Init();
+
             //set Scripts
             if (values.isRanged)
                 UnitScript.defineAttackableTiles = new UnitDefineAttackableTilesRanged();

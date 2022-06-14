@@ -40,11 +40,17 @@ public class UnitAnimationManager : MonoBehaviour
     }
 
     public IEnumerator HitDelay(UnitManager Unit) {
-        yield return new WaitForSeconds(.7f);
+        yield return new WaitForSeconds(.5f);
+        Owner.UnitAudio.PlayAudio("Hit");
+
+        yield return new WaitForSeconds(.2f);
         Unit.UnitAnimator.HitAnim();
     }
     public IEnumerator DeathDelay() {
         yield return new WaitForSeconds(.5f);
         animator.SetTrigger("Death");
+
+        yield return new WaitForSeconds(2.2f);
+        Owner.UnitAudio.PlayAudio("Death");
     }
 }

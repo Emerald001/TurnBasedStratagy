@@ -28,3 +28,28 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 70fec2a3d8781444db1801aa808217f7, type: 2}
   - {fileID: 11400000, guid: b38a0ed574b694a4697b28ae1ac42602, type: 2}
   - {fileID: 11400000, guid: 9e63afd9e16c15f4d97e1665fd86089d, type: 2}
+  sounds:
+  - name: Attack
+    clip: {fileID: 8300000, guid: 2ec70f82bf3cac3428f65f39642e4e46, type: 3}
+    source: {fileID: 0}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - name: Hit
+    clip: {fileID: 8300000, guid: b413e64f5404d4445a8936a5dd05e468, type: 3}
+    source: {fileID: 0}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - name: Death
+    clip: {fileID: 8300000, guid: ccb5a32d5dfdcf7458001ed055f53eb3, type: 3}
+    source: {fileID: 0}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - name: Walking
+    clip: {fileID: 8300000, guid: 8ddf40d7ef1236e49bac2a9fea02f732, type: 3}
+    source: {fileID: 0}
+    volume: 1
+    pitch: 3
+    loop: 1

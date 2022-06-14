@@ -10,6 +10,7 @@ public abstract class UnitManager : MonoBehaviour {
     [HideInInspector] public TurnManager turnManager;
     [HideInInspector] public HealthComponent HealthComponent;
     [HideInInspector] public UnitAnimationManager UnitAnimator;
+    [HideInInspector] public UnitAudioManager UnitAudio;
     [HideInInspector] public bool IsDone;
 
     [HideInInspector] public UnitDefineAccessableTiles defineAccessableTiles = new UnitDefineAccessableTiles();

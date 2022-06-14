@@ -25,3 +25,28 @@ MonoBehaviour:
   baseHealthValue: 30
   baseDefenceValue: 7
   abilities: []
+  sounds:
+  - name: Attack
+    clip: {fileID: 8300000, guid: 17fae469d4c12bb4eb2e6338e9da8361, type: 3}
+    source: {fileID: 0}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - name: Hit
+    clip: {fileID: 8300000, guid: b413e64f5404d4445a8936a5dd05e468, type: 3}
+    source: {fileID: 0}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - name: Death
+    clip: {fileID: 8300000, guid: ccb5a32d5dfdcf7458001ed055f53eb3, type: 3}
+    source: {fileID: 0}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - name: Walking
+    clip: {fileID: 8300000, guid: c49b0d12dcfeb914081ae8543f5d19a4, type: 3}
+    source: {fileID: 0}
+    volume: 1
+    pitch: 3
+    loop: 1

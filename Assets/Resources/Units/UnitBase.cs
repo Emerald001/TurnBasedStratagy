@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Unit")]
-public class UnitBase : ScriptableObject
-{
+public class UnitBase : ScriptableObject {
     [Header("Identefiers: ")]
     public new string name;
     public GameObject Model;
@@ -27,4 +26,7 @@ public class UnitBase : ScriptableObject
 
     [Header("Abilities: ")]
     public List<AbilityBase> abilities;
+
+    [Header("Sounds: ")]
+    public Sound[] sounds;
 }
