@@ -18,10 +18,11 @@ MonoBehaviour:
   AnimationTrigger: Throw
   Sound:
     name: Throw
-    clip: {fileID: 8300000, guid: 17fae469d4c12bb4eb2e6338e9da8361, type: 3}
+    clip: {fileID: 8300000, guid: b1a1d370912978b48ba5e4da7d8d7909, type: 3}
     source: {fileID: 0}
     volume: 1
     pitch: 1
+    spacialBlend: 0
     loop: 0
   Cooldown: 2
   Ranged: 0
