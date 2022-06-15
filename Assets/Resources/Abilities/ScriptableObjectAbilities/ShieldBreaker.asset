@@ -16,6 +16,13 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: 5eb1c37e6a78c5345b2c7cebc565fdf2, type: 3}
   Description: Lower an enemy's defence by 5
   AnimationTrigger: Attack
+  Sound:
+    name: Attack
+    clip: {fileID: 8300000, guid: b2b3580db982ba248a979b49bfbf4ffe, type: 3}
+    source: {fileID: 0}
+    volume: 1
+    pitch: 1
+    loop: 0
   Cooldown: 3
   Ranged: 1
   AbilityRange: 50

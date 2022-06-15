@@ -16,6 +16,13 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: 420951119e32c5d499dddc26e11a6e4b, type: 3}
   Description: Gain 3 additional movement points for this turn
   AnimationTrigger: Call
+  Sound:
+    name: Call
+    clip: {fileID: 8300000, guid: 1e3f238c230f3d34ab28adc79d232583, type: 3}
+    source: {fileID: 0}
+    volume: 1
+    pitch: 1
+    loop: 0
   Cooldown: 2
   Ranged: 0
   AbilityRange: 0
@@ -37,3 +44,4 @@ MonoBehaviour:
   effect: {fileID: 11400000, guid: 3ff0f270bfbe0c9418d35490f8640969, type: 2}
   EffectDesciption: Increases Speed by 3
   EffectIcon: {fileID: 21300000, guid: fda88b40289508643baacc0e796543f8, type: 3}
+  DoHitAnimation: 0

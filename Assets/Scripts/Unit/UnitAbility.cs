@@ -51,6 +51,7 @@ namespace UnitComponents {
             }
 
             if (!DoneAnimation) {
+                Runner.UnitAudio.PlayAudio(abilityBase.Sound.name);
                 Runner.UnitAnimator.AbilityAnim(abilityBase.AnimationTrigger);
                 DoneAnimation = true;
             }

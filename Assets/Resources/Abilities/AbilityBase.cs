@@ -11,7 +11,7 @@ public abstract class AbilityBase : ScriptableObject
     public Sprite Icon;
     public string Description;
     public string AnimationTrigger;
-    public AudioClip Sound;
+    public Sound Sound;
 
     [Header("Ability Settings, Fill which is Applicable:")]
     public int Cooldown;

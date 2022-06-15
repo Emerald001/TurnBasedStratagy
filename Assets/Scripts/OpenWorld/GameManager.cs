@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject Player;
     public GameObject PauseMenu;
+    public UnitAudioManager audiomanager;
 
     [SerializeField] private GameObject TurnManager;
     [SerializeField] private GameObject OpenWorld;
@@ -27,6 +28,8 @@ public class GameManager : MonoBehaviour
     private OpenWorldState openWorld;
 
     void Start() {
+        audiomanager.Init();
+
         openWorld = new OpenWorldState(OpenWorld, SmallTutorial);
         stateMachine.OnEnter(menustate);
         stateMachine.AddState(openWorld);

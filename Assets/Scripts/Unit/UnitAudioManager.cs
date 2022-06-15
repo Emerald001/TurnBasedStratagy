@@ -5,10 +5,10 @@ using UnityEngine.Audio;
 
 public class UnitAudioManager : MonoBehaviour
 {
-    public Sound[] sounds;
+    public List<Sound> soundslist = new List<Sound>();
 
     public void Init() {
-        foreach (Sound s in sounds) {
+        foreach (Sound s in soundslist) {
             s.source = gameObject.AddComponent<AudioSource>();
             s.source.clip = s.clip;
 
@@ -16,12 +16,12 @@ public class UnitAudioManager : MonoBehaviour
             s.source.pitch = s.pitch;
             s.source.loop = s.loop;
 
-            s.source.spatialBlend = 1;
+            s.source.spatialBlend = s.spacialBlend;
         }
     }
 
     public void PlayAudio(string name) {
-        var audio = Array.Find(sounds, sound => sound.name == name);
+        var audio = soundslist.Find(sound => sound.name == name);
 
         if (audio == null)
             return;
@@ -30,7 +30,7 @@ public class UnitAudioManager : MonoBehaviour
     }
 
     public void PlayLoopedAudio(string name, bool onOrOff) {
-        var audio = Array.Find(sounds, sound => sound.name == name);
+        var audio = soundslist.Find(sound => sound.name == name);
 
         if (audio == null)
             return;

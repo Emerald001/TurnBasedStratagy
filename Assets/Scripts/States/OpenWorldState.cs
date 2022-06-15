@@ -15,6 +15,8 @@ public class OpenWorldState : IState
     }
 
     public void OnEnter() {
+        GameManager.instance.audiomanager.PlayLoopedAudio("Music", true);
+
         OpenWorld.SetActive(true);
         SmallTutorial.SetActive(true);
         GameManager.instance.PauseMenu.SetActive(true);
@@ -34,6 +36,8 @@ public class OpenWorldState : IState
         GameManager.instance.Player.GetComponent<Movement>().interactable = false;
         SmallTutorial.SetActive(false);
         OpenWorld.SetActive(false);
+
+        GameManager.instance.audiomanager.PlayLoopedAudio("Music", false);
     }
 
     public void OnUpdate() {

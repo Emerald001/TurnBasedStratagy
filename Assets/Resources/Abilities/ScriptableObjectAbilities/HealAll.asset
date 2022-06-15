@@ -16,6 +16,13 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: 970f6441fa0c38f498e8cba5189d1599, type: 3}
   Description: Heal All Allies
   AnimationTrigger: Call
+  Sound:
+    name: Call
+    clip: {fileID: 8300000, guid: 1e3f238c230f3d34ab28adc79d232583, type: 3}
+    source: {fileID: 0}
+    volume: 1
+    pitch: 1
+    loop: 0
   Cooldown: 5
   Ranged: 0
   AbilityRange: 0

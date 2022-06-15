@@ -16,7 +16,13 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: 30725ae731d9a094aadf0a7cd636d864, type: 3}
   Description: 'Gain extra range for this turn '
   AnimationTrigger: Call
-  Sound: {fileID: 8300000, guid: 1e3f238c230f3d34ab28adc79d232583, type: 3}
+  Sound:
+    name: Call
+    clip: {fileID: 8300000, guid: 1e3f238c230f3d34ab28adc79d232583, type: 3}
+    source: {fileID: 0}
+    volume: 1
+    pitch: 1
+    loop: 0
   Cooldown: 3
   Ranged: 0
   AbilityRange: 0

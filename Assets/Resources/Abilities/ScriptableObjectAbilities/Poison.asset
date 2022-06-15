@@ -16,6 +16,13 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: 56ef6048fdd12c4449a044931b031698, type: 3}
   Description: Posion an enemy for 5 damage each Turn
   AnimationTrigger: Attack
+  Sound:
+    name: Attack
+    clip: {fileID: 8300000, guid: 7d87fc02a8ab98c4ba06a8b1e12fb28e, type: 3}
+    source: {fileID: 0}
+    volume: 1
+    pitch: 1
+    loop: 0
   Cooldown: 2
   Ranged: 1
   AbilityRange: 30

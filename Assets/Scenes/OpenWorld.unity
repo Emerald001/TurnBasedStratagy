@@ -9107,6 +9107,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1991591443}
   - component: {fileID: 1991591444}
+  - component: {fileID: 1991591445}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -9143,10 +9144,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 1859041548}
   PauseMenu: {fileID: 198661494}
+  audiomanager: {fileID: 1991591445}
   TurnManager: {fileID: 631937045545578101, guid: 6e4fc4703c48cc74d873d84fa292ec83, type: 3}
   OpenWorld: {fileID: 484607425}
   SmallTutorial: {fileID: 332176769}
   menustate: {fileID: 2115701021}
+--- !u!114 &1991591445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1991591442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5171a07d1eefa9439aaf22943e3f4eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundslist:
+  - name: Music
+    clip: {fileID: 8300000, guid: a473960aa810e2847b77e7eff50c317d, type: 3}
+    source: {fileID: 0}
+    volume: 0.2
+    pitch: 1
+    loop: 1
+  - name: BattleMusic
+    clip: {fileID: 8300000, guid: 788f48e9f25f9354b913b65f15571099, type: 3}
+    source: {fileID: 0}
+    volume: 0.2
+    pitch: 1
+    loop: 1
 --- !u!1001 &2002032719
 PrefabInstance:
   m_ObjectHideFlags: 0

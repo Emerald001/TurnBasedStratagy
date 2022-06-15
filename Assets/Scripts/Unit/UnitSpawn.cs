@@ -36,11 +36,6 @@ namespace UnitComponents {
             if(values.Weapon != null)
                 GameObject.Instantiate(values.Weapon, AnimationScript.WeaponHolder.transform);
 
-            //Set AudioManager
-            var AudioManager = Unit.AddComponent<UnitAudioManager>();
-            UnitScript.UnitAudio = AudioManager;
-            AudioManager.sounds = values.sounds;
-            AudioManager.Init();
 
             //set Scripts
             if (values.isRanged)
@@ -53,6 +48,19 @@ namespace UnitComponents {
 
             foreach(var ability in values.abilities)
                 UnitScript.abilities.Add(ScriptableObject.Instantiate(ability));
+
+            //Set AudioManager
+            var AudioManager = Unit.AddComponent<UnitAudioManager>();
+            UnitScript.UnitAudio = AudioManager;
+
+            if(values.sounds != null)
+                foreach (var s in values.sounds) {
+                    AudioManager.soundslist.Add(s);
+                }
+            foreach (var abilitySound in UnitScript.abilities) {
+                AudioManager.soundslist.Add(abilitySound.Sound);
+            }
+            AudioManager.Init();
 
             //Give Values
             UnitScript.turnManager = turnManager;

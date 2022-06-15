@@ -16,6 +16,13 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: 87fe390d085308a4eba57a5c360cfb31, type: 3}
   Description: Slow Enemies in a range around where it lands
   AnimationTrigger: Throw
+  Sound:
+    name: Throw
+    clip: {fileID: 8300000, guid: 7b5e1370721869a4aa1adb6b28f1e7ae, type: 3}
+    source: {fileID: 0}
+    volume: 1
+    pitch: 1
+    loop: 0
   Cooldown: 2
   Ranged: 0
   AbilityRange: 0

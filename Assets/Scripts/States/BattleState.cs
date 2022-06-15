@@ -22,9 +22,12 @@ public class BattleState : IState {
         currentManager = GameObject.Instantiate(TurnManager).GetComponent<TurnManager>();
         currentManager.PlayerUnitsToSpawn = PlayerUnits;
         currentManager.EnemiesToSpawn = Enemies;
+
+        GameManager.instance.audiomanager.PlayLoopedAudio("BattleMusic", true);
     }
 
     public void OnExit() {
+        GameManager.instance.audiomanager.PlayLoopedAudio("BattleMusic", false);
         GameObject.Destroy(currentManager.gameObject);
     }
 
