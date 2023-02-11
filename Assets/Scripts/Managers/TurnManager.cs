@@ -55,7 +55,6 @@ public class TurnManager : MonoBehaviour {
 
     private void Start() {
         makeGrid = new MakeGrid(this, HexPrefab, ObstructedHexPrefab, gridWidth, gridHeight, gap, obstructedCellAmount);
-        makeGrid.OnStart();
         UnitStaticFunctions.Grid = Tiles;
         UnitStaticFunctions.UnitPositions = UnitPositions;
 

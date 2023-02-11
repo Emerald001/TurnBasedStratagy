@@ -35,6 +35,8 @@ public class MakeGrid {
         UnitStaticFunctions.HexHeight = hexHeight;
         UnitStaticFunctions.HexWidth = hexWidth;
         UnitStaticFunctions.StartPos = startpos;
+
+        OnStart();
     }
 
     private List<Vector2Int> emptyCells = new List<Vector2Int>();
