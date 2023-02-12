@@ -64,7 +64,7 @@ public class PlayerUnitInterface : UnitManager {
             highlightedPositions = DefineMultipleTiles.GetTiles(MouseValues.HoverTileGridPos, pickedAbility.HitDiameter, turnManager.Tiles);
             foreach (var pos in highlightedPositions) {
                 var hex = turnManager.Tiles[pos].GetComponent<Hex>();
-                hex.SetColor(turnManager.SelectedTileColor);
+                hex.SetColor(turnManager.battleSettings.SelectedTileColor);
             }
             lastHighlightedTiles = highlightedPositions;
         }
@@ -133,11 +133,11 @@ public class PlayerUnitInterface : UnitManager {
 
         base.FindTiles();
 
-        ChangeHexColor(AccessableTiles, turnManager.WalkableTileColor);
-        ChangeHexColor(AttackableTiles, turnManager.AttackableTileColor);
+        ChangeHexColor(AccessableTiles, turnManager.battleSettings.SelectedTileColor);
+        ChangeHexColor(AttackableTiles, turnManager.battleSettings.AttackableTileColor);
 
-        turnManager.Tiles[gridPos].GetComponent<Hex>().GivenColor = turnManager.ActiveUnitTileColor;
-        turnManager.Tiles[gridPos].GetComponent<Hex>().SetColor(turnManager.ActiveUnitTileColor);
+        turnManager.Tiles[gridPos].GetComponent<Hex>().GivenColor = turnManager.battleSettings.ActiveUnitTileColor;
+        turnManager.Tiles[gridPos].GetComponent<Hex>().SetColor(turnManager.battleSettings.ActiveUnitTileColor);
     }
 
     public void ChangeHexColor(List<Vector2Int> list, Material color) {
@@ -210,24 +210,24 @@ public class PlayerUnitInterface : UnitManager {
             if(lastAbilityTiles.Count > 0)
                 ResetHexColor(lastAbilityTiles);
 
-            ChangeHexColor(pickedAbility.Tiles, turnManager.AttackableTileColor);
+            ChangeHexColor(pickedAbility.Tiles, turnManager.battleSettings.AttackableTileColor);
 
             foreach (var tile in pickedAbility.Tiles) {
                 lastAbilityTiles.Add(tile);
             }
 
-            turnManager.Tiles[gridPos].GetComponent<Hex>().GivenColor = turnManager.ActiveUnitTileColor;
-            turnManager.Tiles[gridPos].GetComponent<Hex>().SetColor(turnManager.ActiveUnitTileColor);
+            turnManager.Tiles[gridPos].GetComponent<Hex>().GivenColor = turnManager.battleSettings.ActiveUnitTileColor;
+            turnManager.Tiles[gridPos].GetComponent<Hex>().SetColor(turnManager.battleSettings.ActiveUnitTileColor);
         }
         if(pickedAbility == null) {
             ResetHexColor(lastAbilityTiles);
             lastAbilityTiles.Clear();
 
-            turnManager.Tiles[gridPos].GetComponent<Hex>().GivenColor = turnManager.ActiveUnitTileColor;
-            turnManager.Tiles[gridPos].GetComponent<Hex>().SetColor(turnManager.ActiveUnitTileColor);
+            turnManager.Tiles[gridPos].GetComponent<Hex>().GivenColor = turnManager.battleSettings.ActiveUnitTileColor;
+            turnManager.Tiles[gridPos].GetComponent<Hex>().SetColor(turnManager.battleSettings.ActiveUnitTileColor);
 
-            ChangeHexColor(AccessableTiles, turnManager.WalkableTileColor);
-            ChangeHexColor(AttackableTiles, turnManager.AttackableTileColor);
+            ChangeHexColor(AccessableTiles, turnManager.battleSettings.WalkableTileColor);
+            ChangeHexColor(AttackableTiles, turnManager.battleSettings.AttackableTileColor);
         }
     }
 

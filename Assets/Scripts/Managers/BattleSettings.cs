@@ -2,25 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class BattleSettings
+[CreateAssetMenu(menuName = "BattleSettings")]
+public class BattleSettings : ScriptableObject
 {
     [Header("Grid Settings")]
-    public static GameObject HexPrefab;
-    public static GameObject ObstructedHexPrefab;
+    public GameObject HexPrefab;
+    public GameObject ObstructedHexPrefab;
 
-    public static int gridWidth;
-    public static int gridHeight;
-    public static float gap;
-    public static int obstructedCellAmount;
+    public int gridWidth;
+    public int gridHeight;
+    public float gap;
+    public int obstructedCellAmount;
 
     [Header("Units Settings")]
-    public static GameObject UnitPrefab;
-    public static GameObject EnemyPrefab;
+    public GameObject UnitPrefab;
+    public GameObject EnemyPrefab;
 
-    public static Material WalkableTileColor;
-    public static Material AttackableTileColor;
-    public static Material ActiveUnitTileColor;
-
-    [Header("References")]
-    public static GameObject UI;
+    public Material WalkableTileColor;
+    public Material AttackableTileColor;
+    public Material ActiveUnitTileColor;
+    public Material SelectedTileColor;
 }

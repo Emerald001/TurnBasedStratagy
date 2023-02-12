@@ -6,36 +6,21 @@ using UnityEngine.UI;
 using UnitComponents;
 
 public class TurnManager : MonoBehaviour {
-    [Header("Grid Settings")]
-    public GameObject HexPrefab;
-    public GameObject ObstructedHexPrefab;
-
-    public int gridWidth;
-    public int gridHeight;
-    public float gap;
-    public int obstructedCellAmount;
-
-    [Header("Units Settings")]
-    public GameObject UnitPrefab;
-    public GameObject EnemyPrefab;
-
-    public Material WalkableTileColor;
-    public Material AttackableTileColor;
-    public Material ActiveUnitTileColor;
-    public Material SelectedTileColor;
+    [Header("BattleSettingsScriptableObject")]
+    public BattleSettings battleSettings;
 
     [Header("References")]
-    public GameObject InfoText;
-    public GameObject EndScreen;
-    public GameObject Text;
-    public List<GameObject> Buttons;
+    [SerializeField] private GameObject InfoText;
+    [SerializeField] private GameObject EndScreen;
+    [SerializeField] private GameObject Text;
+    [SerializeField] private List<GameObject> Buttons;
 
     //shit it's given
     [HideInInspector] public List<UnitBase> PlayerUnitsToSpawn;
     [HideInInspector] public List<UnitBase> EnemiesToSpawn;
 
     //Own vars
-    [HideInInspector] public MakeGrid makeGrid;
+    private MakeGrid makeGrid;
     [HideInInspector] public TurnUIManager UIManager;
     [HideInInspector] public Dictionary<Vector2Int, GameObject> Tiles = new Dictionary<Vector2Int, GameObject>();
 
@@ -47,14 +32,23 @@ public class TurnManager : MonoBehaviour {
     [HideInInspector] public List<UnitManager> PlayerUnitsInPlay = new List<UnitManager>();
     [HideInInspector] public Dictionary<UnitManager, Vector2Int> UnitPositions = new Dictionary<UnitManager, Vector2Int>();
 
-    [HideInInspector] public List<UnitManager> unitAttackOrder = new List<UnitManager>();
-    [HideInInspector] public UnitManager CurrentUnit;
+    private List<UnitManager> unitAttackOrder = new List<UnitManager>();
+    private UnitManager CurrentUnit;
 
     private int CurrentTurn;
     [HideInInspector] public bool isDone; 
 
     private void Start() {
-        makeGrid = new MakeGrid(this, HexPrefab, ObstructedHexPrefab, gridWidth, gridHeight, gap, obstructedCellAmount);
+        makeGrid = new MakeGrid(
+            this,
+            battleSettings.HexPrefab,
+            battleSettings.ObstructedHexPrefab,
+            battleSettings.gridWidth,
+            battleSettings.gridHeight,
+            battleSettings.gap, 
+            battleSettings.obstructedCellAmount
+            );
+
         UnitStaticFunctions.Grid = Tiles;
         UnitStaticFunctions.UnitPositions = UnitPositions;
 
@@ -68,19 +62,37 @@ public class TurnManager : MonoBehaviour {
         //spawn Player units and set them as child in an object
         var PlayerParent = new GameObject().transform;
         PlayerParent.name = "Player Units";
-        PlayerParent.parent = this.transform;
+        PlayerParent.parent = transform;
         for (int i = 0; i < PlayerUnitsToSpawn.Count; i++) {
-            var gridPos = new Vector2Int(0, i + Mathf.RoundToInt((gridHeight / 2) - (PlayerUnitsToSpawn.Count / 2)));
-            UnitSpawn.SpawnUnits(this, UnitPrefab, PlayerUnitsToSpawn[i], gridPos, PlayerUnitsInPlay, EnemyUnitsInPlay, PlayerParent);
+            var gridPos = new Vector2Int(0, 
+                i + Mathf.RoundToInt((battleSettings.gridHeight / 2) - (PlayerUnitsToSpawn.Count / 2)));
+            
+            UnitSpawn.SpawnUnits(this, 
+                battleSettings.UnitPrefab, 
+                PlayerUnitsToSpawn[i], 
+                gridPos, 
+                PlayerUnitsInPlay, 
+                EnemyUnitsInPlay, 
+                PlayerParent
+                );
         }
 
         //spawn enemies and set them as child in an object
         var EnemyParent = new GameObject().transform;
         EnemyParent.name = "Enemy Units";
-        EnemyParent.parent = this.transform;
+        EnemyParent.parent = transform;
         for (int i = 0; i < EnemiesToSpawn.Count; i++) {
-            var gridPos = new Vector2Int(gridWidth - 1, i + Mathf.RoundToInt((gridHeight / 2) - (EnemiesToSpawn.Count / 2)));
-            UnitSpawn.SpawnUnits(this, EnemyPrefab, EnemiesToSpawn[i], gridPos, EnemyUnitsInPlay, PlayerUnitsInPlay, EnemyParent);
+            var gridPos = new Vector2Int(battleSettings.gridWidth - 1, 
+                i + Mathf.RoundToInt((battleSettings.gridHeight / 2) - (EnemiesToSpawn.Count / 2)));
+            
+            UnitSpawn.SpawnUnits(this, 
+                battleSettings.EnemyPrefab, 
+                EnemiesToSpawn[i], 
+                gridPos, 
+                EnemyUnitsInPlay, 
+                PlayerUnitsInPlay, 
+                EnemyParent
+                );
         }
 
         Tooltip.HideTooltip_Static();

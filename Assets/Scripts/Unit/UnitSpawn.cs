@@ -20,7 +20,7 @@ namespace UnitComponents {
                 GameObject.Instantiate(values.Band, item.gameObject.transform);
             }
 
-            if (gridPos.x > turnManager.gridWidth / 2)
+            if (gridPos.x > turnManager.battleSettings.gridWidth / 2)
                 visuals.LookAt(visuals.transform.position + new Vector3(-1, 0, 0));
             else
                 visuals.LookAt(visuals.transform.position + new Vector3(1, 0, 0));
@@ -35,7 +35,6 @@ namespace UnitComponents {
             AnimationScript.Init();
             if(values.Weapon != null)
                 GameObject.Instantiate(values.Weapon, AnimationScript.WeaponHolder.transform);
-
 
             //set Scripts
             if (values.isRanged)
