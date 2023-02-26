@@ -39,15 +39,15 @@ public class TurnManager : MonoBehaviour {
     [HideInInspector] public bool isDone; 
 
     private void Start() {
-        makeGrid = new MakeGrid(
-            this,
-            battleSettings.HexPrefab,
-            battleSettings.ObstructedHexPrefab,
-            battleSettings.gridWidth,
-            battleSettings.gridHeight,
-            battleSettings.gap, 
-            battleSettings.obstructedCellAmount
-            );
+        //makeGrid = new MakeGrid(
+        //    this,
+        //    battleSettings.HexPrefab,
+        //    battleSettings.ObstructedHexPrefab,
+        //    battleSettings.gridWidth,
+        //    battleSettings.gridHeight,
+        //    battleSettings.gap, 
+        //    battleSettings.obstructedCellAmount
+        //    );
 
         UnitStaticFunctions.Grid = Tiles;
         UnitStaticFunctions.UnitPositions = UnitPositions;

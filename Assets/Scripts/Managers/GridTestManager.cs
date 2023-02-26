@@ -12,7 +12,7 @@ public class GridTestManager : MonoBehaviour
     void Start() {
         turnM = GetComponent<TurnManager>();
 
-        makeGrid = new MakeGrid(
+        makeGrid = new(
             turnM, 
             battleSettings.HexPrefab, 
             battleSettings.ObstructedHexPrefab, 
