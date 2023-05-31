@@ -1,25 +1,22 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnitComponents;
 
 public class PlayerUnitInterface : UnitManager {
-
-    [HideInInspector] public LineRenderer line;
+    public LineRenderer Line { get; set; }
 
     private Vector2Int lastHoverPos = Vector2Int.zero;
-    private List<Vector2Int> lastAbilityTiles = new List<Vector2Int>();
-    private List<Vector2Int> lastHighlightedTiles = new List<Vector2Int>();
+    private readonly List<Vector2Int> lastAbilityTiles = new();
+    private List<Vector2Int> lastHighlightedTiles = new();
 
     public override void OnEnter() {
-        line = GetComponent<LineRenderer>();
+        Line = GetComponent<LineRenderer>();
         turnManager.UIManager.ActivateButtons();
 
         base.OnEnter();
     }
 
     public override void OnUpdate() {
-        if (line != null)
+        if (Line != null)
             CreatePathForLine();
 
         base.OnUpdate();
@@ -39,11 +36,13 @@ public class PlayerUnitInterface : UnitManager {
         }
 
         if (AttackableTiles.Contains(MouseValues.HoverTileGridPos)) {
-            var list = new List<HealthComponent>();
-            list.Add(EnemyPositions[MouseValues.HoverTileGridPos].HealthComponent);
+            List<HealthComponent> list = new List<HealthComponent> {
+                EnemyPositions[MouseValues.HoverTileGridPos].HealthComponent
+            };
             Tooltip.ShowTooltip_Static(GetEnemyInfo(list, values.damageValue));
             lastHoverPos = MouseValues.HoverTileGridPos;
         }
+
         if (lastHoverPos != MouseValues.HoverTileGridPos && lastHoverPos != Vector2Int.zero) {
             Tooltip.HideTooltip_Static();
             lastHoverPos = Vector2Int.zero;
@@ -53,32 +52,30 @@ public class PlayerUnitInterface : UnitManager {
     private void RunAbility() {
         List<Vector2Int> highlightedPositions = new List<Vector2Int>();
 
-        foreach (var pos in lastHighlightedTiles) {
+        foreach (var pos in lastHighlightedTiles)
             if (!highlightedPositions.Contains(pos)) {
-                var hex = turnManager.Tiles[pos].GetComponent<Hex>();
+                Hex hex = turnManager.Tiles[pos].GetComponent<Hex>();
                 hex.ResetColor();
             }
-        }
 
         if (pickedAbility.HitDiameter >= 1 && pickedAbility.Tiles.Contains(MouseValues.HoverTileGridPos)) {
             highlightedPositions = DefineMultipleTiles.GetTiles(MouseValues.HoverTileGridPos, pickedAbility.HitDiameter, turnManager.Tiles);
             foreach (var pos in highlightedPositions) {
-                var hex = turnManager.Tiles[pos].GetComponent<Hex>();
-                hex.SetColor(turnManager.battleSettings.SelectedTileColor);
+                Hex hex = turnManager.Tiles[pos].GetComponent<Hex>();
+                hex.SetColor(turnManager.BattleSettings.SelectedTileColor);
             }
             lastHighlightedTiles = highlightedPositions;
         }
-        else {
+        else 
             highlightedPositions.Add(MouseValues.HoverTileGridPos);
-        }
 
         if (pickedAbility.Tiles.Contains(MouseValues.HoverTileGridPos)) {
-            var list = new List<HealthComponent>();
+            List<HealthComponent> list = new();
 
-            foreach (var target in highlightedPositions) {
+            foreach (var target in highlightedPositions)
                 if(pickedAbility.AbilityApplicable.ContainsKey(target))
                     list.Add(pickedAbility.AbilityApplicable[target].HealthComponent);
-            }
+
             if(pickedAbility.ToolTipText(list) == null)
                 Tooltip.HideTooltip_Static();
             else
@@ -105,7 +102,7 @@ public class PlayerUnitInterface : UnitManager {
 
         turnManager.UIManager.DeactivateButtons();
         Tooltip.HideTooltip_Static();
-        line.enabled = false;
+        Line.enabled = false;
     }
 
     public override void ResetTiles() {
@@ -117,7 +114,7 @@ public class PlayerUnitInterface : UnitManager {
         lastAbilityTiles.Clear();
 
         foreach (var pos in lastHighlightedTiles) {
-            var hex = turnManager.Tiles[pos].GetComponent<Hex>();
+            Hex hex = turnManager.Tiles[pos].GetComponent<Hex>();
             hex.ResetColor();
         }
 
@@ -133,11 +130,11 @@ public class PlayerUnitInterface : UnitManager {
 
         base.FindTiles();
 
-        ChangeHexColor(AccessableTiles, turnManager.battleSettings.SelectedTileColor);
-        ChangeHexColor(AttackableTiles, turnManager.battleSettings.AttackableTileColor);
+        ChangeHexColor(AccessableTiles, turnManager.BattleSettings.WalkableTileColor);
+        ChangeHexColor(AttackableTiles, turnManager.BattleSettings.AttackableTileColor);
 
-        turnManager.Tiles[gridPos].GetComponent<Hex>().GivenColor = turnManager.battleSettings.ActiveUnitTileColor;
-        turnManager.Tiles[gridPos].GetComponent<Hex>().SetColor(turnManager.battleSettings.ActiveUnitTileColor);
+        turnManager.Tiles[gridPos].GetComponent<Hex>().GivenColor = turnManager.BattleSettings.ActiveUnitTileColor;
+        turnManager.Tiles[gridPos].GetComponent<Hex>().SetColor(turnManager.BattleSettings.ActiveUnitTileColor);
     }
 
     public void ChangeHexColor(List<Vector2Int> list, Material color) {
@@ -164,7 +161,7 @@ public class PlayerUnitInterface : UnitManager {
                 CurrentPath.Add(MouseValues.HoverTileGridPos);
             }
             else {
-                line.enabled = false;
+                Line.enabled = false;
                 return;
             }
         }
@@ -175,7 +172,7 @@ public class PlayerUnitInterface : UnitManager {
             CurrentPath.Add(MouseValues.HoverTileGridPos);
         }
         else {
-            line.enabled = false;
+            Line.enabled = false;
             return;
         }
 
@@ -183,16 +180,16 @@ public class PlayerUnitInterface : UnitManager {
     }
 
     private void DrawPathWithLine() {
-        line.enabled = true;
+        Line.enabled = true;
 
         if (CurrentPath != null && CurrentPath.Count > 0) {
-            line.positionCount = CurrentPath.Count + 1;
+            Line.positionCount = CurrentPath.Count + 1;
             for (int i = 0; i < CurrentPath.Count + 1; i++) {
                 if (i == 0) {
-                    line.SetPosition(0, UnitStaticFunctions.CalcWorldPos(gridPos));
+                    Line.SetPosition(0, UnitStaticFunctions.CalcWorldPos(gridPos));
                     continue;
                 }
-                line.SetPosition(i, UnitStaticFunctions.CalcWorldPos(CurrentPath[i - 1]));
+                Line.SetPosition(i, UnitStaticFunctions.CalcWorldPos(CurrentPath[i - 1]));
             }
         }
     }
@@ -200,7 +197,7 @@ public class PlayerUnitInterface : UnitManager {
     public override void SelectAbility(int index) {
         base.SelectAbility(index);
 
-        line.enabled = false;
+        Line.enabled = false;
 
         if (pickedAbility != null) {
             if(pickedAbility.Ranged || pickedAbility.DropAnywhere || pickedAbility.DropOnEmptyTile)
@@ -210,24 +207,23 @@ public class PlayerUnitInterface : UnitManager {
             if(lastAbilityTiles.Count > 0)
                 ResetHexColor(lastAbilityTiles);
 
-            ChangeHexColor(pickedAbility.Tiles, turnManager.battleSettings.AttackableTileColor);
+            ChangeHexColor(pickedAbility.Tiles, turnManager.BattleSettings.AttackableTileColor);
 
-            foreach (var tile in pickedAbility.Tiles) {
+            foreach (var tile in pickedAbility.Tiles)
                 lastAbilityTiles.Add(tile);
-            }
 
-            turnManager.Tiles[gridPos].GetComponent<Hex>().GivenColor = turnManager.battleSettings.ActiveUnitTileColor;
-            turnManager.Tiles[gridPos].GetComponent<Hex>().SetColor(turnManager.battleSettings.ActiveUnitTileColor);
+            turnManager.Tiles[gridPos].GetComponent<Hex>().GivenColor = turnManager.BattleSettings.ActiveUnitTileColor;
+            turnManager.Tiles[gridPos].GetComponent<Hex>().SetColor(turnManager.BattleSettings.ActiveUnitTileColor);
         }
         if(pickedAbility == null) {
             ResetHexColor(lastAbilityTiles);
             lastAbilityTiles.Clear();
 
-            turnManager.Tiles[gridPos].GetComponent<Hex>().GivenColor = turnManager.battleSettings.ActiveUnitTileColor;
-            turnManager.Tiles[gridPos].GetComponent<Hex>().SetColor(turnManager.battleSettings.ActiveUnitTileColor);
+            turnManager.Tiles[gridPos].GetComponent<Hex>().GivenColor = turnManager.BattleSettings.ActiveUnitTileColor;
+            turnManager.Tiles[gridPos].GetComponent<Hex>().SetColor(turnManager.BattleSettings.ActiveUnitTileColor);
 
-            ChangeHexColor(AccessableTiles, turnManager.battleSettings.WalkableTileColor);
-            ChangeHexColor(AttackableTiles, turnManager.battleSettings.AttackableTileColor);
+            ChangeHexColor(AccessableTiles, turnManager.BattleSettings.WalkableTileColor);
+            ChangeHexColor(AttackableTiles, turnManager.BattleSettings.AttackableTileColor);
         }
     }
 

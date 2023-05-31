@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,7 +18,7 @@ public class BattleState : IState {
     public bool IsDone { get; set; }
 
     public void OnEnter() {
-        currentManager = GameObject.Instantiate(TurnManager).GetComponent<TurnManager>();
+        currentManager = Object.Instantiate(TurnManager).GetComponent<TurnManager>();
         currentManager.PlayerUnitsToSpawn = PlayerUnits;
         currentManager.EnemiesToSpawn = Enemies;
 
@@ -32,7 +31,7 @@ public class BattleState : IState {
     }
 
     public void OnUpdate() {
-        if (currentManager.isDone)
+        if (currentManager.IsDone)
             IsDone = true;
     }
 }

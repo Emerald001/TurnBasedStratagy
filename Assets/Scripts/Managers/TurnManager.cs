@@ -7,46 +7,47 @@ using UnitComponents;
 
 public class TurnManager : MonoBehaviour {
     [Header("BattleSettingsScriptableObject")]
-    public BattleSettings battleSettings;
+    [SerializeField] private BattleSettings battleSettings;
 
     [Header("References")]
+    [SerializeField] private List<GameObject> Buttons;
     [SerializeField] private GameObject InfoText;
     [SerializeField] private GameObject EndScreen;
     [SerializeField] private GameObject Text;
-    [SerializeField] private List<GameObject> Buttons;
 
-    //shit it's given
-    [HideInInspector] public List<UnitBase> PlayerUnitsToSpawn;
-    [HideInInspector] public List<UnitBase> EnemiesToSpawn;
+    // Private vars.
+    private readonly List<UnitManager> UnitsWithTurnLeft = new();
+    private readonly List<UnitManager> DeadUnitsInPlay = new();
+    private readonly List<UnitManager> EnemyUnitsInPlay = new();
+    private readonly List<UnitManager> PlayerUnitsInPlay = new();
 
-    //Own vars
-    private MakeGrid makeGrid;
-    [HideInInspector] public TurnUIManager UIManager;
-    [HideInInspector] public Dictionary<Vector2Int, GameObject> Tiles = new Dictionary<Vector2Int, GameObject>();
+    private List<UnitManager> livingUnitsInPlay = new();
+    private List<UnitManager> unitAttackOrder = new();
 
-    [HideInInspector] public List<UnitManager> AllUnitsInPlay = new List<UnitManager>();
-    [HideInInspector] public List<UnitManager> UnitsWithTurnLeft = new List<UnitManager>();
-    [HideInInspector] public List<UnitManager> LivingUnitsInPlay = new List<UnitManager>();
-    [HideInInspector] public List<UnitManager> DeadUnitsInPlay = new List<UnitManager>();
-    [HideInInspector] public List<UnitManager> EnemyUnitsInPlay = new List<UnitManager>();
-    [HideInInspector] public List<UnitManager> PlayerUnitsInPlay = new List<UnitManager>();
-    [HideInInspector] public Dictionary<UnitManager, Vector2Int> UnitPositions = new Dictionary<UnitManager, Vector2Int>();
-
-    private List<UnitManager> unitAttackOrder = new List<UnitManager>();
     private UnitManager CurrentUnit;
-
+    
     private int CurrentTurn;
-    [HideInInspector] public bool isDone; 
+
+    // Properties
+    public Dictionary<UnitManager, Vector2Int> UnitPositions { get; private set; } = new();
+    public Dictionary<Vector2Int, GameObject> Tiles { get; private set; } = new();
+    public List<UnitBase> PlayerUnitsToSpawn { get; set; }
+    public List<UnitBase> EnemiesToSpawn { get; set; }
+    public List<UnitManager> LivingUnitsInPlay { get => livingUnitsInPlay; set => livingUnitsInPlay = value; }
+    public List<UnitManager> AllUnitsInPlay { get; private set; } = new();
+    public BattleSettings BattleSettings { get { return battleSettings; } private set { } }
+    public TurnUIManager UIManager { get; private set; }
+    public bool IsDone { get; set; }
 
     private void Start() {
-        makeGrid = new MakeGrid(
+        new MakeGrid(
             this,
-            battleSettings.HexPrefab,
-            battleSettings.ObstructedHexPrefab,
-            battleSettings.gridWidth,
-            battleSettings.gridHeight,
-            battleSettings.gap, 
-            battleSettings.obstructedCellAmount
+            BattleSettings.HexPrefab,
+            BattleSettings.ObstructedHexPrefab,
+            BattleSettings.gridWidth,
+            BattleSettings.gridHeight,
+            BattleSettings.gap,
+            BattleSettings.obstructedCellAmount
             );
 
         UnitStaticFunctions.Grid = Tiles;
@@ -59,16 +60,16 @@ public class TurnManager : MonoBehaviour {
         var camPos = transform.GetChild(0).transform;
         Camera.main.transform.SetPositionAndRotation(camPos.position, camPos.rotation);
 
-        //spawn Player units and set them as child in an object
+        //spawn Player units and set them as child on an object
         var PlayerParent = new GameObject().transform;
         PlayerParent.name = "Player Units";
         PlayerParent.parent = transform;
         for (int i = 0; i < PlayerUnitsToSpawn.Count; i++) {
             var gridPos = new Vector2Int(0, 
-                i + Mathf.RoundToInt((battleSettings.gridHeight / 2) - (PlayerUnitsToSpawn.Count / 2)));
+                i + Mathf.RoundToInt((BattleSettings.gridHeight / 2) - (PlayerUnitsToSpawn.Count / 2)));
             
             UnitSpawn.SpawnUnits(this, 
-                battleSettings.UnitPrefab, 
+                BattleSettings.UnitPrefab, 
                 PlayerUnitsToSpawn[i], 
                 gridPos, 
                 PlayerUnitsInPlay, 
@@ -82,11 +83,11 @@ public class TurnManager : MonoBehaviour {
         EnemyParent.name = "Enemy Units";
         EnemyParent.parent = transform;
         for (int i = 0; i < EnemiesToSpawn.Count; i++) {
-            var gridPos = new Vector2Int(battleSettings.gridWidth - 1, 
-                i + Mathf.RoundToInt((battleSettings.gridHeight / 2) - (EnemiesToSpawn.Count / 2)));
+            var gridPos = new Vector2Int(BattleSettings.gridWidth - 1, 
+                i + Mathf.RoundToInt((BattleSettings.gridHeight / 2) - (EnemiesToSpawn.Count / 2)));
             
             UnitSpawn.SpawnUnits(this, 
-                battleSettings.EnemyPrefab, 
+                BattleSettings.EnemyPrefab, 
                 EnemiesToSpawn[i], 
                 gridPos, 
                 EnemyUnitsInPlay, 
@@ -96,7 +97,6 @@ public class TurnManager : MonoBehaviour {
         }
 
         Tooltip.HideTooltip_Static();
-
         NextTurn();
     }
 

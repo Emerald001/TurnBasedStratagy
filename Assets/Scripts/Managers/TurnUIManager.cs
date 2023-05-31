@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,29 +17,29 @@ public class TurnUIManager
         TurnText = Text.GetComponent<Text>();
     }
 
-    public TurnManager Owner;
+    private readonly TurnManager Owner;
 
-    public List<GameObject> FunctionButtons = new List<GameObject>();
-    public List<GameObject> AbilityButtons = new List<GameObject>();
-    public Text TurnText;
-    public GameObject EndScreen;
+    private readonly List<GameObject> FunctionButtons = new();
+    private readonly List<GameObject> AbilityButtons = new();
+    private readonly Text TurnText;
+    private readonly GameObject EndScreen;
 
     public void ActivateButtons() {
-        foreach (var button in FunctionButtons) {
+        foreach (GameObject button in FunctionButtons) {
             button.GetComponent<Button>().interactable = true;
             button.transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 1);
         }
-        foreach (var button in AbilityButtons) {
+        foreach (GameObject button in AbilityButtons)
             button.GetComponent<Button>().interactable = true;
-        }
     }
+
     public void DeactivateButtons() {
-        foreach (var button in FunctionButtons) {
+        foreach (GameObject button in FunctionButtons) {
             button.GetComponent<Button>().interactable = false;
             button.transform.GetChild(0).GetComponent<Image>().color = new Color(.5f, .5f, .5f, 1);
         }
-        foreach (var button in AbilityButtons) {
-            var buttonClickable = button.GetComponent<Button>();
+        foreach (GameObject button in AbilityButtons) {
+            Button buttonClickable = button.GetComponent<Button>();
             buttonClickable.interactable = false;
             buttonClickable.onClick.RemoveAllListeners();
             button.GetComponent<ToolTipTrigger>().TextToShow = "";
@@ -55,7 +54,6 @@ public class TurnUIManager
         }
 
         int ButtonsUsed = 0;
-
         for (int i = 0; i < abilities.Count; i++) {
             var buttonGO = AbilityButtons[i];
             buttonGO.GetComponent<ToolTipTrigger>().TextToShow = abilities[i].name + ": \n" + abilities[i].Description;
@@ -93,16 +91,17 @@ public class TurnUIManager
 
     public void ShowEndScreen(string Header, string Body) {
         EndScreen.SetActive(true);
-        var texts = EndScreen.GetComponentsInChildren<Text>();
+        Text[] texts = EndScreen.GetComponentsInChildren<Text>();
         texts[0].text = Header;
         texts[1].text = Body;
 
         DeactivateButtons();
 
-        var funcbutton = EndScreen.transform.GetChild(0).GetComponent<Button>();
+        Button funcbutton = EndScreen.transform.GetChild(0).GetComponent<Button>();
         funcbutton.onClick.AddListener(delegate { CloseEndScreen(); });
     }
+
     public void CloseEndScreen() {
-        Owner.isDone = true;
+        Owner.IsDone = true;
     }
 }

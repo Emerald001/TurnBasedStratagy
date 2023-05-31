@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,24 +17,22 @@ public static class UnitStaticFunctions {
         return new Vector3(x, 0, z);
     }
 
-    public static Dictionary<Vector2Int, GameObject> Grid;
-    public static Dictionary<UnitManager, Vector2Int> UnitPositions;
+    public static Dictionary<Vector2Int, GameObject> Grid { get; set; }
+    public static Dictionary<UnitManager, Vector2Int> UnitPositions { get; set; }
 
     public static Vector2Int GetGridPosFromWorldPos(GameObject valueVar) {
         foreach (Vector2Int keyVar in Grid.Keys) {
-            if (Grid[keyVar] == valueVar) {
-                return keyVar;
-            }
+            if (Grid[keyVar] != valueVar)
+                continue;
+            return keyVar;
         }
         return Vector2Int.zero;
     }
 
     public static UnitManager GetUnitFromGridPos(Vector2Int valueVar) {
-        foreach (UnitManager keyVar in UnitPositions.Keys) {
-            if (UnitPositions[keyVar] == valueVar) {
+        foreach (UnitManager keyVar in UnitPositions.Keys) 
+            if (UnitPositions[keyVar] == valueVar)
                 return keyVar;
-            }
-        }
         return null;
     }
 }
