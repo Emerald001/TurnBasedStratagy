@@ -10,6 +10,7 @@ public class UnitAudioManager : MonoBehaviour
     public void Init() {
         foreach (Sound s in soundslist) {
             s.source = gameObject.AddComponent<AudioSource>();
+
             s.source.clip = s.clip;
 
             s.source.volume = s.volume;
